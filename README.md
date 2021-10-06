@@ -1,1 +1,1 @@
-"# MindUniversity_SecondChallenge_FullStackApp" 
+# MindUniversity_SecondChallenge_FullStackApp
