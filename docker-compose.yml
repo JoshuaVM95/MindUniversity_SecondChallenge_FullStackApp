@@ -1,34 +1,46 @@
-version: "2"
+version: "3"
 services:
   server:
     container_name: server-container
-    restart: always
     build: ./server
-    command: sh -c 'npm run db'
     ports:
       - "3001:3001"
+    environment:
+      DATABASE_HOST: db
+      DATABASE_USER: root
+      DATABASE_PASSWORD: root
+      DATABASE_NAME: usersreports
+      SUPER_USER_EMAIL: mySuperAdminUser@superAdmin.com
+      SUPER_USER_PASSWORD: 123456
+      JWT_SECRET: A_9mnu!23oi
     links:
+      - db
+    depends_on:
       - db
   db:
     container_name: db-container
     image: mysql
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_HOST: localhost
       MYSQL_DATABASE: usersreports
-      MYSQL_USER: dbuser
-      MYSQL_PASSWORD: dbpassword
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PORT: 3006
+    expose:
+      - "3307"
     ports:
       - "3307:3306"
     volumes:
       - serverDB:/data/db
   client:
-      container_name: client-container
-      restart: always
-      build: ./client
-      ports:
+    container_name: client-container
+    restart: always
+    build: ./client
+    ports:
       - "3000:3000"
-      links:
-        - server
+    links:
+      - server
 
 volumes:
   serverDB:

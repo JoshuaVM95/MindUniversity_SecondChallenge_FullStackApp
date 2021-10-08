@@ -5,7 +5,7 @@ exports.up = async (knex: Knex): Promise<void> => {
 		table.uuid("user").notNullable().references("id").inTable("users");
 		table.uuid("account").notNullable().references("id").inTable("accounts");
 		table.timestamp("initDate").defaultTo(knex.fn.now());
-		table.timestamp("endDate");
+		table.timestamp("endDate").nullable();
 		table.uuid("addedBy").notNullable().references("id").inTable("users");
 		table.uuid("removedBy").references("id").inTable("users");
 		table.boolean("isLead").defaultTo(false);
