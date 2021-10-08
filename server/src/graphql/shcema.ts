@@ -1,3 +1,5 @@
+import { UsersSchema } from "./user/shcema";
+
 const typeDefs = `
   type Query {
     example: String!
@@ -13,6 +15,6 @@ const typeDefs = `
   }
 `;
 
-const schemaDefs = [typeDefs];
+const schemaDefs = [typeDefs, UsersSchema];
 
 export default schemaDefs;

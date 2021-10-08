@@ -1,16 +1,14 @@
-/* const {
-	Query: OrdersQuery,
-	Mutation: OrdersMutation
-	// tslint:disable-next-line: no-var-requires
-} = require("./orders/resolvers");
- */
+import { Query as UserQuery, Mutation as UserMutation, User, UserInfo } from "./user/resolvers";
+
 const resolvers = {
 	Query: {
-		/* ...OrdersQuery */
+		...UserQuery
 	},
 	Mutation: {
-		/* ...OrdersMutation */
-	}
+		...UserMutation
+	},
+	User,
+	UserInfo
 };
 
 export default resolvers;
