@@ -15,9 +15,13 @@ export const login = async (
 				const userInfo: UserInfo | undefined = !user.isSuper
 					? await knex(schema.usersInfo).where("email", "=", args.email).first().then()
 					: undefined;
+				const firstName = user.isSuper ? "Super" : userInfo?.firstName;
+				const lastName = user.isSuper ? "Super" : userInfo?.lastName;
 				const role = user.isSuper ? 0 : userInfo?.isAdmin ? 1 : 2;
 				return {
 					token: generateToken(user.id),
+					firstName,
+					lastName,
 					role
 				};
 			} else {

@@ -26,6 +26,8 @@ export const UsersSchema = `
 
     type LoginResponse {
         token: String!
+        firstName: String
+        lastName: String
         role: Int!
     }
 `;

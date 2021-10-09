@@ -6,6 +6,9 @@ import { useMutation } from "@apollo/client";
 import { LoginMutation, LoginResponse } from "./queries";
 import { RouteChildrenProps } from "react-router-dom";
 import { ApolloErrors, Role, Routes } from "../../types";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store/store";
+import { setCurrentUser } from "../../store/currentUser/actions";
 
 type textFieldColor = "primary" | "secondary" | "error" | "info" | "success" | "warning";
 type buttonColor = "inherit" | "primary" | "secondary" | "success" | "error" | "info" | "warning";
@@ -17,6 +20,7 @@ export const Login = ({ history }: RouteChildrenProps): React.ReactElement => {
 	const [isPasswordError, setIsPasswordError] = useState<boolean>(false);
 	const [showPassword, setShowPassword] = useState<boolean>(false);
 	const [login, { data, loading, error }] = useMutation<LoginResponse>(LoginMutation);
+	const dispatch: AppDispatch = useDispatch();
 
 	const textFieldWidth = 300;
 
@@ -85,9 +89,15 @@ export const Login = ({ history }: RouteChildrenProps): React.ReactElement => {
 				.then((response) => {
 					const data = response.data;
 					if (data) {
-						const { token, role } = data.login;
-						sessionStorage.setItem("JWT", token);
-						sessionStorage.setItem("role", role.toString());
+						const { token, firstName, lastName, role } = data.login;
+						dispatch(
+							setCurrentUser({
+								jwt: token,
+								firstName,
+								lastName,
+								role
+							})
+						);
 						const hasPermission = role === Role.SUPER || role === Role.ADMIN;
 						history.push(hasPermission ? Routes.USERS : Routes.PROFILE);
 					}

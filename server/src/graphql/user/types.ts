@@ -15,6 +15,8 @@ export enum Role {
 
 export interface LoginResponse {
 	token: string;
+	firstName?: string;
+	lastName?: string;
 	role: Role;
 }
 

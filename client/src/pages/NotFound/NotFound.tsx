@@ -2,19 +2,21 @@ import React, { useEffect } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import styles from "./NotFound.module.scss";
 import { Role, Routes } from "../../types";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 export const NotFound = ({ history }: RouteComponentProps): React.ReactElement => {
+	const currentUser = useSelector((state: RootState) => state.currentUser);
+
 	useEffect(() => {
 		window.scrollTo(0, 0);
 		document.body.style.overflow = "hidden";
 		const myInterval = setInterval(() => {
 			clearInterval(myInterval);
 			document.body.style.overflow = "";
-			const jwt = sessionStorage.getItem("JWT");
-			const role = sessionStorage.getItem("role");
-			if (jwt && role !== null) {
-				const userRole = parseInt(role);
-				const hasPermission = userRole === Role.SUPER || userRole === Role.ADMIN;
+			const { jwt, role } = currentUser;
+			if (jwt && role !== undefined) {
+				const hasPermission = role === Role.SUPER || role === Role.ADMIN;
 				history.push(hasPermission ? Routes.USERS : Routes.PROFILE);
 			} else {
 				history.push("/");
