@@ -1,20 +1,23 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Accounts, Login, NotFound, Profile, Users } from "./pages";
+import { Routes, Role } from "./types";
 
 const App = (): React.ReactElement => {
+	const sessionRole = sessionStorage.getItem("role");
+	const userRole = sessionRole !== null ? parseInt(sessionRole) : undefined;
+	const hasPermission = userRole === Role.SUPER || userRole === Role.ADMIN;
+
 	return (
-		<div className="App">
-			<header className="App-header">
-				<img src={logo} className="App-logo" alt="logo" />
-				<p>
-					Edit <code>src/App.tsx</code> and save to reload.
-				</p>
-				<a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-					Learn React
-				</a>
-			</header>
-		</div>
+		<Router>
+			<Switch>
+				{hasPermission && <Route exact path={Routes.ACCOUNTS} component={Accounts} />}
+				{hasPermission && <Route exact path={Routes.USERS} component={Users} />}
+				<Route path={Routes.PROFILE} component={Profile} />
+				<Route exact path={Routes.LOGIN} component={Login} />
+				<Route component={NotFound} />
+			</Switch>
+		</Router>
 	);
 };
 

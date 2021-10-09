@@ -1,0 +1,36 @@
+.loginContainer {
+	width: 100vw;
+	height: 100vh;
+	background-image: url("../../assets/img/login-bg.jpg");
+	background-position: center;
+	background-size: cover;
+	position: relative;
+	.formContainer {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		background-color: rgba(255, 255, 255, 0.9);
+		width: fit-content;
+		padding: 8rem 5.6rem;
+		border-radius: 0.4rem;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		.loginTitle {
+			margin-bottom: 1.2rem;
+			font-size: 2.4rem;
+			color: rgb(51, 51, 51);
+		}
+		.buttonContainer {
+			position: relative;
+			margin: 1.2rem;
+			color: rgba(0, 0, 0, 0.42);
+		}
+		.errorMessage {
+			color: #d32f2f;
+			font-weight: 500;
+		}
+	}
+}

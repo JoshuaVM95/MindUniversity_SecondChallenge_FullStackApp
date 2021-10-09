@@ -5,7 +5,7 @@ export const UsersSchema = `
     }
 
     extend type Mutation {
-        login(email: String!, password: String!): String!
+        login(email: String!, password: String!): LoginResponse!
         createUser(email: String!, password: String!, firstName: String!, lastName: String!, isAdmin: Boolean): ResponseMessage!
     }
 
@@ -22,5 +22,10 @@ export const UsersSchema = `
         lastName: String!
         createdBy: User!
         isAdmin: Boolean!
+    }
+
+    type LoginResponse {
+        token: String!
+        role: Int!
     }
 `;

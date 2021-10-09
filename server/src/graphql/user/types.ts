@@ -7,6 +7,17 @@ export interface LoginArgs {
 	password: string;
 }
 
+export enum Role {
+	SUPER,
+	ADMIN,
+	NORMAL
+}
+
+export interface LoginResponse {
+	token: string;
+	role: Role;
+}
+
 export interface CreateUserArgs {
 	email: string;
 	password: string;
