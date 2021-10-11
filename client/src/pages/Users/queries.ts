@@ -37,14 +37,12 @@ interface User {
 	isSuper: boolean;
 	createdAt: string;
 }
-
 export interface UsersResponse {
 	users: {
 		users: User[];
 		totalUsers: number;
 	};
 }
-
 export const UsersQuery = gql`
 	query users($filterByEmail: String!, $page: Int!, $rowsPerPage: Int!) {
 		users(filterByEmail: $filterByEmail, page: $page, rowsPerPage: $rowsPerPage) {
@@ -77,6 +75,63 @@ export interface DeleteUsersResponse {
 export const DeleteUsersMutation = gql`
 	mutation deleteUsers($userIds: [String!]!) {
 		deleteUsers(userIds: $userIds) {
+			message
+			code
+		}
+	}
+`;
+
+export interface UserResponse {
+	user: User;
+}
+export const UserQuery = gql`
+	query user($userId: String!) {
+		user(userId: $userId) {
+			id
+			email
+			userInfo {
+				firstName
+				lastName
+				createdBy {
+					id
+					email
+				}
+				isAdmin
+			}
+			isSuper
+			createdAt
+		}
+	}
+`;
+
+export interface UpdateUserVariables {
+	userId: string;
+	firstName?: string;
+	lastName?: string;
+	email?: string;
+	password?: string;
+	isAdmin?: boolean;
+}
+export interface UpdateUserResponse {
+	updateUser: GenericResponse;
+}
+export const UpdateUserMutation = gql`
+	mutation updateUser(
+		$userId: String!
+		$email: String
+		$password: String
+		$firstName: String
+		$lastName: String
+		$isAdmin: Boolean
+	) {
+		updateUser(
+			userId: $userId
+			email: $email
+			password: $password
+			firstName: $firstName
+			lastName: $lastName
+			isAdmin: $isAdmin
+		) {
 			message
 			code
 		}

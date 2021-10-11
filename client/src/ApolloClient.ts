@@ -6,14 +6,17 @@ const httpLink = createHttpLink({
 });
 
 const authLink = setContext((_, { headers }) => {
-	//TODO fix token auth on first login
-	const session = JSON.parse(sessionStorage.getItem("persist:session") || "");
-	const currentUser = JSON.parse(session.currentUser);
-	const token = currentUser.jwt;
+	const persistedSession = sessionStorage.getItem("persist:session");
+	let token = "";
+	if (persistedSession) {
+		const session = JSON.parse(persistedSession);
+		const currentUser = JSON.parse(session.currentUser);
+		token = currentUser.jwt;
+	}
 	return {
 		headers: {
 			...headers,
-			authorization: token ? `Bearer ${token}` : ""
+			authorization: `Bearer ${token}`
 		}
 	};
 });

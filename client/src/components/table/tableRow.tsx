@@ -8,9 +8,10 @@ import {
 	TableCell,
 	TableHead,
 	TableRow,
-	Typography
+	Typography,
+	Tooltip
 } from "@material-ui/core";
-import { KeyboardArrowDown, KeyboardArrowUp } from "@material-ui/icons";
+import { KeyboardArrowDown, KeyboardArrowUp, Info } from "@material-ui/icons";
 
 type stringObject = { [key: string]: string };
 
@@ -25,6 +26,7 @@ interface RowProps<T extends RowObject> {
 	collapsableTableHeaders?: string[];
 	onCollapse?(show: boolean): void;
 	onRowSelected(isRowSelected: boolean): void;
+	onInfo(): void;
 }
 
 export const Row = <T extends RowObject>({
@@ -32,7 +34,8 @@ export const Row = <T extends RowObject>({
 	collapsableTableTitle,
 	collapsableTableHeaders,
 	onCollapse,
-	onRowSelected
+	onRowSelected,
+	onInfo
 }: RowProps<T>): React.ReactElement => {
 	const [showCollapsableData, setShowCollapsableData] = useState<boolean>(false);
 	const [isRowSelected, setIsRowSelected] = useState<boolean>(false);
@@ -74,15 +77,17 @@ export const Row = <T extends RowObject>({
 						);
 					})}
 			</TableRow>
-			{row.collapsableTableData !== undefined && collapsableTableHeaders && (
-				<TableRow>
-					<TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-						<Collapse in={showCollapsableData} timeout="auto" unmountOnExit>
-							<Box sx={{ margin: 1 }}>
+			<TableRow>
+				<TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+					<Collapse in={showCollapsableData} timeout="auto" unmountOnExit>
+						<Box sx={{ margin: 1 }}>
+							{collapsableTableTitle && row.collapsableTableData && (
 								<Typography variant="h6" gutterBottom component="div">
 									{collapsableTableTitle}
 								</Typography>
-								<Table size="small" aria-label="purchases">
+							)}
+							<Table size="small" aria-label="purchases">
+								{collapsableTableHeaders && row.collapsableTableData && (
 									<TableHead>
 										<TableRow>
 											{collapsableTableHeaders.map((header) => (
@@ -92,29 +97,49 @@ export const Row = <T extends RowObject>({
 											))}
 										</TableRow>
 									</TableHead>
-									<TableBody>
-										{row.collapsableTableData &&
-											row.collapsableTableData.map((detail, index) => {
-												return (
-													<TableRow key={index}>
-														{Object.keys(detail).map((detailKey) => {
-															const detailRow = detail[detailKey];
-															return (
-																<TableCell key={detailKey} align="center">
-																	{detailRow}
-																</TableCell>
-															);
-														})}
-													</TableRow>
-												);
-											})}
-									</TableBody>
-								</Table>
-							</Box>
-						</Collapse>
-					</TableCell>
-				</TableRow>
-			)}
+								)}
+								<TableBody>
+									{row.collapsableTableData &&
+										row.collapsableTableData.map((detail, index) => {
+											return (
+												<TableRow key={index}>
+													{Object.keys(detail).map((detailKey) => {
+														const detailRow = detail[detailKey];
+														return (
+															<TableCell key={detailKey} align="center">
+																{detailRow}
+															</TableCell>
+														);
+													})}
+												</TableRow>
+											);
+										})}
+									<TableRow>
+										<TableCell
+											style={{ paddingBottom: 0, paddingTop: 0 }}
+											colSpan={6}
+											align="right"
+										>
+											<Tooltip title="Check complete info">
+												<IconButton
+													aria-label="open detail modal"
+													size="medium"
+													onClick={(event) => {
+														event.stopPropagation();
+														if (onInfo) onInfo();
+													}}
+												>
+													<Info />
+												</IconButton>
+											</Tooltip>
+										</TableCell>
+									</TableRow>
+								</TableBody>
+							</Table>
+						</Box>
+					</Collapse>
+				</TableCell>
+			</TableRow>
 		</>
 	);
 };

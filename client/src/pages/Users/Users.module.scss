@@ -1,7 +1,7 @@
 .usersContainer {
 	position: relative;
 	width: 100%;
-	height: 100vh;
+	height: 99vh;
 
 	.usersHeader {
 		position: relative;
@@ -9,6 +9,7 @@
 		align-items: center;
 		justify-content: center;
 		padding: 10px 0;
+		margin: 10px 0;
 		.usersTitle {
 			display: flex;
 			align-items: center;
@@ -19,7 +20,8 @@
 		}
 		.addUserBtn {
 			position: absolute;
-			right: 0;
+			right: 24px;
+			height: 42px;
 		}
 	}
 

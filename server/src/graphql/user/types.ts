@@ -1,3 +1,5 @@
+import Knex from "knex";
+
 export interface UserArgs {
 	userId: string;
 }
@@ -42,4 +44,27 @@ export interface CreateUserArgs {
 
 export interface DeleteUsersArgs {
 	userIds: string[];
+}
+
+export interface UpdateUserArgs {
+	userId: string;
+	email?: string;
+	password?: string;
+	firstName?: string;
+	lastName?: string;
+	isAdmin?: boolean;
+}
+
+export interface UpdateUser {
+	email?: string;
+	password?: string;
+	salt?: string;
+}
+
+export interface UpdateUserInfo {
+	firstName?: string;
+	lastName?: string;
+	isAdmin?: boolean;
+	updatedBy: string;
+	updatedAt: Knex.QueryBuilder;
 }

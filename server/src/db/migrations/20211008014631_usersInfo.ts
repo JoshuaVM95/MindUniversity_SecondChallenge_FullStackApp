@@ -6,6 +6,8 @@ exports.up = async (knex: Knex): Promise<void> => {
 		table.string("firstName").notNullable();
 		table.string("lastName").notNullable();
 		table.uuid("createdBy").notNullable().references("id").inTable("users");
+		table.uuid("updatedBy").nullable().references("id").inTable("users");
+		table.timestamp("updatedAt").nullable();
 		table.boolean("isAdmin").defaultTo(false);
 		table.foreign(["id"]);
 	});

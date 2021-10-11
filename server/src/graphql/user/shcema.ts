@@ -8,6 +8,7 @@ export const UsersSchema = `
         login(email: String!, password: String!): String!
         createUser(email: String!, password: String!, firstName: String!, lastName: String!, isAdmin: Boolean): ResponseMessage!
         deleteUsers(userIds: [String!]!): ResponseMessage!
+        updateUser(userId: String!, email: String, password: String, firstName: String, lastName: String, isAdmin: Boolean): ResponseMessage!
     }
 
     type User {

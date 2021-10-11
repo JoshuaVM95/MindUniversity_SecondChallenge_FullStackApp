@@ -36,14 +36,11 @@ export const CreateUserModal = ({ isOpen, onClose, onUserAdded }: CreateUserModa
 	const [isPasswordError, setIsPasswordError] = useState<boolean>(false);
 
 	const [firstName, setFirstName] = useState<string>("");
-	const [isFirstNameError, setIsFirstNameError] = useState<boolean>(false);
-
 	const [lastName, setLastName] = useState<string>("");
-	const [isLastNameError, setIsLastNameError] = useState<boolean>(false);
 
 	const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
-	const [createUser, { data, loading, error }] = useMutation<CreateUserResponse>(CreateUserMutation, {
+	const [createUser, { loading, error }] = useMutation<CreateUserResponse>(CreateUserMutation, {
 		refetchQueries: [UsersQuery, "users"]
 	});
 
@@ -60,16 +57,6 @@ export const CreateUserModal = ({ isOpen, onClose, onUserAdded }: CreateUserModa
 	const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setPassword(event.target.value);
 		setIsPasswordError(false);
-	};
-
-	const handleFirstNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setFirstName(event.target.value);
-		setIsFirstNameError(false);
-	};
-
-	const handleLastNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setLastName(event.target.value);
-		setIsLastNameError(false);
 	};
 
 	const getInputColor = (value: string, isValid: boolean): textFieldColor => {
@@ -143,7 +130,6 @@ export const CreateUserModal = ({ isOpen, onClose, onUserAdded }: CreateUserModa
 						required
 					/>
 					<TextField
-						autoFocus
 						margin="dense"
 						id="firstName-field"
 						label="First Name"
@@ -151,15 +137,12 @@ export const CreateUserModal = ({ isOpen, onClose, onUserAdded }: CreateUserModa
 						fullWidth
 						variant="standard"
 						color={getInputColor(firstName, true)}
-						helperText={isFirstNameError ? "Please fill this field" : ""}
-						error={isFirstNameError}
 						value={firstName}
-						onChange={handleFirstNameChange}
+						onChange={(event) => setFirstName(event.target.value)}
 						disabled={loading}
 						required
 					/>
 					<TextField
-						autoFocus
 						margin="dense"
 						id="lastName-field"
 						label="Last Name"
@@ -167,10 +150,8 @@ export const CreateUserModal = ({ isOpen, onClose, onUserAdded }: CreateUserModa
 						fullWidth
 						variant="standard"
 						color={getInputColor(lastName, true)}
-						helperText={isLastNameError ? "Please fill this field" : ""}
-						error={isLastNameError}
 						value={lastName}
-						onChange={handleLastNameChange}
+						onChange={(event) => setLastName(event.target.value)}
 						disabled={loading}
 						required
 					/>

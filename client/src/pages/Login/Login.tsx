@@ -7,7 +7,7 @@ import { LoginMutation, LoginResponse } from "./queries";
 import { RouteChildrenProps } from "react-router-dom";
 import { ApolloErrors, buttonColor, textFieldColor, Role, Routes } from "../../types";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store/store";
+import { AppDispatch, persistor } from "../../store/store";
 import { setCurrentUser } from "../../store/currentUser/actions";
 import { regexEmail, regexPassword } from "../../utilities";
 
@@ -17,7 +17,7 @@ export const Login = ({ history }: RouteChildrenProps): React.ReactElement => {
 	const [userPassword, setUserPassword] = useState<string>("");
 	const [isPasswordError, setIsPasswordError] = useState<boolean>(false);
 	const [showPassword, setShowPassword] = useState<boolean>(false);
-	const [login, { data, loading, error }] = useMutation<LoginResponse>(LoginMutation);
+	const [login, { loading, error }] = useMutation<LoginResponse>(LoginMutation);
 	const dispatch: AppDispatch = useDispatch();
 
 	const textFieldWidth = 300;
@@ -97,8 +97,10 @@ export const Login = ({ history }: RouteChildrenProps): React.ReactElement => {
 								role
 							})
 						);
-						const hasPermission = role === Role.SUPER || role === Role.ADMIN;
-						history.push(hasPermission ? Routes.USERS : Routes.PROFILE);
+						persistor.flush().then(() => {
+							const hasPermission = role === Role.SUPER || role === Role.ADMIN;
+							history.push(hasPermission ? Routes.USERS : Routes.PROFILE);
+						});
 					}
 				})
 				.catch((err) => {

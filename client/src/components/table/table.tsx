@@ -31,6 +31,7 @@ interface CollapsibleTableProps<T extends RowObject> {
 	onRowSelected(isRowSelected: boolean, index: number): void;
 	hasSelectedRows: boolean;
 	onDelete(): void;
+	onRowInfo(index: number): void;
 }
 
 export const CollapsibleTable = <T extends RowObject>({
@@ -46,7 +47,8 @@ export const CollapsibleTable = <T extends RowObject>({
 	error,
 	onRowSelected,
 	hasSelectedRows,
-	onDelete
+	onDelete,
+	onRowInfo
 }: CollapsibleTableProps<T>): React.ReactElement => {
 	const [currentPage, setCurrentPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -77,7 +79,7 @@ export const CollapsibleTable = <T extends RowObject>({
 					<TableBody>
 						{rows.map((row, index) => (
 							<Row<T>
-								key={index}
+								key={JSON.stringify(row)}
 								row={row}
 								collapsableTableTitle={rowCollapsableTableTitle}
 								collapsableTableHeaders={rowcollapsableTableHeaders}
@@ -85,6 +87,7 @@ export const CollapsibleTable = <T extends RowObject>({
 									if (onRowCollapse) onRowCollapse(show, index);
 								}}
 								onRowSelected={(isRowSelected) => onRowSelected(isRowSelected, index)}
+								onInfo={() => onRowInfo(index)}
 							/>
 						))}
 					</TableBody>
