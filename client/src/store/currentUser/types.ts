@@ -2,6 +2,8 @@ import { Role } from "../../types";
 
 export interface CurrentUserState {
 	jwt?: string;
+	exp?: string;
+	userId?: string;
 	firstName?: string;
 	lastName?: string;
 	role?: Role;

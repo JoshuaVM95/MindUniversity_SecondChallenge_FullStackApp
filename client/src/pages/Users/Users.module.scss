@@ -1,0 +1,31 @@
+.usersContainer {
+	position: relative;
+	width: 100%;
+	height: 100vh;
+
+	.usersHeader {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 10px 0;
+		.usersTitle {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 2.2rem;
+			font-weight: 500;
+			text-align: center;
+		}
+		.addUserBtn {
+			position: absolute;
+			right: 0;
+		}
+	}
+
+	.usersFooter {
+		position: absolute;
+		right: 1.4rem;
+		bottom: 1.4rem;
+	}
+}

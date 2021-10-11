@@ -1,0 +1,15 @@
+.scrollBar {
+	&::-webkit-scrollbar,
+	&::-webkit-scrollbar-corner {
+		background-color: #fff;
+		width: 6px;
+	}
+	&::-webkit-scrollbar-thumb {
+		border-radius: 8px;
+		background-color: #2b2b2b;
+		min-height: 24px;
+		&:hover {
+			background-color: #2b2b2bba;
+		}
+	}
+}

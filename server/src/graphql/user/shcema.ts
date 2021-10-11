@@ -1,12 +1,13 @@
 export const UsersSchema = `
     extend type Query {
         user(userId: String!): User!
-        users: [User!]!
+        users(filterByEmail: String!, page: Int!, rowsPerPage: Int!): UserList!
     }
 
     extend type Mutation {
-        login(email: String!, password: String!): LoginResponse!
+        login(email: String!, password: String!): String!
         createUser(email: String!, password: String!, firstName: String!, lastName: String!, isAdmin: Boolean): ResponseMessage!
+        deleteUsers(userIds: [String!]!): ResponseMessage!
     }
 
     type User {
@@ -24,10 +25,8 @@ export const UsersSchema = `
         isAdmin: Boolean!
     }
 
-    type LoginResponse {
-        token: String!
-        firstName: String
-        lastName: String
-        role: Int!
+    type UserList {
+        users: [User!]!
+        totalUsers: Int!
     }
 `;

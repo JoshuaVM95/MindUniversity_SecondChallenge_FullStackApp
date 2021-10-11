@@ -1,21 +1,10 @@
 import { gql } from "@apollo/client";
-import { Role } from "../../types";
 
 export interface LoginResponse {
-	login: {
-		token: string;
-		firstName?: string;
-		lastName?: string;
-		role: Role;
-	};
+	login: string;
 }
 export const LoginMutation = gql`
 	mutation login($email: String!, $password: String!) {
-		login(email: $email, password: $password) {
-			token
-			firstName
-			lastName
-			role
-		}
+		login(email: $email, password: $password)
 	}
 `;

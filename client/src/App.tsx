@@ -6,6 +6,8 @@ import { Routes, Role } from "./types";
 import styles from "./App.module.scss";
 import { RootState } from "./store/store";
 import { useSelector } from "react-redux";
+import { hasTokenExpired } from "./utilities/validateTokenExpiration";
+import { TokenExpiredAlert } from "./components/tokenExpieredAlet/tokenExpiredAlert";
 
 const App = (): React.ReactElement => {
 	const currentUser = useSelector((state: RootState) => state.currentUser);
@@ -19,6 +21,7 @@ const App = (): React.ReactElement => {
 		<Router>
 			<div className={hasPermission ? styles.appContainer : ""}>
 				{hasPermission && <LateralBar />}
+				{currentUser.exp && hasTokenExpired(currentUser.exp) && <TokenExpiredAlert />}
 				<div className={styles.contentContainer}>
 					<Switch>
 						{hasPermission && <Route exact path={Routes.ACCOUNTS} component={Accounts} />}

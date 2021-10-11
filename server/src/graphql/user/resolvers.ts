@@ -1,7 +1,7 @@
-import { login, createUser } from "./mutations";
+import { login, createUser, deleteUsers } from "./mutations";
 import { AuthenticationError, UserInputError, ValidationError } from "apollo-server";
 import { decodeToken } from "../../auth/jwtOperations";
-import { UserArgs } from "./types";
+import { UserArgs, UsersArgs, UsersResponse } from "./types";
 import { GraphqlContext, User as IUser, UserInfo as IUserInfo } from "../../types";
 
 export const Query = {
@@ -20,12 +20,40 @@ export const Query = {
 		} else {
 			throw new AuthenticationError("Invalid token");
 		}
+	},
+	users: async (
+		root: undefined,
+		args: UsersArgs,
+		{ knex, schema, token }: GraphqlContext
+	): Promise<UsersResponse> => {
+		if (decodeToken(token)) {
+			const currentPage = args.page;
+			const offset = currentPage * args.rowsPerPage;
+			const limit = offset + args.rowsPerPage;
+			const filter = args.filterByEmail || "";
+			const users = await knex(schema.users)
+				.where("email", "like", `%${filter}%`)
+				.offset(offset)
+				.limit(limit)
+				.orderBy("email")
+				.then();
+			const totalUsers = await knex(schema.users)
+				.where("email", "like", `%${filter}%`)
+				.count("id")
+				.then((total) => {
+					return total[0]["count(`id`)"];
+				});
+			return { users, totalUsers: typeof totalUsers === "string" ? parseInt(totalUsers) : totalUsers };
+		} else {
+			throw new AuthenticationError("Invalid token");
+		}
 	}
 };
 
 export const Mutation = {
 	login,
-	createUser
+	createUser,
+	deleteUsers
 };
 
 export const User = {

@@ -2,6 +2,8 @@ import { CurrentUserState, CurrentUserAction, CurrenUserActionType } from "./typ
 
 const initialState: CurrentUserState = {
 	jwt: undefined,
+	exp: undefined,
+	userId: undefined,
 	firstName: undefined,
 	lastName: undefined,
 	role: undefined

@@ -1,29 +1,22 @@
-import { LoginArgs, LoginResponse } from "../types";
+import { LoginArgs } from "../types";
 import { UserInputError } from "apollo-server";
 import { isUserPasswordValid, generateToken } from "../../../auth";
 import { GraphqlContext, User, UserInfo } from "../../../types";
 
-export const login = async (
-	root: undefined,
-	args: LoginArgs,
-	{ knex, schema }: GraphqlContext
-): Promise<LoginResponse> => {
+export const login = async (root: undefined, args: LoginArgs, { knex, schema }: GraphqlContext): Promise<string> => {
 	if (args.email && args.password) {
 		const user: User | undefined = await knex(schema.users).where("email", "=", args.email).first().then();
 		if (user) {
 			if (isUserPasswordValid(args.password, user.password, user.salt)) {
 				const userInfo: UserInfo | undefined = !user.isSuper
-					? await knex(schema.usersInfo).where("email", "=", args.email).first().then()
+					? await knex(schema.usersInfo).where("id", "=", user.id).first().then()
 					: undefined;
 				const firstName = user.isSuper ? "Super" : userInfo?.firstName;
 				const lastName = user.isSuper ? "Super" : userInfo?.lastName;
 				const role = user.isSuper ? 0 : userInfo?.isAdmin ? 1 : 2;
-				return {
-					token: generateToken(user.id),
-					firstName,
-					lastName,
-					role
-				};
+				const token = generateToken(user.id, firstName, lastName, role);
+
+				return token;
 			} else {
 				throw new UserInputError("Invalid password!!");
 			}

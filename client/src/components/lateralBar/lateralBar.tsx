@@ -16,7 +16,8 @@ import { useHistory } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { clearCurrentUser } from "../../store/currentUser/actions";
-import { Role, Routes } from "../../types";
+import { Routes } from "../../types";
+import { getUserRole } from "../../utilities";
 
 enum AvailableLists {
 	USERS,
@@ -51,19 +52,15 @@ export const LateralBar = (): React.ReactElement => {
 		history.push(Routes.LOGIN);
 	};
 
-	const getUserRole = (): string => {
-		switch (currentUser.role) {
-			case Role.SUPER:
-				return "Super User";
-			case Role.ADMIN:
-				return "Admin User";
-			default:
-				return "User";
-		}
-	};
-
 	return (
-		<Box sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+		<Box
+			sx={{
+				width: "100%",
+				maxWidth: 360,
+				bgcolor: "background.paper",
+				boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px"
+			}}
+		>
 			<List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
 				<ListItemButton onClick={() => setShowLogout(!showLogout)}>
 					<ListItemIcon>
@@ -84,7 +81,7 @@ export const LateralBar = (): React.ReactElement => {
 								>
 									Role:
 								</Typography>
-								{` ${getUserRole()}`}
+								{` ${getUserRole(currentUser.role)}`}
 							</>
 						}
 					/>

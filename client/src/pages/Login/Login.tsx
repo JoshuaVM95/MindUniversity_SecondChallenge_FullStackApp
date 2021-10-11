@@ -5,13 +5,11 @@ import { VpnKey, Visibility, VisibilityOff } from "@material-ui/icons";
 import { useMutation } from "@apollo/client";
 import { LoginMutation, LoginResponse } from "./queries";
 import { RouteChildrenProps } from "react-router-dom";
-import { ApolloErrors, Role, Routes } from "../../types";
+import { ApolloErrors, buttonColor, textFieldColor, Role, Routes } from "../../types";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import { setCurrentUser } from "../../store/currentUser/actions";
-
-type textFieldColor = "primary" | "secondary" | "error" | "info" | "success" | "warning";
-type buttonColor = "inherit" | "primary" | "secondary" | "success" | "error" | "info" | "warning";
+import { regexEmail, regexPassword } from "../../utilities";
 
 export const Login = ({ history }: RouteChildrenProps): React.ReactElement => {
 	const [userEmail, setUserEmail] = useState<string>("");
@@ -24,11 +22,7 @@ export const Login = ({ history }: RouteChildrenProps): React.ReactElement => {
 
 	const textFieldWidth = 300;
 
-	const regexEmial =
-		/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-	const isValidEmail = regexEmial.test(userEmail);
-
-	const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/;
+	const isValidEmail = regexEmail.test(userEmail);
 	const isValidPassword = regexPassword.test(userPassword);
 
 	const hasInputError = (includes: string) => {
@@ -89,12 +83,17 @@ export const Login = ({ history }: RouteChildrenProps): React.ReactElement => {
 				.then((response) => {
 					const data = response.data;
 					if (data) {
-						const { token, firstName, lastName, role } = data.login;
+						const token = data.login;
+						const payload = token.split(".")[1];
+						const currentUser = JSON.parse(window.atob(payload));
+						const role = currentUser.role;
 						dispatch(
 							setCurrentUser({
 								jwt: token,
-								firstName,
-								lastName,
+								exp: currentUser.exp,
+								userId: currentUser.userId,
+								firstName: currentUser.firstName,
+								lastName: currentUser.lastName,
 								role
 							})
 						);

@@ -2,15 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client";
 import { Provider } from "react-redux";
 import { store, persistor } from "./store/store";
 import { PersistGate } from "redux-persist/integration/react";
-
-const client = new ApolloClient({
-	uri: "/",
-	cache: new InMemoryCache()
-});
+import { client } from "./ApolloClient";
 
 ReactDOM.render(
 	<React.StrictMode>

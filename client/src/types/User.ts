@@ -3,3 +3,11 @@ export enum Role {
 	ADMIN,
 	NORMAL
 }
+
+export interface UserOverview {
+	name: string;
+	email: string;
+	createdBy: string;
+	createdAt: number;
+	role: Role;
+}

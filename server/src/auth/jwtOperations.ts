@@ -1,13 +1,14 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { AuthenticationError } from "apollo-server";
+import { Role } from "../graphql/user/types";
 
 interface DecodedToken extends JwtPayload {
 	userId: string;
 }
 
-export const generateToken = (userId: string): string => {
+export const generateToken = (userId: string, firstName?: string, lastName?: string, role?: Role): string => {
 	const jwtSecret = process.env.JWT_SECRET || "";
-	return jwt.sign({ userId }, jwtSecret, {
+	return jwt.sign({ userId, firstName, lastName, role }, jwtSecret, {
 		expiresIn: "1h"
 	});
 };
