@@ -3,15 +3,16 @@ services:
   server:
     container_name: server-container
     build: ./server
+    restart: always
     ports:
       - "3001:3001"
     environment:
       DATABASE_HOST: db
-      DATABASE_USER: root
-      DATABASE_PASSWORD: root
+      DATABASE_USER: dbuser
+      DATABASE_PASSWORD: dbuser
       DATABASE_NAME: usersreports
       SUPER_USER_EMAIL: mySuperAdminUser@superAdmin.com
-      SUPER_USER_PASSWORD: 123456
+      SUPER_USER_PASSWORD: Abcd123!
       JWT_SECRET: A_9mnu!23oi
     links:
       - db
@@ -23,8 +24,8 @@ services:
     environment:
       MYSQL_HOST: localhost
       MYSQL_DATABASE: usersreports
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
+      MYSQL_USER: dbuser
+      MYSQL_PASSWORD: dbuser
       MYSQL_ROOT_PASSWORD: root
       MYSQL_PORT: 3006
     expose:
@@ -40,6 +41,8 @@ services:
     ports:
       - "3000:3000"
     links:
+      - server
+    depends_on:
       - server
 
 volumes:

@@ -1,5 +1,6 @@
 import { UsersSchema } from "./user/shcema";
 import { AccountsSchema } from "./account/schema";
+import { UsersAccountsSchema } from "./userAccount/schema";
 
 const typeDefs = `
   type Query {
@@ -16,6 +17,6 @@ const typeDefs = `
   }
 `;
 
-const schemaDefs = [typeDefs, UsersSchema, AccountsSchema];
+const schemaDefs = [typeDefs, UsersSchema, AccountsSchema, UsersAccountsSchema];
 
 export default schemaDefs;

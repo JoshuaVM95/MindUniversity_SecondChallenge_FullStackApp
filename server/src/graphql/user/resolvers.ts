@@ -27,23 +27,27 @@ export const Query = {
 		{ knex, schema, token }: GraphqlContext
 	): Promise<UsersResponse> => {
 		if (decodeToken(token)) {
-			const currentPage = args.page;
-			const offset = currentPage * args.rowsPerPage;
-			const limit = offset + args.rowsPerPage;
 			const filter = args.filterByEmail || "";
-			const users = await knex(schema.users)
-				.where("email", "like", `%${filter}%`)
-				.offset(offset)
-				.limit(limit)
-				.orderBy("email")
-				.then();
+
 			const totalUsers = await knex(schema.users)
 				.where("email", "like", `%${filter}%`)
 				.count("id")
 				.then((total) => {
 					return total[0]["count(`id`)"];
 				});
-			return { users, totalUsers: typeof totalUsers === "string" ? parseInt(totalUsers) : totalUsers };
+			const totalNumber = typeof totalUsers === "string" ? parseInt(totalUsers) : totalUsers;
+
+			const currentPage = args.page;
+			const offset = currentPage * (args.rowsPerPage || totalNumber);
+			const limit = offset + (args.rowsPerPage || totalNumber);
+			const users = await knex(schema.users)
+				.where("email", "like", `%${filter}%`)
+				.offset(offset)
+				.limit(limit)
+				.orderBy("email")
+				.then();
+
+			return { users, totalUsers: totalNumber };
 		} else {
 			throw new AuthenticationError("Invalid token");
 		}

@@ -7,7 +7,7 @@ export interface UserArgs {
 export interface UsersArgs {
 	filterByEmail: string;
 	page: number;
-	rowsPerPage: number;
+	rowsPerPage?: number;
 }
 
 interface UserOverview {

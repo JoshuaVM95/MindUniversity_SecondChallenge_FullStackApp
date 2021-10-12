@@ -115,7 +115,7 @@ export const CreateAccountModal = ({
 						onChange={(event: React.SyntheticEvent, newValue: UserOption | null) => {
 							setLead(newValue);
 						}}
-						sx={{ width: 300 }}
+						fullWidth
 						renderInput={(params) => <TextField {...params} label="Lead" variant="standard" />}
 					/>
 					{error && (

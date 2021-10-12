@@ -5,7 +5,10 @@ WORKDIR /server
 RUN npm install -g knex
 
 COPY package.json /server/
-RUN npm install
+
+COPY yarn.lock /server/
+
+RUN yarn install
 
 COPY . /server/
 

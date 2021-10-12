@@ -8,7 +8,7 @@ export interface AccountArgs {
 export interface AccountsArgs {
 	filterByName: string;
 	page: number;
-	rowsPerPage: number;
+	rowsPerPage?: number;
 }
 
 export interface AccountsResponse {

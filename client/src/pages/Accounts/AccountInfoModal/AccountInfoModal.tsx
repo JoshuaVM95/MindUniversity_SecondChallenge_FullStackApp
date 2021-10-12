@@ -172,8 +172,8 @@ export const AccountInfoModal = ({
 									onChange={(event: React.SyntheticEvent, newValue: UserOption | null) => {
 										setLead(newValue);
 									}}
-									sx={{ width: 300 }}
-									renderInput={(params) => <TextField {...params} label="Lead" variant="standard" />}
+									fullWidth
+									renderInput={(params) => <TextField {...params} label="Lead" variant="filled" />}
 								/>
 							</Grid>
 						</Grid>

@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TableRow tests renders correctly 1`] = `
+<DocumentFragment>
+  <button
+    aria-label="expand row"
+    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+    tabindex="0"
+    type="button"
+  >
+    <svg
+      aria-hidden="true"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+      data-testid="KeyboardArrowDownIcon"
+      focusable="false"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"
+      />
+    </svg>
+    <span
+      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+    />
+  </button>
+  1
+</DocumentFragment>
+`;

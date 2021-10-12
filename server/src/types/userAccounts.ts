@@ -1,9 +1,10 @@
-export interface userAccounts {
+export interface UserAccount {
+	id: string;
 	user: string;
 	account: string;
 	initDate: number;
 	endDate?: number;
 	addedBy: string;
 	removedBy?: string;
-	isLead: boolean;
+	position: string;
 }

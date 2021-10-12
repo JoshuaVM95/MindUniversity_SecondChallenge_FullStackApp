@@ -11,7 +11,7 @@ import {
 	Typography,
 	Tooltip
 } from "@material-ui/core";
-import { KeyboardArrowDown, KeyboardArrowUp, Info } from "@material-ui/icons";
+import { KeyboardArrowDown, KeyboardArrowUp, Edit, Info } from "@material-ui/icons";
 
 type stringObject = { [key: string]: string };
 
@@ -26,7 +26,8 @@ interface RowProps<T extends RowObject> {
 	collapsableTableHeaders?: string[];
 	onCollapse?(show: boolean): void;
 	onRowSelected(isRowSelected: boolean): void;
-	onInfo(): void;
+	onEdit(): void;
+	canSelect?: boolean;
 }
 
 export const Row = <T extends RowObject>({
@@ -35,7 +36,8 @@ export const Row = <T extends RowObject>({
 	collapsableTableHeaders,
 	onCollapse,
 	onRowSelected,
-	onInfo
+	onEdit,
+	canSelect = true
 }: RowProps<T>): React.ReactElement => {
 	const [showCollapsableData, setShowCollapsableData] = useState<boolean>(false);
 	const [isRowSelected, setIsRowSelected] = useState<boolean>(false);
@@ -46,8 +48,10 @@ export const Row = <T extends RowObject>({
 				sx={{ "& > *": { borderBottom: "unset" } }}
 				hover
 				onClick={() => {
-					onRowSelected(!isRowSelected);
-					setIsRowSelected(!isRowSelected);
+					if (canSelect) {
+						onRowSelected(!isRowSelected);
+						setIsRowSelected(!isRowSelected);
+					}
 				}}
 				role="checkbox"
 				aria-checked={isRowSelected}
@@ -120,16 +124,16 @@ export const Row = <T extends RowObject>({
 											colSpan={6}
 											align="right"
 										>
-											<Tooltip title="Check complete info">
+											<Tooltip title="Edit">
 												<IconButton
 													aria-label="open detail modal"
 													size="medium"
 													onClick={(event) => {
 														event.stopPropagation();
-														if (onInfo) onInfo();
+														if (onEdit) onEdit();
 													}}
 												>
-													<Info />
+													<Edit />
 												</IconButton>
 											</Tooltip>
 										</TableCell>

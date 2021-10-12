@@ -35,25 +35,27 @@ export const Query = {
 		const decodedToken = decodeToken(token);
 		if (decodedToken) {
 			if (decodedToken.role !== Role.NORMAL) {
-				const currentPage = args.page;
-				const offset = currentPage * args.rowsPerPage;
-				const limit = offset + args.rowsPerPage;
 				const filter = args.filterByName || "";
-				const accounts = await knex(schema.accounts)
-					.where("name", "like", `%${filter}%`)
-					.offset(offset)
-					.limit(limit)
-					.orderBy("name")
-					.then();
 				const totalAccounts = await knex(schema.accounts)
 					.where("name", "like", `%${filter}%`)
 					.count("id")
 					.then((total) => {
 						return total[0]["count(`id`)"];
 					});
+				const totalNumber = typeof totalAccounts === "string" ? parseInt(totalAccounts) : totalAccounts;
+
+				const currentPage = args.page;
+				const offset = currentPage * (args.rowsPerPage || totalNumber);
+				const limit = offset + (args.rowsPerPage || totalNumber);
+				const accounts = await knex(schema.accounts)
+					.where("name", "like", `%${filter}%`)
+					.offset(offset)
+					.limit(limit)
+					.orderBy("name")
+					.then();
 				return {
 					accounts,
-					totalAccounts: typeof totalAccounts === "string" ? parseInt(totalAccounts) : totalAccounts
+					totalAccounts: totalNumber
 				};
 			} else {
 				throw new AuthenticationError("Not Authorized");

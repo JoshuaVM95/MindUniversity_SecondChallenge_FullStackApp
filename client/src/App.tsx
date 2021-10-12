@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { LateralBar } from "./components/lateralBar/lateralBar";
-import { Accounts, Login, NotFound, Profile, Users } from "./pages";
+import { Accounts, Login, NotFound, Profile, Users, UsersAccounts } from "./pages";
 import { Routes, Role } from "./types";
 import styles from "./App.module.scss";
 import { RootState } from "./store/store";
@@ -40,6 +40,9 @@ const App = (): React.ReactElement => {
 				{isTokenExpired && <TokenExpiredAlert />}
 				<div className={styles.contentContainer}>
 					<Switch>
+						{hasPermission && (
+							<Route exact path={Routes.USERS_ACCOUNTS_HISTORY} component={UsersAccounts} />
+						)}
 						{hasPermission && <Route exact path={Routes.ACCOUNTS} component={Accounts} />}
 						{hasPermission && <Route exact path={Routes.USERS} component={Users} />}
 						{currentUser.jwt !== undefined && <Route path={Routes.PROFILE} component={Profile} />}

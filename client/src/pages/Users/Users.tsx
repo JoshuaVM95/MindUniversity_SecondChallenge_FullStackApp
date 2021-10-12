@@ -24,7 +24,7 @@ type UserRow = {
 
 export const Users = (): React.ReactElement => {
 	const [isUserModalOpen, setIsUserModalOpen] = useState<boolean>(false);
-	const [showUserInfo, setShowUserInfo] = useState<boolean>(false);
+	const [showUserEdit, setShowUserEdit] = useState<boolean>(false);
 	const [currentPage, setCurrentPage] = useState<number>(0);
 	const [rowsPerPage, setRowsPerPage] = useState<number>(10);
 	const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
@@ -47,11 +47,11 @@ export const Users = (): React.ReactElement => {
 	const mapTableRows = (): UserRow[] => {
 		if (data) {
 			return data.users.users.map((user) => {
-				const name = user.userInfo ? `${user.userInfo.firstName} ${user.userInfo.lastName}` : "";
+				const name = user.userInfo ? `${user.userInfo.firstName} ${user.userInfo.lastName}` : "- -";
 				const createdBy =
 					user.userInfo && user.userInfo.createdBy.userInfo
 						? `${user.userInfo.createdBy.userInfo.firstName} ${user.userInfo.createdBy.userInfo.lastName}`
-						: "";
+						: "- -";
 				const role = user.isSuper ? 0 : user.userInfo?.isAdmin ? 1 : 2;
 				const createdAt = new Date(parseInt(user.createdAt));
 				const collapsableTableData = undefined; //TODO get the extra data
@@ -114,16 +114,16 @@ export const Users = (): React.ReactElement => {
 					setIsUserModalOpen(false);
 				}}
 			/>
-			{showUserInfo && (
+			{showUserEdit && (
 				<UserInfoModal
 					userId={selectedUserId}
 					onClose={() => {
-						setShowUserInfo(false);
+						setShowUserEdit(false);
 						setSelectedUserId(undefined);
 					}}
 					onUserUpdated={() => {
 						setSuccessMessage("User updated");
-						setShowUserInfo(false);
+						setShowUserEdit(false);
 						setSelectedUserId(undefined);
 					}}
 				/>
@@ -161,14 +161,14 @@ export const Users = (): React.ReactElement => {
 				onRowSelected={updateSelectedUsers}
 				hasSelectedRows={selectedUsers.length > 0}
 				onDelete={handleDeleteUsers}
-				onRowInfo={(index) => {
+				onRowEdit={(index) => {
 					const userId = data ? data.users.users[index].id : undefined;
 					const isSuper = data ? data.users.users[index].isSuper : undefined;
 					if (isSuper) {
 						setWarningMesage("You cant edit a super user");
 					} else {
 						setSelectedUserId(userId);
-						setShowUserInfo(true);
+						setShowUserEdit(true);
 					}
 				}}
 			/>

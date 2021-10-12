@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Alert, Fab, Divider, Snackbar, Paper } from "@material-ui/core";
-import { PersonAdd } from "@material-ui/icons";
+import { AddCircle } from "@material-ui/icons";
 import { CollapsibleTable } from "../../components/table/table";
 import styles from "./Accounts.module.scss";
 import { AccountOverview, AccountUserOverview } from "../../types";
@@ -21,7 +21,7 @@ type AccountRow = {
 
 export const Accounts = (): React.ReactElement => {
 	const [isAccountModalOpen, setIsAccountModalOpen] = useState<boolean>(false);
-	const [showAccountInfo, setShowAccountInfo] = useState<boolean>(false);
+	const [showAccountEdit, setShowAccountEdit] = useState<boolean>(false);
 	const [currentPage, setCurrentPage] = useState<number>(0);
 	const [rowsPerPage, setRowsPerPage] = useState<number>(10);
 	const [selectedAccounts, setSelectedAccounts] = useState<string[]>([]);
@@ -104,16 +104,16 @@ export const Accounts = (): React.ReactElement => {
 					}}
 				/>
 			)}
-			{showAccountInfo && (
+			{showAccountEdit && (
 				<AccountInfoModal
 					accountId={selectedAccountId}
 					onClose={() => {
-						setShowAccountInfo(false);
+						setShowAccountEdit(false);
 						setSelectedAccountId(undefined);
 					}}
 					onAccountUpdated={() => {
 						setSuccessMessage("Account updated");
-						setShowAccountInfo(false);
+						setShowAccountEdit(false);
 						setSelectedAccountId(undefined);
 					}}
 				/>
@@ -127,7 +127,7 @@ export const Accounts = (): React.ReactElement => {
 						variant="extended"
 						onClick={() => setIsAccountModalOpen(true)}
 					>
-						<PersonAdd sx={{ mr: 1 }} />
+						<AddCircle sx={{ mr: 1 }} />
 						Add account
 					</Fab>
 				</div>
@@ -151,10 +151,10 @@ export const Accounts = (): React.ReactElement => {
 				onRowSelected={updateSelectedAccounts}
 				hasSelectedRows={selectedAccounts.length > 0}
 				onDelete={handleDeleteAccounts}
-				onRowInfo={(index) => {
+				onRowEdit={(index) => {
 					const accountId = data ? data.accounts.accounts[index].id : undefined;
 					setSelectedAccountId(accountId);
-					setShowAccountInfo(true);
+					setShowAccountEdit(true);
 				}}
 			/>
 			<Snackbar
