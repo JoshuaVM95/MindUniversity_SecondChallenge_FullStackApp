@@ -3,3 +3,9 @@ export interface UserAccountOverview {
 	initDate: number;
 	endDate?: number;
 }
+
+export interface AccountUserOverview {
+	name: string;
+	email: string;
+	initDate: number;
+}

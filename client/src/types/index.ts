@@ -1,3 +1,4 @@
+export * from "./Account";
 export * from "./Apollo";
 export * from "./GenericResponse";
 export * from "./MUIColorProps";

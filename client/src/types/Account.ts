@@ -1,8 +1,7 @@
-export interface Account {
-	id: string;
+export interface AccountOverview {
 	name: string;
 	client: string;
 	lead: string;
-	createdAt: number;
 	createdBy: string;
+	createdAt: number;
 }

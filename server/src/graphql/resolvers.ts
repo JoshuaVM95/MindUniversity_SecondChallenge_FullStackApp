@@ -1,14 +1,18 @@
 import { Query as UserQuery, Mutation as UserMutation, User, UserInfo } from "./user/resolvers";
+import { Query as AccountQuery, Mutation as AccountMutation, Account } from "./account/resolvers";
 
 const resolvers = {
 	Query: {
-		...UserQuery
+		...UserQuery,
+		...AccountQuery
 	},
 	Mutation: {
-		...UserMutation
+		...UserMutation,
+		...AccountMutation
 	},
 	User,
-	UserInfo
+	UserInfo,
+	Account
 };
 
 export default resolvers;

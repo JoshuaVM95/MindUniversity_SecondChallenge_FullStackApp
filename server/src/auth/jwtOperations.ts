@@ -4,6 +4,9 @@ import { Role } from "../graphql/user/types";
 
 interface DecodedToken extends JwtPayload {
 	userId: string;
+	firstName: string;
+	lastName: string;
+	role: Role;
 }
 
 export const generateToken = (userId: string, firstName?: string, lastName?: string, role?: Role): string => {
