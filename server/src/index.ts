@@ -1,4 +1,5 @@
 import { ApolloServer } from "apollo-server";
+import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
 import typeDefs from "./graphql/shcema";
 import resolvers from "./graphql/resolvers";
 import path from "path";
@@ -27,7 +28,9 @@ const server = new ApolloServer({
 			schema: knexfile.schema,
 			token
 		};
-	}
+	},
+	plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
+	introspection: true
 });
 
 server.listen({ port }).then(({ url }) => {

@@ -7,10 +7,12 @@
 		"dev": "npx nodemon",
 		"start": "tsc && node dist/index.js",
 		"db": "knex --cwd src/db migrate:latest && knex --cwd src/db seed:run",
+		"test:dev": "jest --config=.jestrc.json --watch",
+		"test": "jest --config=.jestrc.json",
 		"initDocker": "npm run db && npm run start",
 		"lint": "eslint ./src --ext .js,.jsx,.ts,.tsx",
 		"lint:fix": "eslint ./src --ext .js,.jsx,.ts,.tsx --fix",
-		"prepush": "npm run lint && tsc"
+		"prepush": "npm run lint && npm run test && tsc"
 	},
 	"keywords": [],
 	"author": "Joshua Vazquez Maru",
@@ -26,6 +28,7 @@
 		"typescript": "^4.4.3"
 	},
 	"devDependencies": {
+		"@types/jest": "^27.0.2",
 		"@types/jsonwebtoken": "^8.5.5",
 		"@types/node": "^16.10.3",
 		"@typescript-eslint/eslint-plugin": "^4.33.0",
@@ -33,7 +36,9 @@
 		"eslint": "^7.32.0",
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-prettier": "^4.0.0",
+		"jest": "^27.2.5",
 		"prettier": "^2.4.1",
+		"ts-jest": "^27.0.5",
 		"ts-node": "^10.2.1"
 	}
 }

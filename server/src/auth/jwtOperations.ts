@@ -22,7 +22,6 @@ export const decodeToken = (token: string): DecodedToken => {
 			const jwtSecret = process.env.JWT_SECRET || "";
 			return jwt.verify(token, jwtSecret) as DecodedToken;
 		} catch (error) {
-			console.error(error);
 			throw new AuthenticationError("Not authorized, invalid token");
 		}
 	} else {
