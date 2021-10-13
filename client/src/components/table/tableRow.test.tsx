@@ -1,11 +1,11 @@
 import React from "react";
 import { Row } from "./tableRow";
-import { render, fireEvent, getByTestId } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 
 describe("TableRow tests", () => {
-	const collapse = jest.fn();
 	const selected = jest.fn();
 	const edit = jest.fn();
+	const info = jest.fn();
 	const renderRow = () => {
 		const row = {
 			first: "1"
@@ -15,9 +15,9 @@ describe("TableRow tests", () => {
 				row={row}
 				collapsableTableTitle="Title"
 				collapsableTableHeaders={["My secondary header"]}
-				onCollapse={collapse}
 				onRowSelected={selected}
 				onEdit={edit}
+				onInfo={info}
 			/>
 		);
 	};
@@ -28,9 +28,16 @@ describe("TableRow tests", () => {
 		const row = renderRow().asFragment();
 		expect(row).toHaveTextContent("1");
 	});
-	it("triggers click", () => {
-		const row = renderRow().container;
-		fireEvent.click(getByTestId(row, "KeyboardArrowDownIcon"));
-		expect(collapse).toHaveBeenCalled();
+	it("shows the arrow down by default", () => {
+		const { getByTestId } = renderRow();
+		const openBtn = getByTestId("KeyboardArrowDownIcon");
+		expect(openBtn).toBeInTheDocument();
+	});
+	it("hiddes the arrow down after click", () => {
+		const { getByTestId } = renderRow();
+		const openBtn = getByTestId("KeyboardArrowDownIcon");
+		expect(openBtn).toBeInTheDocument();
+		fireEvent.click(openBtn);
+		expect(openBtn).not.toBeInTheDocument();
 	});
 });
