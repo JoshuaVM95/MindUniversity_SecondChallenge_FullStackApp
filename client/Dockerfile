@@ -4,11 +4,11 @@ WORKDIR /client
 
 COPY package.json /client/
 
-COPY yarn.lock /client/
-
 RUN yarn install
 
 COPY . /client/
+
+RUN yarn add date-fns
 
 RUN npm run build
 

@@ -1,8 +1,25 @@
-import React from "react";
-import { Avatar, Box, Container, CircularProgress, Paper, Grid, IconButton } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import {
+	Autocomplete,
+	Avatar,
+	Box,
+	Container,
+	CircularProgress,
+	Paper,
+	Grid,
+	IconButton,
+	Button,
+	TextField
+} from "@material-ui/core";
 import { ArrowBack } from "@material-ui/icons";
-import { useQuery } from "@apollo/client";
-import { UserQuery, UserResponse } from "./queries";
+import { useMutation, useQuery } from "@apollo/client";
+import {
+	UpdateUserInfoMutation,
+	UpdateUserInfoResponse,
+	UserQuery,
+	UserResponse,
+	UpdateUserInfoVariables
+} from "./queries";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { getUserRole } from "../../utilities";
@@ -15,6 +32,12 @@ interface ProfileProps {
 	onGoBack?(): void;
 }
 
+export enum EnglishLevel {
+	BASIC = "Basic",
+	INTERMEDIATE = "Intermediate",
+	ADVANCED = "Advanced"
+}
+
 export const Profile = ({ userId, onGoBack }: ProfileProps): React.ReactElement => {
 	const currentUser = useSelector((state: RootState) => state.currentUser);
 	const dispatch: AppDispatch = useDispatch();
@@ -25,6 +48,11 @@ export const Profile = ({ userId, onGoBack }: ProfileProps): React.ReactElement 
 			userId: userId || currentUser.userId
 		}
 	});
+
+	const [updateUserInfo, { loading: loadingUpdateUserInfo, error: errorUpdateUserInfo }] =
+		useMutation<UpdateUserInfoResponse>(UpdateUserInfoMutation, {
+			refetchQueries: [UserQuery]
+		});
 
 	const dash = "-";
 	const userName = `${data?.user.userInfo?.firstName || dash} ${data?.user.userInfo?.lastName || dash}`;
@@ -40,7 +68,12 @@ export const Profile = ({ userId, onGoBack }: ProfileProps): React.ReactElement 
 	const role = getUserRole(queryRole);
 	const englishLevel = data?.user.userInfo?.englishLevel || dash;
 	const technicalSkills = data?.user.userInfo?.technicalSkills || dash;
-	const cvLink = data?.user.userInfo?.cvLink || dash;
+	const cvLink = data?.user.userInfo?.cvLink || "#";
+
+	const [isEditionMode, setIsEditionMode] = useState<boolean>(false);
+	const [englishLevelValue, setEnglishLevelValue] = useState<EnglishLevel | null>(null);
+	const [techSkillsValue, setTechSkillsValue] = useState<string>("");
+	const [cvLinkValue, setCvLinkValue] = useState<string>("");
 
 	const handleGoBack = () => {
 		if (onGoBack) {
@@ -54,12 +87,52 @@ export const Profile = ({ userId, onGoBack }: ProfileProps): React.ReactElement 
 	const containerHeight = userId ? "calc(100vh - 14px)" : "100vh";
 	const paperHeight = userId ? "99%" : "100%";
 
+	const handleSave = () => {
+		if (data && data.user.userInfo) {
+			const userInfo = data.user.userInfo;
+			const variables: UpdateUserInfoVariables = {
+				englishLevel: englishLevelValue || EnglishLevel.BASIC,
+				technicalSkills: techSkillsValue,
+				cvLink: cvLinkValue
+			};
+			if (userInfo.englishLevel === englishLevelValue) delete variables.englishLevel;
+			if (userInfo.technicalSkills === techSkillsValue) delete variables.technicalSkills;
+			if (userInfo.cvLink === cvLinkValue) delete variables.cvLink;
+			if (Object.keys(variables).length > 0) {
+				updateUserInfo({
+					variables
+				})
+					.then(() => setIsEditionMode(false))
+					.catch((error) => {
+						console.error(error);
+					});
+			} else {
+				setIsEditionMode(false);
+			}
+		}
+	};
+
+	useEffect(() => {
+		if (data && data.user.userInfo) {
+			const userInfo = data.user.userInfo;
+			setTechSkillsValue(userInfo.technicalSkills);
+			setEnglishLevelValue(userInfo.englishLevel);
+			setCvLinkValue(userInfo.cvLink);
+		}
+	}, [data]);
+
 	return (
 		<Container
 			maxWidth={false}
 			fixed
 			disableGutters
-			sx={{ height: containerHeight, position: "absolute", zIndex: 100, width: "100%" }}
+			sx={{
+				height: containerHeight,
+				position: "absolute",
+				zIndex: 100,
+				width: "100%",
+				maxHeight: containerHeight
+			}}
 		>
 			<Paper elevation={6} sx={{ width: "100%", height: paperHeight }}>
 				{loading && (
@@ -99,15 +172,79 @@ export const Profile = ({ userId, onGoBack }: ProfileProps): React.ReactElement 
 						<Item label="Role" value={role} />
 					</Grid>
 					<Grid item xs={6} md={8}>
-						<Item label="English Level" value={englishLevel} />
+						<Item label="English Level" value={isEditionMode ? "" : englishLevel}>
+							{isEditionMode && (
+								<Box sx={{ marginTop: 1 }}>
+									<Autocomplete<EnglishLevel>
+										id="english-level"
+										options={[EnglishLevel.BASIC, EnglishLevel.INTERMEDIATE, EnglishLevel.ADVANCED]}
+										value={englishLevelValue}
+										onChange={(event: React.SyntheticEvent, newValue: EnglishLevel | null) => {
+											setEnglishLevelValue(newValue);
+										}}
+										fullWidth
+										renderInput={(params) => <TextField {...params} label="" variant="standard" />}
+									/>
+								</Box>
+							)}
+						</Item>
 					</Grid>
 					<Grid item xs={6} md={12}>
-						<Item label="Technical Skills" value={technicalSkills} />
+						<Item label="Technical Skills" value={isEditionMode ? "" : technicalSkills}>
+							{isEditionMode && (
+								<Box sx={{ marginTop: 1 }}>
+									<TextField
+										id="technical-skills"
+										label=""
+										multiline
+										minRows={1}
+										maxRows={4}
+										fullWidth
+										value={techSkillsValue}
+										onChange={(event) => setTechSkillsValue(event.target.value)}
+										variant="standard"
+									/>
+								</Box>
+							)}
+						</Item>
 					</Grid>
 					<Grid item xs={6} md={4}>
-						<Item label="CV Link" value={cvLink} />
+						<Item label="CV Link">
+							{isEditionMode ? (
+								<Box sx={{ marginTop: 1 }}>
+									<TextField
+										id="cv-link"
+										label=""
+										fullWidth
+										value={cvLinkValue}
+										onChange={(event) => setCvLinkValue(event.target.value)}
+										variant="standard"
+									/>
+								</Box>
+							) : (
+								<Button href={cvLink} target="_blank" sx={{ padding: 0, minWidth: 0 }}>
+									Link
+								</Button>
+							)}
+						</Item>
 					</Grid>
 				</Grid>
+				{!userId && isEditionMode ? (
+					<Box sx={{ position: "fixed", bottom: 10, right: 10 }}>
+						<Button size="large" color="error" onClick={() => setIsEditionMode(false)}>
+							Cancel
+						</Button>
+						<Button size="large" color="success" onClick={handleSave}>
+							Save
+						</Button>
+					</Box>
+				) : (
+					<Box sx={{ position: "fixed", bottom: 10, right: 10 }}>
+						<Button size="large" onClick={() => setIsEditionMode(true)}>
+							Edit
+						</Button>
+					</Box>
+				)}
 			</Paper>
 		</Container>
 	);
@@ -115,13 +252,14 @@ export const Profile = ({ userId, onGoBack }: ProfileProps): React.ReactElement 
 
 interface ItemProps {
 	label: string;
-	value: string;
+	value?: string;
 }
-const Item = ({ label, value }: ItemProps) => {
+const Item = ({ label, value, children }: React.PropsWithChildren<ItemProps>) => {
 	return (
 		<Paper elevation={0} variant="outlined" square sx={{ padding: 2 }}>
 			<h4>{label}</h4>
-			<span>{value}</span>
+			{value && <span>{value}</span>}
+			{children}
 		</Paper>
 	);
 };

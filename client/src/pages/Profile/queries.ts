@@ -1,5 +1,6 @@
 import { gql } from "@apollo/client";
-import { Position } from "../../types";
+import { EnglishLevel } from "..";
+import { GenericResponse, Position } from "../../types";
 
 interface LatestPosition {
 	account: {
@@ -32,7 +33,7 @@ interface User {
 		};
 		updatedAt: string;
 		isAdmin: boolean;
-		englishLevel: string;
+		englishLevel: EnglishLevel;
 		technicalSkills: string;
 		cvLink: string;
 	};
@@ -82,6 +83,23 @@ export const UserQuery = gql`
 				initDate
 				endDate
 			}
+		}
+	}
+`;
+
+export interface UpdateUserInfoVariables {
+	englishLevel?: EnglishLevel;
+	technicalSkills?: string;
+	cvLink?: string;
+}
+export interface UpdateUserInfoResponse {
+	updateUserInfo: GenericResponse;
+}
+export const UpdateUserInfoMutation = gql`
+	mutation updateUserInfo($englishLevel: String, $technicalSkills: String, $cvLink: String) {
+		updateUserInfo(englishLevel: $englishLevel, technicalSkills: $technicalSkills, cvLink: $cvLink) {
+			message
+			code
 		}
 	}
 `;

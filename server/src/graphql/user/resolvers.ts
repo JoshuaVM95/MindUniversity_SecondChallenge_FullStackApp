@@ -1,4 +1,4 @@
-import { login, createUser, deleteUsers, updateUser } from "./mutations";
+import { login, createUser, deleteUsers, updateUser, updateUserInfo } from "./mutations";
 import { AuthenticationError, UserInputError, ValidationError } from "apollo-server";
 import { decodeToken } from "../../auth/jwtOperations";
 import { UserArgs, UsersArgs, UsersResponse } from "./types";
@@ -64,7 +64,8 @@ export const Mutation = {
 	login,
 	createUser,
 	deleteUsers,
-	updateUser
+	updateUser,
+	updateUserInfo
 };
 
 export const User = {

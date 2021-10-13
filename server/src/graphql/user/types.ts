@@ -1,4 +1,5 @@
 import Knex from "knex";
+import { EnglishLevel } from "../../types";
 
 export interface UserArgs {
 	userId: string;
@@ -67,4 +68,17 @@ export interface UpdateUserInfo {
 	isAdmin?: boolean;
 	updatedBy: string;
 	updatedAt: Knex.QueryBuilder;
+}
+
+export interface UpdateUserInfoArgs {
+	englishLevel: EnglishLevel;
+	technicalSkills: string;
+	cvLink: string;
+}
+export interface UpdateMyUserInfo {
+	updatedBy: string;
+	updatedAt: Knex.QueryBuilder;
+	englishLevel?: EnglishLevel;
+	technicalSkills?: string;
+	cvLink?: string;
 }

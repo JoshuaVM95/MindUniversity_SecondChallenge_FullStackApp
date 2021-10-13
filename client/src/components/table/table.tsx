@@ -57,8 +57,8 @@ export const CollapsibleTable = <T extends RowObject>({
 	const rowsPerPageOption = [10, 25, 100];
 
 	return (
-		<Paper sx={{ width: "100%", overflow: "hidden" }}>
-			<TableContainer className={styles.tableContainer} sx={{ maxHeight: "calc(100vh - 130px)" }}>
+		<Paper elevation={6} sx={{ width: "100%", overflow: "hidden" }}>
+			<TableContainer className={styles.tableContainer} sx={{ maxHeight: "calc(100vh - 150px)" }}>
 				<Table stickyHeader aria-label="collapsible table">
 					<TableHead>
 						<TableRow>
@@ -106,6 +106,7 @@ export const CollapsibleTable = <T extends RowObject>({
 					</>
 				)}
 				{error && <Alert severity="error">{error}</Alert>}
+				{rows.length === 0 && <Alert severity="warning">No data yet</Alert>}
 			</TableContainer>
 			<TablePagination
 				rowsPerPageOptions={rowsPerPageOption}

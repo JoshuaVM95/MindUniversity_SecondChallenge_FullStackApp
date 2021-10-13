@@ -9,6 +9,7 @@ export const UsersSchema = `
         createUser(email: String!, password: String!, firstName: String!, lastName: String!, isAdmin: Boolean): ResponseMessage!
         deleteUsers(userIds: [String!]!): ResponseMessage!
         updateUser(userId: String!, email: String, password: String, firstName: String, lastName: String, isAdmin: Boolean): ResponseMessage!
+        updateUserInfo(englishLevel: String, technicalSkills: String, cvLink: String): ResponseMessage!
     }
 
     type User {
