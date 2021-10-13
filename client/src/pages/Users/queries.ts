@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import { GenericResponse } from "../../types";
+import { GenericResponse, Position } from "../../types";
 
 export interface CreateUserResponse {
 	createUser: GenericResponse;
@@ -19,6 +19,14 @@ export const CreateUserMutation = gql`
 	}
 `;
 
+interface LatestPosition {
+	account: {
+		name: string;
+	};
+	position: Position;
+	initDate: string;
+	endDate?: string;
+}
 interface User {
 	id: string;
 	email: string;
@@ -36,6 +44,7 @@ interface User {
 	};
 	isSuper: boolean;
 	createdAt: string;
+	latestPositions: LatestPosition[];
 }
 export interface UsersResponse {
 	users: {
@@ -63,6 +72,14 @@ export const UsersQuery = gql`
 				}
 				isSuper
 				createdAt
+				latestPositions {
+					account {
+						name
+					}
+					position
+					initDate
+					endDate
+				}
 			}
 			totalUsers
 		}

@@ -2,13 +2,17 @@ import { login, createUser, deleteUsers, updateUser } from "./mutations";
 import { AuthenticationError, UserInputError, ValidationError } from "apollo-server";
 import { decodeToken } from "../../auth/jwtOperations";
 import { UserArgs, UsersArgs, UsersResponse } from "./types";
-import { GraphqlContext, User as IUser, UserInfo as IUserInfo } from "../../types";
+import { GraphqlContext, User as IUser, UserAccount, UserInfo as IUserInfo } from "../../types";
 
 export const Query = {
 	user: async (root: undefined, args: UserArgs, { knex, schema, token }: GraphqlContext): Promise<IUser> => {
 		if (decodeToken(token)) {
 			if (args.userId) {
-				const user = await knex(schema.users).where("id", "=", args.userId).first().then();
+				const user = await knex(schema.users)
+					.where("id", "=", args.userId)
+					.andWhere("isArchived", "=", false)
+					.first()
+					.then();
 				if (user) {
 					return user;
 				} else {
@@ -31,6 +35,7 @@ export const Query = {
 
 			const totalUsers = await knex(schema.users)
 				.where("email", "like", `%${filter}%`)
+				.andWhere("isArchived", "=", false)
 				.count("id")
 				.then((total) => {
 					return total[0]["count(`id`)"];
@@ -42,6 +47,7 @@ export const Query = {
 			const limit = offset + (args.rowsPerPage || totalNumber);
 			const users = await knex(schema.users)
 				.where("email", "like", `%${filter}%`)
+				.andWhere("isArchived", "=", false)
 				.offset(offset)
 				.limit(limit)
 				.orderBy("email")
@@ -63,7 +69,9 @@ export const Mutation = {
 
 export const User = {
 	userInfo: async (aUser: IUser, root: undefined, { knex, schema }: GraphqlContext): Promise<IUserInfo> =>
-		knex(schema.usersInfo).where("id", "=", aUser.id).first().then()
+		knex(schema.usersInfo).where("id", "=", aUser.id).first().then(),
+	latestPositions: async (aUser: IUser, root: undefined, { knex, schema }: GraphqlContext): Promise<UserAccount> =>
+		knex(schema.userAccounts).where("user", "=", aUser.id).orderBy("initDate", "desc").limit(3).then()
 };
 
 export const UserInfo = {

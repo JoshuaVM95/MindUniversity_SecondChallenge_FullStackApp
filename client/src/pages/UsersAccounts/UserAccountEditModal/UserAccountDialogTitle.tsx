@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography, Skeleton } from "@material-ui/core";
-import { BootstrapDialogTitle } from "../../Users/UserInfoModal/BootstrapDialogTitle";
+import { BootstrapDialogTitle } from "../../Users/UserEditModal/BootstrapDialogTitle";
 
 interface UserAccountDialogTitleProps {
 	loading: boolean;

@@ -24,20 +24,20 @@ interface RowProps<T extends RowObject> {
 	row: T;
 	collapsableTableTitle?: string;
 	collapsableTableHeaders?: string[];
-	onCollapse?(show: boolean): void;
 	onRowSelected(isRowSelected: boolean): void;
 	onEdit(): void;
 	canSelect?: boolean;
+	onInfo(): void;
 }
 
 export const Row = <T extends RowObject>({
 	row,
 	collapsableTableTitle,
 	collapsableTableHeaders,
-	onCollapse,
 	onRowSelected,
 	onEdit,
-	canSelect = true
+	canSelect = true,
+	onInfo
 }: RowProps<T>): React.ReactElement => {
 	const [showCollapsableData, setShowCollapsableData] = useState<boolean>(false);
 	const [isRowSelected, setIsRowSelected] = useState<boolean>(false);
@@ -64,7 +64,6 @@ export const Row = <T extends RowObject>({
 						size="small"
 						onClick={(event) => {
 							event.stopPropagation();
-							if (onCollapse) onCollapse(!showCollapsableData);
 							setShowCollapsableData(!showCollapsableData);
 						}}
 					>
@@ -85,25 +84,28 @@ export const Row = <T extends RowObject>({
 				<TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
 					<Collapse in={showCollapsableData} timeout="auto" unmountOnExit>
 						<Box sx={{ margin: 1 }}>
-							{collapsableTableTitle && row.collapsableTableData && (
+							{collapsableTableTitle && row.collapsableTableData && row.collapsableTableData.length > 0 && (
 								<Typography variant="h6" gutterBottom component="div">
 									{collapsableTableTitle}
 								</Typography>
 							)}
 							<Table size="small" aria-label="purchases">
-								{collapsableTableHeaders && row.collapsableTableData && (
-									<TableHead>
-										<TableRow>
-											{collapsableTableHeaders.map((header) => (
-												<TableCell key={header} align="center">
-													{header}
-												</TableCell>
-											))}
-										</TableRow>
-									</TableHead>
-								)}
+								{collapsableTableHeaders &&
+									row.collapsableTableData &&
+									row.collapsableTableData.length > 0 && (
+										<TableHead>
+											<TableRow>
+												{collapsableTableHeaders.map((header) => (
+													<TableCell key={header} align="center">
+														{header}
+													</TableCell>
+												))}
+											</TableRow>
+										</TableHead>
+									)}
 								<TableBody>
 									{row.collapsableTableData &&
+										row.collapsableTableData.length > 0 &&
 										row.collapsableTableData.map((detail, index) => {
 											return (
 												<TableRow key={index}>
@@ -126,7 +128,7 @@ export const Row = <T extends RowObject>({
 										>
 											<Tooltip title="Edit">
 												<IconButton
-													aria-label="open detail modal"
+													aria-label="open edit modal"
 													size="medium"
 													onClick={(event) => {
 														event.stopPropagation();
@@ -134,6 +136,18 @@ export const Row = <T extends RowObject>({
 													}}
 												>
 													<Edit />
+												</IconButton>
+											</Tooltip>
+											<Tooltip title="Check complete information">
+												<IconButton
+													aria-label="open detail modal"
+													size="medium"
+													onClick={(event) => {
+														event.stopPropagation();
+														if (onInfo) onInfo();
+													}}
+												>
+													<Info />
 												</IconButton>
 											</Tooltip>
 										</TableCell>

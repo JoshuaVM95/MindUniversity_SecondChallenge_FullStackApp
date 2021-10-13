@@ -38,17 +38,17 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 	}
 }));
 
-interface UserAccountInfoModalProps {
+interface UserAccountEditModalProps {
 	userAccountId?: string;
 	onClose(): void;
 	onAccountUpdated(): void;
 }
 
-export const UserAccountInfoModal = ({
+export const UserAccountEditModal = ({
 	userAccountId,
 	onClose,
 	onAccountUpdated
-}: UserAccountInfoModalProps): React.ReactElement => {
+}: UserAccountEditModalProps): React.ReactElement => {
 	const { loading, error, data } = useQuery<UserAccountResponse>(UserAccountQuery, {
 		variables: {
 			userAccountId
@@ -65,7 +65,7 @@ export const UserAccountInfoModal = ({
 
 	const [updateUserAccount, { loading: loadingUpdateUserAccount, error: errorUpdateUserAccount }] =
 		useMutation<UpdateUserAccountResponse>(UpdateUserAccountMutation, {
-			refetchQueries: [UsersAccountsQuery, "usersAccounts"]
+			refetchQueries: [UsersAccountsQuery]
 		});
 
 	const parseToTimestamp = () => {

@@ -10,6 +10,7 @@ exports.up = async (knex: Knex): Promise<void> => {
 		table.uuid("createdBy").notNullable().references("id").inTable("users");
 		table.uuid("updatedBy").nullable().references("id").inTable("users");
 		table.timestamp("updatedAt").nullable();
+		table.boolean("isArchived").defaultTo(false);
 		table.foreign(["id"]);
 	});
 };

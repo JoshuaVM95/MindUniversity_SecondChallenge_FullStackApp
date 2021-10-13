@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import { GenericResponse } from "../../types";
+import { GenericResponse, Position } from "../../types";
 
 export interface CreateAccountResponse {
 	createAccount: GenericResponse;
@@ -20,6 +20,12 @@ interface User {
 		lastName: string;
 	};
 }
+interface LatestUser {
+	user: User;
+	position: Position;
+	initDate: string;
+	endDate?: string;
+}
 interface Account {
 	id: string;
 	name: string;
@@ -27,6 +33,7 @@ interface Account {
 	lead: User;
 	createdAt: string;
 	createdBy: User;
+	latestUsers: LatestUser[];
 }
 export interface AccountsResponse {
 	accounts: {
@@ -55,6 +62,18 @@ export const AccountsQuery = gql`
 						firstName
 						lastName
 					}
+				}
+				latestUsers {
+					user {
+						id
+						userInfo {
+							firstName
+							lastName
+						}
+					}
+					position
+					initDate
+					endDate
 				}
 			}
 			totalAccounts

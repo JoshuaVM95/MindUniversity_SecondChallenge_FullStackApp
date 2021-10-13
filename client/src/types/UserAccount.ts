@@ -1,13 +1,15 @@
 export interface UserAccountOverview {
 	account: string;
+	position: Position;
 	initDate: number;
 	endDate?: number;
 }
 
 export interface AccountUserOverview {
 	name: string;
-	email: string;
+	position: Position;
 	initDate: number;
+	endDate?: number;
 }
 
 export enum Position {

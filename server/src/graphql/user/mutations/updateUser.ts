@@ -22,14 +22,14 @@ export const updateUser = async (
 				.then();
 			if (selectedUser) {
 				const { email, password, firstName, lastName, isAdmin } = args;
-				if (email || password || firstName || lastName || isAdmin) {
+				if (email || password || firstName || lastName || isAdmin !== undefined) {
 					const userInfoVariables: UpdateUserInfo = {
 						updatedBy: jwtDecoded.userId,
 						updatedAt: knex.fn.now()
 					};
 					if (firstName) userInfoVariables.firstName = firstName;
 					if (lastName) userInfoVariables.lastName = lastName;
-					if (isAdmin) userInfoVariables.isAdmin = isAdmin;
+					if (isAdmin !== undefined) userInfoVariables.isAdmin = isAdmin;
 					return await knex(schema.usersInfo)
 						.update(userInfoVariables)
 						.where("id", "=", args.userId)

@@ -10,7 +10,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { DeleteUsersMutation, DeleteUsersResponse, UsersQuery, UsersResponse } from "./queries";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { UserInfoModal } from "./UserInfoModal/UserInfoModal";
+import { UserEditModal } from "./UserEditModal/UserEditModal";
 
 type UserAccountOverviewSignature = {
 	[key in keyof UserAccountOverview]: string;
@@ -40,7 +40,7 @@ export const Users = (): React.ReactElement => {
 		}
 	});
 	const [deleteUsers] = useMutation<DeleteUsersResponse>(DeleteUsersMutation, {
-		refetchQueries: [UsersQuery, "users"]
+		refetchQueries: [UsersQuery]
 	});
 	const currentUser = useSelector((state: RootState) => state.currentUser);
 
@@ -53,13 +53,24 @@ export const Users = (): React.ReactElement => {
 						? `${user.userInfo.createdBy.userInfo.firstName} ${user.userInfo.createdBy.userInfo.lastName}`
 						: "- -";
 				const role = user.isSuper ? 0 : user.userInfo?.isAdmin ? 1 : 2;
-				const createdAt = new Date(parseInt(user.createdAt));
-				const collapsableTableData = undefined; //TODO get the extra data
+				const createdAt = new Date(parseInt(user.createdAt)).toLocaleDateString();
+				const collapsableTableData = user.latestPositions.map((latestPosition) => {
+					const initDate = new Date(parseInt(latestPosition.initDate)).toLocaleDateString();
+					const endDate = latestPosition.endDate
+						? new Date(parseInt(latestPosition.endDate)).toLocaleDateString()
+						: "-";
+					return {
+						account: latestPosition.account.name,
+						position: latestPosition.position,
+						initDate,
+						endDate
+					};
+				});
 				return {
 					name,
 					email: user.email,
 					createdBy,
-					createdAt: createdAt.toLocaleDateString(),
+					createdAt: createdAt,
 					role: getUserRole(role),
 					collapsableTableData
 				};
@@ -115,7 +126,7 @@ export const Users = (): React.ReactElement => {
 				}}
 			/>
 			{showUserEdit && (
-				<UserInfoModal
+				<UserEditModal
 					userId={selectedUserId}
 					onClose={() => {
 						setShowUserEdit(false);
@@ -147,9 +158,8 @@ export const Users = (): React.ReactElement => {
 				headers={["Name", "Email", "Created By", "Created At", "Role"]}
 				rows={mapTableRows()}
 				totalRows={data?.users.totalUsers || 0}
-				rowCollapsableTableTitle="Latest accounts"
-				rowcollapsableTableHeaders={["Account", "Init Date", "End Date"]}
-				onRowCollapse={() => console.log("GET the latest data")}
+				rowCollapsableTableTitle="Latest positions"
+				rowcollapsableTableHeaders={["Account", "Position", "Init Date", "End Date"]}
 				onPageChange={(newPage) => {
 					setSelectedUserId(undefined);
 					setSelectedUsers([]);
@@ -171,6 +181,7 @@ export const Users = (): React.ReactElement => {
 						setShowUserEdit(true);
 					}
 				}}
+				onRowInfo={() => console.log("show info")}
 			/>
 			<Snackbar
 				open={successMessage !== undefined}

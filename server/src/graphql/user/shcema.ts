@@ -17,6 +17,7 @@ export const UsersSchema = `
         userInfo: UserInfo
         isSuper: Boolean!
         createdAt: String!
+        latestPositions: [UserAccount]
     }
 
     type UserInfo {

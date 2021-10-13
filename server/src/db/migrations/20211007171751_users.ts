@@ -8,6 +8,7 @@ exports.up = async (knex: Knex): Promise<void> => {
 		table.string("salt").notNullable();
 		table.boolean("isSuper").defaultTo(false);
 		table.timestamp("createdAt").defaultTo(knex.fn.now());
+		table.boolean("isArchived").defaultTo(false);
 		table.foreign(["id"]);
 	});
 };

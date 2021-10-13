@@ -7,7 +7,7 @@ import { AccountOverview, AccountUserOverview } from "../../types";
 import { CreateAccountModal } from "./CreateAccountModal";
 import { useMutation, useQuery } from "@apollo/client";
 import { DeleteAccountsResponse, DeleteAccountsMutation, AccountsQuery, AccountsResponse } from "./queries";
-import { AccountInfoModal } from "./AccountInfoModal/AccountInfoModal";
+import { AccountEditModal } from "./AccountEditModal/AccountEditModal";
 
 type AccountUserOverviewSignature = {
 	[key in keyof AccountUserOverview]: string;
@@ -36,7 +36,7 @@ export const Accounts = (): React.ReactElement => {
 		}
 	});
 	const [deleteAccounts] = useMutation<DeleteAccountsResponse>(DeleteAccountsMutation, {
-		refetchQueries: [AccountsQuery, "accounts"]
+		refetchQueries: [AccountsQuery]
 	});
 
 	const mapTableRows = (): AccountRow[] => {
@@ -47,7 +47,18 @@ export const Accounts = (): React.ReactElement => {
 					account.createdBy.userInfo?.lastName || "-"
 				}`;
 				const createdAt = new Date(parseInt(account.createdAt));
-				const collapsableTableData = undefined; //TODO get the extra data
+				const collapsableTableData = account.latestUsers.map((latestUser) => {
+					const initDate = new Date(parseInt(latestUser.initDate)).toLocaleDateString();
+					const endDate = latestUser.endDate
+						? new Date(parseInt(latestUser.endDate)).toLocaleDateString()
+						: "-";
+					return {
+						name: `${latestUser.user.userInfo.firstName} ${latestUser.user.userInfo.lastName}`,
+						position: latestUser.position,
+						initDate,
+						endDate
+					};
+				});
 				return {
 					name: account.name,
 					client: account.client,
@@ -105,7 +116,7 @@ export const Accounts = (): React.ReactElement => {
 				/>
 			)}
 			{showAccountEdit && (
-				<AccountInfoModal
+				<AccountEditModal
 					accountId={selectedAccountId}
 					onClose={() => {
 						setShowAccountEdit(false);
@@ -138,8 +149,7 @@ export const Accounts = (): React.ReactElement => {
 				rows={mapTableRows()}
 				totalRows={data?.accounts.totalAccounts || 0}
 				rowCollapsableTableTitle="Latest user enters"
-				rowcollapsableTableHeaders={["Name", "Email", "Init Date"]}
-				onRowCollapse={() => console.log("GET the latest data")}
+				rowcollapsableTableHeaders={["User Name", "Position", "Init Date", "End Date"]}
 				onPageChange={(newPage) => {
 					setSelectedAccountId(undefined);
 					setSelectedAccounts([]);
@@ -156,6 +166,7 @@ export const Accounts = (): React.ReactElement => {
 					setSelectedAccountId(accountId);
 					setShowAccountEdit(true);
 				}}
+				onRowInfo={() => console.log("show info")}
 			/>
 			<Snackbar
 				open={successMessage !== undefined}

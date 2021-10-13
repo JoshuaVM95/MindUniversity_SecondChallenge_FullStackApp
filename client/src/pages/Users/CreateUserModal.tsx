@@ -41,7 +41,7 @@ export const CreateUserModal = ({ isOpen, onClose, onUserAdded }: CreateUserModa
 	const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
 	const [createUser, { loading, error }] = useMutation<CreateUserResponse>(CreateUserMutation, {
-		refetchQueries: [UsersQuery, "users"]
+		refetchQueries: [UsersQuery]
 	});
 
 	const isValidEmail = regexEmail.test(email);

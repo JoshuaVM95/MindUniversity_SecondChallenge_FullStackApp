@@ -23,7 +23,6 @@ interface CollapsibleTableProps<T extends RowObject> {
 	totalRows: number;
 	rowCollapsableTableTitle?: string;
 	rowcollapsableTableHeaders?: string[];
-	onRowCollapse?(show: boolean, index: number): void;
 	onPageChange(newPage: number): void;
 	onRowsPerPageChange(newRowsPerPage: number): void;
 	loading: boolean;
@@ -33,6 +32,7 @@ interface CollapsibleTableProps<T extends RowObject> {
 	onDelete?(): void;
 	onRowEdit(index: number): void;
 	canSelectRows?: boolean;
+	onRowInfo(index: number): void;
 }
 
 export const CollapsibleTable = <T extends RowObject>({
@@ -41,7 +41,6 @@ export const CollapsibleTable = <T extends RowObject>({
 	totalRows,
 	rowCollapsableTableTitle,
 	rowcollapsableTableHeaders,
-	onRowCollapse,
 	onPageChange,
 	onRowsPerPageChange,
 	loading,
@@ -50,7 +49,8 @@ export const CollapsibleTable = <T extends RowObject>({
 	hasSelectedRows,
 	onDelete,
 	onRowEdit,
-	canSelectRows
+	canSelectRows,
+	onRowInfo
 }: CollapsibleTableProps<T>): React.ReactElement => {
 	const [currentPage, setCurrentPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -85,14 +85,12 @@ export const CollapsibleTable = <T extends RowObject>({
 								row={row}
 								collapsableTableTitle={rowCollapsableTableTitle}
 								collapsableTableHeaders={rowcollapsableTableHeaders}
-								onCollapse={(show) => {
-									if (onRowCollapse) onRowCollapse(show, index);
-								}}
 								onRowSelected={(isRowSelected) => {
 									if (onRowSelected) onRowSelected(isRowSelected, index);
 								}}
 								onEdit={() => onRowEdit(index)}
 								canSelect={canSelectRows}
+								onInfo={() => onRowInfo(index)}
 							/>
 						))}
 					</TableBody>

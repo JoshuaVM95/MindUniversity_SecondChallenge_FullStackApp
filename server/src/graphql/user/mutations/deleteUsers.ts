@@ -20,19 +20,16 @@ export const deleteUsers = async (
 				const superUserId = await knex(schema.users).select("id").where("isSuper", "=", true).first().then();
 				const userList = args.userIds.filter((userId) => userId !== superUserId.id);
 				if (userList.length > 0) {
-					return await knex(schema.usersInfo)
-						.delete()
+					return knex(schema.users)
+						.update({
+							isArchived: true
+						})
 						.whereIn("id", userList)
-						.then(async () => {
-							return knex(schema.users)
-								.delete()
-								.whereIn("id", userList)
-								.then(() => {
-									return {
-										message: "Users deleted correctly",
-										code: 204
-									};
-								});
+						.then(() => {
+							return {
+								message: "Users deleted correctly",
+								code: 204
+							};
 						})
 						.catch((error) => {
 							console.log(error);

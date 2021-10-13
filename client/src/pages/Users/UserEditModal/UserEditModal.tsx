@@ -38,13 +38,13 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 	}
 }));
 
-interface UserInfoModalProps {
+interface UserEditModalProps {
 	userId?: string;
 	onClose(): void;
 	onUserUpdated(): void;
 }
 
-export const UserInfoModal = ({ userId, onClose, onUserUpdated }: UserInfoModalProps): React.ReactElement => {
+export const UserEditModal = ({ userId, onClose, onUserUpdated }: UserEditModalProps): React.ReactElement => {
 	const { loading, error, data } = useQuery<UserResponse>(UserQuery, {
 		variables: {
 			userId
@@ -74,7 +74,7 @@ export const UserInfoModal = ({ userId, onClose, onUserUpdated }: UserInfoModalP
 	const [updateUser, { loading: loadingUpdateUser, error: errorUpdateUser }] = useMutation<UpdateUserResponse>(
 		UpdateUserMutation,
 		{
-			refetchQueries: [UsersQuery, "users"]
+			refetchQueries: [UsersQuery]
 		}
 	);
 

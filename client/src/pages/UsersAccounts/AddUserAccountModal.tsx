@@ -55,7 +55,7 @@ export const AddUserAccountModal = ({
 	});
 
 	const [addUserAccount, { loading, error }] = useMutation<AddUserAccountResponse>(AddUserAccountMutation, {
-		refetchQueries: [UsersAccountsQuery, "usersAccounts"]
+		refetchQueries: [UsersAccountsQuery, AccountsQuery, UsersQuery]
 	});
 
 	const disableAddUserAccount = account === null || user === null || position === null;

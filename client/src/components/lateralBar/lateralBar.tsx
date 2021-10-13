@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	Avatar,
 	Box,
@@ -51,6 +51,20 @@ export const LateralBar = (): React.ReactElement => {
 		dispatch(clearCurrentUser());
 		history.push(Routes.LOGIN);
 	};
+
+	useEffect(() => {
+		switch (history.location.pathname) {
+			case Routes.USERS:
+				setSelectedList(0);
+				break;
+			case Routes.ACCOUNTS:
+				setSelectedList(1);
+				break;
+			case Routes.USERS_ACCOUNTS_HISTORY:
+				setSelectedList(2);
+				break;
+		}
+	}, [history.location.pathname]);
 
 	return (
 		<Box

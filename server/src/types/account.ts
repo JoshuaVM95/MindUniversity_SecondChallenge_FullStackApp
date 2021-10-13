@@ -5,4 +5,5 @@ export interface Account {
 	lead: string;
 	createdAt: number;
 	createdBy: string;
+	isArchived: boolean;
 }

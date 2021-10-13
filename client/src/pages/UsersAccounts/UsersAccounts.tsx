@@ -7,7 +7,7 @@ import { UserAccountListOverview } from "../../types";
 import { AddUserAccountModal } from "./AddUserAccountModal";
 import { useQuery } from "@apollo/client";
 import { UsersAccountsQuery, UsersAccountsResponse } from "./queries";
-import { UserAccountInfoModal } from "./UserAccountInfoModal/UserAccountInfoModal";
+import { UserAccountEditModal } from "./UserAccountEditModal/UserAccountEditModal";
 
 type UserAccountRow = {
 	[key in keyof UserAccountListOverview]: string;
@@ -62,7 +62,7 @@ export const UsersAccounts = (): React.ReactElement => {
 				/>
 			)}
 			{showUserAccountEdit && (
-				<UserAccountInfoModal
+				<UserAccountEditModal
 					userAccountId={selectedUserAccountId}
 					onClose={() => {
 						setShowUserAccountEdit(false);
@@ -107,6 +107,7 @@ export const UsersAccounts = (): React.ReactElement => {
 					setShowUserAccountEdit(true);
 				}}
 				canSelectRows={false}
+				onRowInfo={() => console.log("show info")}
 			/>
 			<Snackbar
 				open={successMessage !== undefined}

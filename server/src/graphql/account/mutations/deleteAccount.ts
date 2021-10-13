@@ -14,7 +14,9 @@ export const deleteAccounts = async (
 		if (jwtDecoded.role !== Role.NORMAL) {
 			if (args.accountIds.length > 0) {
 				return await knex(schema.accounts)
-					.delete()
+					.update({
+						isArchived: true
+					})
 					.whereIn("id", args.accountIds)
 					.then(async () => {
 						return {

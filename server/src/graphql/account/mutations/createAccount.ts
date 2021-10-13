@@ -26,10 +26,21 @@ export const createAccount = async (
 							createdBy: jwtDecoded.userId
 						})
 						.then(async () => {
-							return {
-								message: "Account created succesfully",
-								code: 201
-							};
+							const userAccountUUID = crypto.randomUUID();
+							return await knex(schema.userAccounts)
+								.insert({
+									id: userAccountUUID,
+									user: args.lead,
+									account: uuid,
+									addedBy: jwtDecoded.userId,
+									position: "Lead"
+								})
+								.then(() => {
+									return {
+										message: "Account created succesfully",
+										code: 201
+									};
+								});
 						})
 						.catch((error) => {
 							console.log(error);

@@ -17,6 +17,7 @@ export const AccountsSchema = `
         lead: User!
         createdAt: String!
         createdBy: User!
+        latestUsers: [UserAccount]
     }
 
     type AccountList {

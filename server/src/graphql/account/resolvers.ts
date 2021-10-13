@@ -2,7 +2,7 @@ import { createAccount, deleteAccounts, updateAccount } from "./mutations";
 import { AuthenticationError, UserInputError, ValidationError } from "apollo-server";
 import { decodeToken } from "../../auth/jwtOperations";
 import { AccountArgs, AccountsArgs, AccountsResponse } from "./types";
-import { GraphqlContext, Account as IAccount, User } from "../../types";
+import { GraphqlContext, Account as IAccount, User, UserAccount } from "../../types";
 import { Role } from "../user/types";
 
 export const Query = {
@@ -11,7 +11,11 @@ export const Query = {
 		if (decodedToken) {
 			if (decodedToken.role !== Role.NORMAL) {
 				if (args.accountId) {
-					const account = await knex(schema.accounts).where("id", "=", args.accountId).first().then();
+					const account = await knex(schema.accounts)
+						.where("id", "=", args.accountId)
+						.andWhere("isArchived", "=", false)
+						.first()
+						.then();
 					if (account) {
 						return account;
 					} else {
@@ -38,6 +42,7 @@ export const Query = {
 				const filter = args.filterByName || "";
 				const totalAccounts = await knex(schema.accounts)
 					.where("name", "like", `%${filter}%`)
+					.andWhere("isArchived", "=", false)
 					.count("id")
 					.then((total) => {
 						return total[0]["count(`id`)"];
@@ -49,6 +54,7 @@ export const Query = {
 				const limit = offset + (args.rowsPerPage || totalNumber);
 				const accounts = await knex(schema.accounts)
 					.where("name", "like", `%${filter}%`)
+					.andWhere("isArchived", "=", false)
 					.offset(offset)
 					.limit(limit)
 					.orderBy("name")
@@ -76,5 +82,7 @@ export const Account = {
 	lead: async (aAccount: IAccount, root: undefined, { knex, schema }: GraphqlContext): Promise<User> =>
 		knex(schema.users).where("id", "=", aAccount.lead).first().then(),
 	createdBy: async (aAccount: IAccount, root: undefined, { knex, schema }: GraphqlContext): Promise<User> =>
-		knex(schema.users).where("id", "=", aAccount.createdBy).first().then()
+		knex(schema.users).where("id", "=", aAccount.createdBy).first().then(),
+	latestUsers: async (aAccount: IAccount, root: undefined, { knex, schema }: GraphqlContext): Promise<UserAccount> =>
+		knex(schema.userAccounts).where("account", "=", aAccount.id).orderBy("initDate", "desc").limit(3).then()
 };

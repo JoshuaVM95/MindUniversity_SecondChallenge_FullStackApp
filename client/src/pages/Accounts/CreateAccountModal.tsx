@@ -21,6 +21,7 @@ import {
 	UserOption
 } from "./queries";
 import { textFieldColor } from "../../types";
+import { UsersAccountsQuery } from "../UsersAccounts/queries";
 
 interface CreateAccountModalProps {
 	isOpen: boolean;
@@ -46,7 +47,7 @@ export const CreateAccountModal = ({
 	});
 
 	const [createAccount, { loading, error }] = useMutation<CreateAccountResponse>(CreateAccountMutation, {
-		refetchQueries: [AccountsQuery, "accounts"]
+		refetchQueries: [AccountsQuery, UsersAccountsQuery, UsersQuery]
 	});
 
 	const disableAddAccount = name.length === 0 || client.length === 0 || lead === null;

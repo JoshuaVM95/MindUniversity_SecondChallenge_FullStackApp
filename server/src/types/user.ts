@@ -5,4 +5,5 @@ export interface User {
 	salt: string;
 	isSuper: boolean;
 	createdAt: number;
+	isArchived: boolean;
 }

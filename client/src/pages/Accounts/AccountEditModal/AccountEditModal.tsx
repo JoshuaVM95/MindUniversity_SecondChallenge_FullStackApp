@@ -37,17 +37,17 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 	}
 }));
 
-interface AccountInfoModalProps {
+interface AccountEditModalProps {
 	accountId?: string;
 	onClose(): void;
 	onAccountUpdated(): void;
 }
 
-export const AccountInfoModal = ({
+export const AccountEditModal = ({
 	accountId,
 	onClose,
 	onAccountUpdated
-}: AccountInfoModalProps): React.ReactElement => {
+}: AccountEditModalProps): React.ReactElement => {
 	const { loading, error, data } = useQuery<AccountResponse>(AccountQuery, {
 		variables: {
 			accountId
@@ -69,7 +69,7 @@ export const AccountInfoModal = ({
 
 	const [updateAccount, { loading: loadingUpdateAccount, error: errorUpdateAccount }] =
 		useMutation<UpdateAccountResponse>(UpdateAccountMutation, {
-			refetchQueries: [AccountsQuery, "accounts"]
+			refetchQueries: [AccountsQuery]
 		});
 
 	const getInputColor = (value: string): textFieldColor => {
