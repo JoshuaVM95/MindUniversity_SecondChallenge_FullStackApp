@@ -76,5 +76,7 @@ export const User = {
 
 export const UserInfo = {
 	createdBy: async (aUserInfo: IUserInfo, root: undefined, { knex, schema }: GraphqlContext): Promise<IUser> =>
-		knex(schema.users).where("id", "=", aUserInfo.createdBy).first().then()
+		knex(schema.users).where("id", "=", aUserInfo.createdBy).first().then(),
+	updatedBy: async (aUserInfo: IUserInfo, root: undefined, { knex, schema }: GraphqlContext): Promise<IUser> =>
+		knex(schema.users).where("id", "=", aUserInfo.updatedBy).first().then()
 };

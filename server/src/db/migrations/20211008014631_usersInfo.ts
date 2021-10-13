@@ -9,6 +9,9 @@ exports.up = async (knex: Knex): Promise<void> => {
 		table.uuid("updatedBy").nullable().references("id").inTable("users");
 		table.timestamp("updatedAt").nullable();
 		table.boolean("isAdmin").defaultTo(false);
+		table.string("englishLevel").nullable();
+		table.string("technicalSkills").nullable();
+		table.string("cvLink").nullable();
 		table.foreign(["id"]);
 	});
 };

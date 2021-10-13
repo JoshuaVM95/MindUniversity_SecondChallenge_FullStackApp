@@ -3,5 +3,7 @@ export interface UserInfo {
 	firstName: string;
 	lastName: string;
 	createdBy: string;
+	updatedBy: string;
+	updatedAt: string;
 	isAdmin: boolean;
 }

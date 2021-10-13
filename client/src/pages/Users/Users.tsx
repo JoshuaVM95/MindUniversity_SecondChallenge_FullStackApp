@@ -11,6 +11,7 @@ import { DeleteUsersMutation, DeleteUsersResponse, UsersQuery, UsersResponse } f
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { UserEditModal } from "./UserEditModal/UserEditModal";
+import { Profile } from "../Profile/Profile";
 
 type UserAccountOverviewSignature = {
 	[key in keyof UserAccountOverview]: string;
@@ -25,6 +26,7 @@ type UserRow = {
 export const Users = (): React.ReactElement => {
 	const [isUserModalOpen, setIsUserModalOpen] = useState<boolean>(false);
 	const [showUserEdit, setShowUserEdit] = useState<boolean>(false);
+	const [showUserInfo, setShowUserInfo] = useState<boolean>(false);
 	const [currentPage, setCurrentPage] = useState<number>(0);
 	const [rowsPerPage, setRowsPerPage] = useState<number>(10);
 	const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
@@ -115,8 +117,32 @@ export const Users = (): React.ReactElement => {
 		}
 	};
 
+	const handlePageChange = (newPage: number) => {
+		setSelectedUserId(undefined);
+		setSelectedUsers([]);
+		setCurrentPage(newPage);
+	};
+
+	const handleRowEdit = (index: number) => {
+		const userId = data ? data.users.users[index].id : undefined;
+		const isSuper = data ? data.users.users[index].isSuper : undefined;
+		if (isSuper) {
+			setWarningMesage("You cant edit a super user");
+		} else {
+			setSelectedUserId(userId);
+			setShowUserEdit(true);
+		}
+	};
+
+	const handleRowInfo = (index: number) => {
+		const userId = data ? data.users.users[index].id : undefined;
+		setSelectedUserId(userId);
+		setShowUserInfo(true);
+	};
+
 	return (
 		<div className={styles.usersContainer}>
+			{showUserInfo && <Profile userId={selectedUserId} onGoBack={() => setShowUserInfo(false)} />}
 			<CreateUserModal
 				isOpen={isUserModalOpen}
 				onClose={() => setIsUserModalOpen(false)}
@@ -160,28 +186,15 @@ export const Users = (): React.ReactElement => {
 				totalRows={data?.users.totalUsers || 0}
 				rowCollapsableTableTitle="Latest positions"
 				rowcollapsableTableHeaders={["Account", "Position", "Init Date", "End Date"]}
-				onPageChange={(newPage) => {
-					setSelectedUserId(undefined);
-					setSelectedUsers([]);
-					setCurrentPage(newPage);
-				}}
+				onPageChange={handlePageChange}
 				onRowsPerPageChange={setRowsPerPage}
 				loading={loading}
 				error={error?.message}
 				onRowSelected={updateSelectedUsers}
 				hasSelectedRows={selectedUsers.length > 0}
 				onDelete={handleDeleteUsers}
-				onRowEdit={(index) => {
-					const userId = data ? data.users.users[index].id : undefined;
-					const isSuper = data ? data.users.users[index].isSuper : undefined;
-					if (isSuper) {
-						setWarningMesage("You cant edit a super user");
-					} else {
-						setSelectedUserId(userId);
-						setShowUserEdit(true);
-					}
-				}}
-				onRowInfo={() => console.log("show info")}
+				onRowEdit={handleRowEdit}
+				onRowInfo={handleRowInfo}
 			/>
 			<Snackbar
 				open={successMessage !== undefined}

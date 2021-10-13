@@ -24,7 +24,12 @@ export const UsersSchema = `
         firstName: String!
         lastName: String!
         createdBy: User!
+        updatedBy: User
+        updatedAt: String
         isAdmin: Boolean!
+        englishLevel: String
+        technicalSkills: String
+        cvLink: String
     }
 
     type UserList {
