@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+	Alert,
 	Autocomplete,
 	Avatar,
 	Box,
@@ -9,7 +10,8 @@ import {
 	Grid,
 	IconButton,
 	Button,
-	TextField
+	TextField,
+	Snackbar
 } from "@material-ui/core";
 import { ArrowBack } from "@material-ui/icons";
 import { useMutation, useQuery } from "@apollo/client";
@@ -74,6 +76,7 @@ export const Profile = ({ userId, onGoBack }: ProfileProps): React.ReactElement 
 	const [englishLevelValue, setEnglishLevelValue] = useState<EnglishLevel | null>(null);
 	const [techSkillsValue, setTechSkillsValue] = useState<string>("");
 	const [cvLinkValue, setCvLinkValue] = useState<string>("");
+	const [successMessage, setSuccessMessage] = useState<string>();
 
 	const handleGoBack = () => {
 		if (onGoBack) {
@@ -102,7 +105,10 @@ export const Profile = ({ userId, onGoBack }: ProfileProps): React.ReactElement 
 				updateUserInfo({
 					variables
 				})
-					.then(() => setIsEditionMode(false))
+					.then(() => {
+						setIsEditionMode(false);
+						setSuccessMessage("Changes saved correctly");
+					})
 					.catch((error) => {
 						console.error(error);
 					});
@@ -133,6 +139,7 @@ export const Profile = ({ userId, onGoBack }: ProfileProps): React.ReactElement 
 				width: "100%",
 				maxHeight: containerHeight
 			}}
+			style={{ maxWidth: "100%" }}
 		>
 			<Paper elevation={6} sx={{ width: "100%", height: paperHeight }}>
 				{loading && (
@@ -229,22 +236,51 @@ export const Profile = ({ userId, onGoBack }: ProfileProps): React.ReactElement 
 						</Item>
 					</Grid>
 				</Grid>
-				{!userId && isEditionMode ? (
-					<Box sx={{ position: "fixed", bottom: 10, right: 10 }}>
-						<Button size="large" color="error" onClick={() => setIsEditionMode(false)}>
-							Cancel
-						</Button>
-						<Button size="large" color="success" onClick={handleSave}>
-							Save
-						</Button>
-					</Box>
-				) : (
-					<Box sx={{ position: "fixed", bottom: 10, right: 10 }}>
-						<Button size="large" onClick={() => setIsEditionMode(true)}>
-							Edit
-						</Button>
+				{errorUpdateUserInfo && (
+					<Box sx={{ display: "flex", justifyContent: "center", margin: "0 24px" }}>
+						<Alert variant="outlined" severity="error" sx={{ width: "100%" }}>
+							{errorUpdateUserInfo.message}
+						</Alert>
 					</Box>
 				)}
+				<Snackbar
+					open={successMessage !== undefined}
+					autoHideDuration={6000}
+					onClose={() => setSuccessMessage(undefined)}
+				>
+					<Alert onClose={() => setSuccessMessage(undefined)} severity="success" sx={{ width: "100%" }}>
+						{successMessage}
+					</Alert>
+				</Snackbar>
+				{!userId ? (
+					isEditionMode ? (
+						<Box sx={{ position: "fixed", bottom: 10, right: 10, display: "flex", alignItems: "center" }}>
+							<Button
+								size="large"
+								color="error"
+								onClick={() => setIsEditionMode(false)}
+								disabled={loadingUpdateUserInfo}
+							>
+								Cancel
+							</Button>
+							{loadingUpdateUserInfo ? (
+								<Box>
+									<CircularProgress color="success" size={42} />
+								</Box>
+							) : (
+								<Button size="large" color="success" onClick={handleSave}>
+									Save
+								</Button>
+							)}
+						</Box>
+					) : (
+						<Box sx={{ position: "fixed", bottom: 10, right: 10 }}>
+							<Button size="large" onClick={() => setIsEditionMode(true)}>
+								Edit
+							</Button>
+						</Box>
+					)
+				) : null}
 			</Paper>
 		</Container>
 	);
