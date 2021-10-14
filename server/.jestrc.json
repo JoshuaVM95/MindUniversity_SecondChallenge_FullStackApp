@@ -1,0 +1,11 @@
+{
+	"preset": "ts-jest",
+	"testEnvironment": "node",
+	"roots": ["src/graphql/tests"],
+	"moduleFileExtensions": ["ts", "js"],
+	"transform": {
+		"\\.[jt]sx?$": "ts-jest"
+	},
+	"verbose": true,
+	"setupFiles": ["./dotenv-config.ts"]
+}
