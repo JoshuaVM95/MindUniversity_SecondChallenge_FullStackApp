@@ -11,8 +11,10 @@ dotenv.config({
 
 import knexfile from "./db/knexfile";
 import knex from "knex";
-
 const knexConfig = knex(knexfile);
+
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
 const port = process.env.PORT || 3001;
 
@@ -26,7 +28,8 @@ const server = new ApolloServer({
 		return {
 			knex: knexConfig,
 			schema: knexfile.schema,
-			token
+			token,
+			prisma
 		};
 	},
 	plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],

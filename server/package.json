@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"dev": "npx nodemon",
-		"start": "tsc && node dist/index.js",
+		"start": "tsc && node dist/src/index.js",
 		"db": "knex --cwd src/db migrate:latest && knex --cwd src/db seed:run",
 		"test:dev": "jest --config=.jestrc.json --watch",
 		"test": "jest --config=.jestrc.json",
@@ -14,10 +14,14 @@
 		"lint:fix": "eslint ./src --ext .js,.jsx,.ts,.tsx --fix",
 		"prepush": "npm run lint && npm run test && tsc"
 	},
+	"prisma": {
+		"seed": "ts-node prisma/seed.ts"
+	},
 	"keywords": [],
 	"author": "Joshua Vazquez Maru",
 	"license": "ISC",
 	"dependencies": {
+		"@prisma/client": "^3.2.1",
 		"apollo-server": "^3.3.0",
 		"dotenv": "^10.0.0",
 		"graphql": "^15.6.1",
@@ -38,6 +42,7 @@
 		"eslint-plugin-prettier": "^4.0.0",
 		"jest": "^27.2.5",
 		"prettier": "^2.4.1",
+		"prisma": "^3.2.1",
 		"ts-jest": "^27.0.5",
 		"ts-node": "^10.2.1"
 	}
