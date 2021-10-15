@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model account {
+  id                            String        @id @default(dbgenerated("(uuid())")) @db.Char(36)
+  name                          String        @db.VarChar(255)
+  client                        String        @db.VarChar(255)
+  lead                          String        @db.Char(36)
+  createdAt                     DateTime?     @default(now()) @db.Timestamp(0)
+  createdBy                     String        @db.Char(36)
+  updatedBy                     String?       @db.Char(36)
+  updatedAt                     DateTime?     @default(now()) @updatedAt @db.Timestamp(0)
+  isArchived                    Boolean?      @default(false)
+  user_account_createdByTousers user          @relation("account_createdByTousers", fields: [createdBy], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "account_createdby_foreign")
+  user_account_leadTousers      user          @relation("account_leadTousers", fields: [lead], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "account_lead_foreign")
+  user_account_updatedByTousers user?         @relation("account_updatedByTousers", fields: [updatedBy], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "account_updatedby_foreign")
+  useraccount                   useraccount[]
+
+  @@index([createdBy], map: "account_createdby_foreign")
+  @@index([lead], map: "account_lead_foreign")
+  @@index([updatedBy], map: "account_updatedby_foreign")
+}
+
+model useraccount {
+  id                                String    @id @default(dbgenerated("(uuid())")) @db.Char(36)
+  user                              String    @db.Char(36)
+  account                           String    @db.Char(36)
+  initDate                          DateTime? @default(now()) @db.Timestamp(0)
+  endDate                           DateTime? @db.Timestamp(0)
+  addedBy                           String    @db.Char(36)
+  removedBy                         String?   @db.Char(36)
+  position                          String    @db.VarChar(255)
+  accounts                          account[] @relation(fields: [account], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "useraccount_account_foreign")
+  user_useraccount_addedByTousers   user      @relation("useraccount_addedByTousers", fields: [addedBy], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "useraccount_addedby_foreign")
+  user_useraccount_removedByTousers user?     @relation("useraccount_removedByTousers", fields: [removedBy], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "useraccount_removedby_foreign")
+  user_useraccount_userTousers      user      @relation("useraccount_userTousers", fields: [user], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "useraccount_user_foreign")
+
+  @@index([account], map: "useraccount_account_foreign")
+  @@index([addedBy], map: "useraccount_addedby_foreign")
+  @@index([removedBy], map: "useraccount_removedby_foreign")
+  @@index([user], map: "useraccount_user_foreign")
+}
+
+model user {
+  id                                       String        @id @default(dbgenerated("(uuid())")) @db.Char(36)
+  email                                    String        @unique(map: "user_email_unique") @db.VarChar(255)
+  password                                 String        @db.VarChar(255)
+  salt                                     String        @db.VarChar(255)
+  isSuper                                  Boolean?      @default(false)
+  createdAt                                DateTime?     @default(now()) @db.Timestamp(0)
+  isArchived                               Boolean?      @default(false)
+  account_account_createdByTousers         account[]     @relation("account_createdByTousers")
+  account_account_leadTousers              account[]     @relation("account_leadTousers")
+  account_account_updatedByTousers         account[]     @relation("account_updatedByTousers")
+  useraccount_useraccount_addedByTousers   useraccount[] @relation("useraccount_addedByTousers")
+  useraccount_useraccount_removedByTousers useraccount[] @relation("useraccount_removedByTousers")
+  useraccount_useraccount_userTousers      useraccount[] @relation("useraccount_userTousers")
+  userinfo_userTousersinfo_createdBy       userinfo[]    @relation("userTousersinfo_createdBy")
+  userinfo_userTousersinfo_id              userinfo?     @relation("userTousersinfo_id")
+  userinfo_userTousersinfo_updatedBy       userinfo[]    @relation("userTousersinfo_updatedBy")
+}
+
+model userinfo {
+  id                             String    @id @db.Char(36)
+  firstName                      String    @db.VarChar(255)
+  lastName                       String    @db.VarChar(255)
+  createdBy                      String    @db.Char(36)
+  updatedBy                      String?   @db.Char(36)
+  updatedAt                      DateTime? @default(now()) @updatedAt @db.Timestamp(0)
+  isAdmin                        Boolean?  @default(false)
+  englishLevel                   String?   @db.VarChar(255)
+  technicalSkills                String?   @db.VarChar(255)
+  cvLink                         String?   @db.VarChar(255)
+  user_userTousersinfo_createdBy user      @relation("userTousersinfo_createdBy", fields: [createdBy], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "userinfo_createdby_foreign")
+  user_userTousersinfo_id        user      @relation("userTousersinfo_id", fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "userinfo_id_foreign")
+  user_userTousersinfo_updatedBy user?     @relation("userTousersinfo_updatedBy", fields: [updatedBy], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "userinfo_updatedby_foreign")
+
+  @@index([createdBy], map: "userinfo_createdby_foreign")
+  @@index([updatedBy], map: "userinfo_updatedby_foreign")
+}
