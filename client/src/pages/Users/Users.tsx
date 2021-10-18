@@ -143,14 +143,16 @@ export const Users = (): React.ReactElement => {
 	return (
 		<div className={styles.usersContainer}>
 			{showUserInfo && <Profile userId={selectedUserId} onGoBack={() => setShowUserInfo(false)} />}
-			<CreateUserModal
-				isOpen={isUserModalOpen}
-				onClose={() => setIsUserModalOpen(false)}
-				onUserAdded={() => {
-					setSuccessMessage("User created");
-					setIsUserModalOpen(false);
-				}}
-			/>
+			{isUserModalOpen && (
+				<CreateUserModal
+					isOpen={isUserModalOpen}
+					onClose={() => setIsUserModalOpen(false)}
+					onUserAdded={() => {
+						setSuccessMessage("User created");
+						setIsUserModalOpen(false);
+					}}
+				/>
+			)}
 			{showUserEdit && (
 				<UserEditModal
 					userId={selectedUserId}

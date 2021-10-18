@@ -81,7 +81,7 @@ export const CollapsibleTable = <T extends RowObject>({
 					<TableBody>
 						{rows.map((row, index) => (
 							<Row<T>
-								key={JSON.stringify(row)}
+								key={`${JSON.stringify(row)}-${index}`}
 								row={row}
 								collapsableTableTitle={rowCollapsableTableTitle}
 								collapsableTableHeaders={rowcollapsableTableHeaders}

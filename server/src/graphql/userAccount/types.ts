@@ -4,8 +4,15 @@ export interface UserAccountArgs {
 	userAccountId: string;
 }
 
+interface FilterBy {
+	account?: string;
+	name?: string;
+	initDate?: string;
+	endDate?: string;
+}
+
 export interface UsersAccountsArgs {
-	filterBy: string;
+	filterBy: FilterBy;
 	page: number;
 	rowsPerPage: number;
 }

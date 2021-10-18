@@ -15,7 +15,6 @@ import { useMutation, useQuery } from "@apollo/client";
 import {
 	AddUserAccountMutation,
 	AddUserAccountResponse,
-	UsersAccountsQuery,
 	UserOption,
 	UsersResponse,
 	UsersQuery,
@@ -55,7 +54,7 @@ export const AddUserAccountModal = ({
 	});
 
 	const [addUserAccount, { loading, error }] = useMutation<AddUserAccountResponse>(AddUserAccountMutation, {
-		refetchQueries: [UsersAccountsQuery, AccountsQuery, UsersQuery]
+		refetchQueries: ["usersAccounts", "accounts", "users"]
 	});
 
 	const disableAddUserAccount = account === null || user === null || position === null;

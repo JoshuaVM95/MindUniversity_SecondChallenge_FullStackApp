@@ -39,7 +39,7 @@ export interface UsersAccountsResponse {
 	};
 }
 export const UsersAccountsQuery = gql`
-	query usersAccounts($filterBy: String!, $page: Int!, $rowsPerPage: Int!) {
+	query usersAccounts($filterBy: Filter, $page: Int!, $rowsPerPage: Int!) {
 		usersAccounts(filterBy: $filterBy, page: $page, rowsPerPage: $rowsPerPage) {
 			usersAccounts {
 				id

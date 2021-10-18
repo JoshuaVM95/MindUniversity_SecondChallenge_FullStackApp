@@ -4,14 +4,15 @@ import { generateHash } from "../src/auth/hashOperations";
 import crypto from "crypto";
 
 async function generateSuperUser() {
+	const superUserEmail = process.env.SUPER_USER_EMAIL || "superUser@superUser.com";
 	const { hash, salt } = generateHash(process.env.SUPER_USER_PASSWORD || "123456");
 	const id = crypto.randomUUID();
 	const superUser = await prisma.user.upsert({
-		where: { email: process.env.SUPER_USER_EMAIL },
+		where: { email: superUserEmail },
 		update: {},
 		create: {
 			id,
-			email: process.env.SUPER_USER_EMAIL || "superUser@superUser.com",
+			email: superUserEmail,
 			password: hash,
 			salt,
 			isSuper: true
