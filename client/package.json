@@ -37,7 +37,8 @@
     "eject": "react-scripts eject",
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint ./src --ext .js,.jsx,.ts,.tsx --fix",
-    "prepush": "npm run lint && SET CI=true&& npm run test && npm run build"
+    "prepush": "npm run lint && SET CI=true&& npm run test && npm run build",
+    "initDocker": "node server.js"
   },
   "eslintConfig": {
     "extends": [

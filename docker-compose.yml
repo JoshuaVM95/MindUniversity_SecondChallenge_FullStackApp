@@ -11,13 +11,16 @@ services:
       DATABASE_USER: dbuser
       DATABASE_PASSWORD: dbuser
       DATABASE_NAME: usersreports
+      DATABASE_URL: mysql://root:root@prisma-db/usersreports_prisma
       SUPER_USER_EMAIL: mySuperAdminUser@superAdmin.com
       SUPER_USER_PASSWORD: Abcd123!
       JWT_SECRET: A_9mnu!23oi
     links:
       - db
+      - prisma-db
     depends_on:
       - db
+      - prisma-db
   db:
     container_name: db-container
     image: mysql
@@ -34,6 +37,22 @@ services:
       - "3307:3306"
     volumes:
       - serverDB:/data/db
+  prisma-db:
+    container_name: prisma-db-container
+    image: mysql
+    environment:
+      MYSQL_HOST: localhost
+      MYSQL_DATABASE: usersreports_prisma
+      MYSQL_USER: dbuser
+      MYSQL_PASSWORD: dbuser
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PORT: 3308
+    expose:
+      - "3308"
+    ports:
+      - "3308:3308"
+    volumes:
+      - serverPrismaDB:/data/db
   client:
     container_name: client-container
     restart: always
@@ -47,3 +66,4 @@ services:
 
 volumes:
   serverDB:
+  serverPrismaDB:
