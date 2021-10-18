@@ -12,16 +12,8 @@ import {
 	DialogTitle
 } from "@material-ui/core";
 import { useMutation, useQuery } from "@apollo/client";
-import {
-	CreateAccountMutation,
-	CreateAccountResponse,
-	AccountsQuery,
-	UsersQuery,
-	UsersResponse,
-	UserOption
-} from "./queries";
+import { CreateAccountMutation, CreateAccountResponse, UsersQuery, UsersResponse, UserOption } from "./queries";
 import { textFieldColor } from "../../types";
-import { UsersAccountsQuery } from "../UsersAccounts/queries";
 
 interface CreateAccountModalProps {
 	isOpen: boolean;
@@ -47,7 +39,7 @@ export const CreateAccountModal = ({
 	});
 
 	const [createAccount, { loading, error }] = useMutation<CreateAccountResponse>(CreateAccountMutation, {
-		refetchQueries: [AccountsQuery, UsersAccountsQuery, UsersQuery]
+		refetchQueries: ["accounts", "users", "usersAccounts"]
 	});
 
 	const disableAddAccount = name.length === 0 || client.length === 0 || lead === null;
@@ -65,10 +57,10 @@ export const CreateAccountModal = ({
 			}
 		})
 			.then(() => {
-				onAccountAdded();
 				setName("");
 				setClient("");
 				setLead(null);
+				onAccountAdded();
 			})
 			.catch((error) => {
 				console.error(error);

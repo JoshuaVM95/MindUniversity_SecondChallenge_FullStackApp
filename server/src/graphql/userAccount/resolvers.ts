@@ -4,6 +4,7 @@ import { decodeToken } from "../../auth/jwtOperations";
 import { UserAccountArgs, UsersAccountsArgs, UsersAccountsResponse } from "./types";
 import { GraphqlContext, UserAccount as IUserAccount, User, Account } from "../../types";
 import { Role } from "../user/types";
+import { Knex } from "knex";
 
 export const Query = {
 	userAccount: async (
@@ -45,19 +46,33 @@ export const Query = {
 				const currentPage = args.page;
 				const offset = currentPage * args.rowsPerPage;
 				const limit = offset + args.rowsPerPage;
-				const filter = args.filterBy || "";
+				const whereBuilder = (builder: Knex.QueryBuilder) => {
+					if (args.filterBy.name)
+						builder.where(`${schema.usersInfo}.firstName`, "like", `%${args.filterBy.name.toLowerCase()}%`);
+					if (args.filterBy.account)
+						builder.where(`${schema.accounts}.name`, "like", `%${args.filterBy.account.toLowerCase()}%`);
+					if (args.filterBy.initDate) builder.where("initDate", ">=", args.filterBy.initDate);
+					if (args.filterBy.endDate) builder.andWhere("endDate", "<=", args.filterBy.endDate);
+					return builder;
+				};
 				const usersAccounts = await knex(schema.userAccounts)
-					.where("user", "like", `%${filter}%`)
+					.select("userAccounts.*", "userAccounts.id")
+					.leftJoin(schema.usersInfo, `${schema.userAccounts}.user`, `${schema.usersInfo}.id`)
+					.leftJoin(schema.accounts, `${schema.userAccounts}.account`, `${schema.accounts}.id`)
+					.where(whereBuilder)
 					.offset(offset)
 					.limit(limit)
-					.orderBy("user")
-					.then();
+					.orderBy("initDate", "desc");
+
 				const totalUsersAccounts = await knex(schema.userAccounts)
-					.where("user", "like", `%${filter}%`)
-					.count("id")
+					.count("*")
+					.leftJoin(schema.usersInfo, `${schema.userAccounts}.user`, `${schema.usersInfo}.id`)
+					.leftJoin(schema.accounts, `${schema.userAccounts}.account`, `${schema.accounts}.id`)
+					.where(whereBuilder)
 					.then((total) => {
-						return total[0]["count(`id`)"];
+						return total[0]["count(*)"];
 					});
+
 				return {
 					usersAccounts,
 					totalUsersAccounts:

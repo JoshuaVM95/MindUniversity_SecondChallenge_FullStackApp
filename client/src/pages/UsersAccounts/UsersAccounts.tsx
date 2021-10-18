@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Alert, Fab, Divider, Snackbar, Paper } from "@material-ui/core";
-import { Link } from "@material-ui/icons";
+import { Alert, Fab, Divider, Snackbar, Paper, IconButton, Tooltip, Box } from "@material-ui/core";
+import { Link, FilterList } from "@material-ui/icons";
 import { CollapsibleTable } from "../../components/table/table";
 import styles from "./UsersAccounts.module.scss";
 import { UserAccountListOverview } from "../../types";
@@ -8,24 +8,35 @@ import { AddUserAccountModal } from "./AddUserAccountModal";
 import { useQuery } from "@apollo/client";
 import { UsersAccountsQuery, UsersAccountsResponse } from "./queries";
 import { UserAccountEditModal } from "./UserAccountEditModal/UserAccountEditModal";
+import { FilterModal } from "./FilterModal";
 
 type UserAccountRow = {
 	[key in keyof UserAccountListOverview]: string;
 };
 
+export interface UsersAccountsFilters {
+	account?: string;
+	name?: string;
+	initDate?: string;
+	endDate?: string;
+}
+
 export const UsersAccounts = (): React.ReactElement => {
 	const [isUserAccountModalOpen, setIsUserAccountModalOpen] = useState<boolean>(false);
+	const [isFilterModalOpen, setIsFilterModalOpen] = useState<boolean>(false);
 	const [showUserAccountEdit, setShowUserAccountEdit] = useState<boolean>(false);
 	const [currentPage, setCurrentPage] = useState<number>(0);
 	const [rowsPerPage, setRowsPerPage] = useState<number>(10);
 	const [selectedUserAccountId, setSelectedUserAccountId] = useState<string>();
 	const [successMessage, setSuccessMessage] = useState<string>();
+	const [filterBy, setFilterBy] = useState<UsersAccountsFilters>({});
 	const { loading, error, data } = useQuery<UsersAccountsResponse>(UsersAccountsQuery, {
 		variables: {
-			filterBy: "",
+			filterBy,
 			page: currentPage,
 			rowsPerPage
-		}
+		},
+		fetchPolicy: "no-cache"
 	});
 
 	const mapTableRows = (): UserAccountRow[] => {
@@ -75,8 +86,27 @@ export const UsersAccounts = (): React.ReactElement => {
 					}}
 				/>
 			)}
+			<FilterModal
+				isOpen={isFilterModalOpen}
+				onClose={() => setIsFilterModalOpen(false)}
+				currentFilters={filterBy}
+				onFilter={(newFilters) => {
+					setFilterBy(newFilters);
+					setIsFilterModalOpen(false);
+				}}
+			/>
 			<Paper elevation={3}>
 				<div className={styles.userAccountsHeader}>
+					<Box sx={{ position: "absolute", left: 12 }}>
+						<Tooltip title="Open filter modal">
+							<IconButton
+								onClick={() => setIsFilterModalOpen(true)}
+								color={Object.values(filterBy).some((value) => value) ? "primary" : "inherit"}
+							>
+								<FilterList />
+							</IconButton>
+						</Tooltip>
+					</Box>
 					<h1 className={styles.userAccountsTitle}>Users Accounts History</h1>
 					<Fab
 						className={styles.addUserAccountBtn}

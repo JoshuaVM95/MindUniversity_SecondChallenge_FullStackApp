@@ -28,6 +28,7 @@ import {
 } from "../queries";
 import { Position } from "../../../types";
 import { UserAccountDialogTitle } from "./UserAccountDialogTitle";
+import { parseToTimestamp } from "../../../utilities";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 	"& .MuiDialogContent-root": {
@@ -68,23 +69,13 @@ export const UserAccountEditModal = ({
 			refetchQueries: [UsersAccountsQuery]
 		});
 
-	const parseToTimestamp = () => {
-		if (endDate) {
-			const isoDate = endDate.toISOString();
-			const date = isoDate.split("T");
-			const time = date[1].split(".");
-			return date[0] + " " + time[0];
-		}
-		return endDate;
-	};
-
 	const saveChanges = () => {
 		if (data && data.userAccount) {
 			const { position: queryPosition } = data.userAccount;
 			const variables: UpdateUserAccountVariables = {
 				userAccountId: userAccountId || "",
 				position: position || undefined,
-				endDate: parseToTimestamp() || undefined
+				endDate: parseToTimestamp(endDate)
 			};
 			if (queryPosition === position) delete variables.position;
 			if (endDate === null) delete variables.endDate;

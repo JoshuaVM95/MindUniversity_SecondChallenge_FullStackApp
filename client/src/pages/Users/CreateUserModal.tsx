@@ -13,7 +13,7 @@ import {
 	Switch
 } from "@material-ui/core";
 import { useMutation } from "@apollo/client";
-import { CreateUserMutation, CreateUserResponse, UsersQuery } from "./queries";
+import { CreateUserMutation, CreateUserResponse } from "./queries";
 import { Role, textFieldColor } from "../../types";
 import { regexEmail, regexPassword } from "../../utilities";
 import { useSelector } from "react-redux";
@@ -41,7 +41,7 @@ export const CreateUserModal = ({ isOpen, onClose, onUserAdded }: CreateUserModa
 	const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
 	const [createUser, { loading, error }] = useMutation<CreateUserResponse>(CreateUserMutation, {
-		refetchQueries: [UsersQuery]
+		refetchQueries: ["users", "usersAccounts"]
 	});
 
 	const isValidEmail = regexEmail.test(email);
