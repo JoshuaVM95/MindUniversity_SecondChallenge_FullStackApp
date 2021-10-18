@@ -1,7 +1,7 @@
 export const UsersAccountsSchema = `
     extend type Query {
         userAccount(userAccountId: String!): UserAccount!
-        usersAccounts(filterBy: Filter, page: Int!, rowsPerPage: Int!): UserAccountList!
+        usersAccounts(filterBy: UserAccountFilter, page: Int!, rowsPerPage: Int!): UserAccountList!
     }
 
     extend type Mutation {
@@ -25,7 +25,7 @@ export const UsersAccountsSchema = `
         totalUsersAccounts: Int!
     }
 
-    input Filter {
+    input UserAccountFilter {
         account: String
         name: String
         initDate: String

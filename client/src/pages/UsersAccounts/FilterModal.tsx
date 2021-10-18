@@ -40,8 +40,8 @@ export const FilterModal = ({ isOpen, onClose, currentFilters, onFilter }: Filte
 
 	const updateFilters = () => {
 		onFilter({
-			name: userName,
-			account: accountName,
+			name: userName.trim(),
+			account: accountName.trim(),
 			initDate: parseToTimestamp(initDate),
 			endDate: parseToTimestamp(endDate)
 		});
