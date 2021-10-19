@@ -1,0 +1,34 @@
+.listHeaderContainer {
+	background: #333;
+	color: #fff;
+	display: grid;
+	grid-template-columns: 1fr 4fr 1fr;
+	height: 5rem;
+	.listHeaderTitle {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 2.2rem;
+		font-weight: 500;
+		text-align: center;
+	}
+	.filterIconContainer {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		padding-left: 2rem;
+		.filterIcon {
+			font-size: 1.8rem;
+		}
+	}
+	.addIconContainer {
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		padding-right: 2rem;
+		.addIconButton {
+			color: #fff;
+			font-size: 1.8rem;
+		}
+	}
+}

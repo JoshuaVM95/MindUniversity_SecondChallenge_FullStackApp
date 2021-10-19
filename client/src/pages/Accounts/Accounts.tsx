@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Alert, Fab, Divider, Snackbar, Paper } from "@material-ui/core";
+import { Alert, Snackbar } from "@material-ui/core";
 import { AddCircle } from "@material-ui/icons";
-import { CollapsibleTable } from "../../components/table/table";
+import { CollapsibleTable, ListHeader } from "../../components";
 import styles from "./Accounts.module.scss";
 import { AccountOverview, AccountUserOverview } from "../../types";
 import { CreateAccountModal } from "./CreateAccountModal";
@@ -129,21 +129,12 @@ export const Accounts = (): React.ReactElement => {
 					}}
 				/>
 			)}
-			<Paper elevation={3}>
-				<div className={styles.accountsHeader}>
-					<h1 className={styles.accountsTitle}>Accounts</h1>
-					<Fab
-						className={styles.addAccountBtn}
-						color="primary"
-						variant="extended"
-						onClick={() => setIsAccountModalOpen(true)}
-					>
-						<AddCircle sx={{ mr: 1 }} />
-						Add account
-					</Fab>
-				</div>
-			</Paper>
-			<Divider />
+			<ListHeader
+				title="Accounts"
+				addIcon={<AddCircle sx={{ color: "inherit", fontSize: "inherit" }} />}
+				addTooltipTitle="Add account"
+				onAdd={() => setIsAccountModalOpen(true)}
+			/>
 			<CollapsibleTable<AccountRow>
 				headers={["Name", "Client", "Lead", "Created By", "Created At"]}
 				rows={mapTableRows()}

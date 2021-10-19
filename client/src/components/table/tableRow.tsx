@@ -26,7 +26,7 @@ interface RowProps<T extends RowObject> {
 	collapsableTableHeaders?: string[];
 	onRowSelected(isRowSelected: boolean): void;
 	onEdit(): void;
-	canSelect?: boolean;
+	isSelectable?: boolean;
 	onInfo(): void;
 }
 
@@ -36,7 +36,7 @@ export const Row = <T extends RowObject>({
 	collapsableTableHeaders,
 	onRowSelected,
 	onEdit,
-	canSelect = true,
+	isSelectable = true,
 	onInfo
 }: RowProps<T>): React.ReactElement => {
 	const [showCollapsableData, setShowCollapsableData] = useState<boolean>(false);
@@ -45,10 +45,10 @@ export const Row = <T extends RowObject>({
 	return (
 		<>
 			<TableRow
-				sx={{ "& > *": { borderBottom: "unset" } }}
-				hover
+				sx={{ "& > *": { borderBottom: "unset" }, cursor: isSelectable ? "pointer" : "default" }}
+				hover={isSelectable}
 				onClick={() => {
-					if (canSelect) {
+					if (isSelectable) {
 						onRowSelected(!isRowSelected);
 						setIsRowSelected(!isRowSelected);
 					}

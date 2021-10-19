@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Alert, Fab, Divider, Snackbar, Paper } from "@material-ui/core";
+import { Alert, Snackbar } from "@material-ui/core";
 import { PersonAdd } from "@material-ui/icons";
-import { CollapsibleTable } from "../../components/table/table";
+import { CollapsibleTable, ListHeader } from "../../components";
 import styles from "./Users.module.scss";
 import { UserOverview, UserAccountOverview } from "../../types";
 import { getUserRole } from "../../utilities";
@@ -167,21 +167,12 @@ export const Users = (): React.ReactElement => {
 					}}
 				/>
 			)}
-			<Paper elevation={3}>
-				<div className={styles.usersHeader}>
-					<h1 className={styles.usersTitle}>Users</h1>
-					<Fab
-						className={styles.addUserBtn}
-						color="primary"
-						variant="extended"
-						onClick={() => setIsUserModalOpen(true)}
-					>
-						<PersonAdd sx={{ mr: 1 }} />
-						Add user
-					</Fab>
-				</div>
-			</Paper>
-			<Divider />
+			<ListHeader
+				title="Users"
+				addIcon={<PersonAdd sx={{ color: "inherit", fontSize: "inherit" }} />}
+				addTooltipTitle="Add user"
+				onAdd={() => setIsUserModalOpen(true)}
+			/>
 			<CollapsibleTable<UserRow>
 				headers={["Name", "Email", "Created By", "Created At", "Role"]}
 				rows={mapTableRows()}

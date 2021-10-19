@@ -31,7 +31,7 @@ interface CollapsibleTableProps<T extends RowObject> {
 	hasSelectedRows?: boolean;
 	onDelete?(): void;
 	onRowEdit(index: number): void;
-	canSelectRows?: boolean;
+	hasSelectableRows?: boolean;
 	onRowInfo(index: number): void;
 }
 
@@ -49,7 +49,7 @@ export const CollapsibleTable = <T extends RowObject>({
 	hasSelectedRows,
 	onDelete,
 	onRowEdit,
-	canSelectRows,
+	hasSelectableRows,
 	onRowInfo
 }: CollapsibleTableProps<T>): React.ReactElement => {
 	const [currentPage, setCurrentPage] = useState(0);
@@ -57,15 +57,15 @@ export const CollapsibleTable = <T extends RowObject>({
 	const rowsPerPageOption = [10, 25, 100];
 
 	return (
-		<Paper elevation={6} sx={{ width: "100%", overflow: "hidden" }}>
-			<TableContainer className={styles.tableContainer} sx={{ maxHeight: "calc(100vh - 150px)" }}>
+		<Paper elevation={0} variant="outlined" square sx={{ width: "100%", overflow: "hidden" }}>
+			<TableContainer className={styles.tableContainer} sx={{ maxHeight: "calc(100vh - 134px)" }}>
 				<Table stickyHeader aria-label="collapsible table">
 					<TableHead>
 						<TableRow>
 							<TableCell>
 								{hasSelectedRows && (
 									<Tooltip title="Delete">
-										<IconButton onClick={onDelete}>
+										<IconButton onClick={onDelete} sx={{ padding: 0, marginLeft: "5px" }}>
 											<Delete />
 										</IconButton>
 									</Tooltip>
@@ -89,7 +89,7 @@ export const CollapsibleTable = <T extends RowObject>({
 									if (onRowSelected) onRowSelected(isRowSelected, index);
 								}}
 								onEdit={() => onRowEdit(index)}
-								canSelect={canSelectRows}
+								isSelectable={hasSelectableRows}
 								onInfo={() => onRowInfo(index)}
 							/>
 						))}

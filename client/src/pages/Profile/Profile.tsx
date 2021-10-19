@@ -11,9 +11,10 @@ import {
 	IconButton,
 	Button,
 	TextField,
-	Snackbar
+	Snackbar,
+	Tooltip
 } from "@material-ui/core";
-import { ArrowBack } from "@material-ui/icons";
+import { ArrowBack, Lock } from "@material-ui/icons";
 import { useMutation, useQuery } from "@apollo/client";
 import {
 	UpdateUserInfoMutation,
@@ -87,8 +88,8 @@ export const Profile = ({ userId, onGoBack }: ProfileProps): React.ReactElement 
 		}
 	};
 
-	const containerHeight = userId ? "calc(100vh - 14px)" : "100vh";
-	const paperHeight = userId ? "99%" : "100%";
+	const paperWidth = userId ? "95%" : "100%";
+	const paperHeight = userId ? "auto" : "100%";
 
 	const handleSave = () => {
 		if (data && data.user.userInfo) {
@@ -133,28 +134,52 @@ export const Profile = ({ userId, onGoBack }: ProfileProps): React.ReactElement 
 			fixed
 			disableGutters
 			sx={{
-				height: containerHeight,
+				height: "100vh",
 				position: "absolute",
 				zIndex: 100,
 				width: "100%",
-				maxHeight: containerHeight
+				maxHeight: "100vh",
+				backdropFilter: "blur(4px)",
+				display: "flex",
+				alignItems: "center",
+				justifyContent: "center"
 			}}
 			style={{ maxWidth: "100%" }}
 		>
-			<Paper elevation={6} sx={{ width: "100%", height: paperHeight }}>
+			<Paper elevation={0} variant="outlined" square sx={{ width: paperWidth, height: paperHeight }}>
 				{loading && (
 					<Box sx={{ position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}>
 						<CircularProgress size={100} />
 					</Box>
 				)}
-				<Box sx={{ position: "absolute", left: 16, top: 10 }}>
-					<IconButton aria-label="go back" size="large" onClick={handleGoBack}>
-						<ArrowBack fontSize="inherit" />
-					</IconButton>
-				</Box>
-				<h1 style={{ textAlign: "center", paddingTop: 12 }}>Profile</h1>
-				<Box sx={{ position: "absolute", right: 16, top: 16 }}>
-					<Avatar alt={userName} src="/static/images/avatar/1.jpg" />
+				<Box
+					sx={{ display: "grid", gridTemplateColumns: "1fr 4fr 1fr", alignItems: "center", paddingTop: 1.2 }}
+				>
+					<Box
+						sx={{
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "flex-start",
+							paddingLeft: "0.6rem"
+						}}
+					>
+						<Tooltip title={userId ? "Go back" : "Log out"}>
+							<IconButton aria-label={userId ? "Go back" : "Log out"} size="large" onClick={handleGoBack}>
+								{userId ? <ArrowBack fontSize="inherit" /> : <Lock fontSize="inherit" />}
+							</IconButton>
+						</Tooltip>
+					</Box>
+					<h1 style={{ textAlign: "center", paddingTop: 12 }}>Profile</h1>
+					<Box
+						sx={{
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "flex-end",
+							paddingRight: "1.2rem"
+						}}
+					>
+						<Avatar alt={userName} src="/static/images/avatar/1.jpg" />
+					</Box>
 				</Box>
 				<Grid container spacing={2} padding="32px 24px">
 					<Grid item xs={6} md={8}>
