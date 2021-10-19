@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Tooltip, IconButton } from "@material-ui/core";
+import { Box, Tooltip, IconButton, Badge } from "@material-ui/core";
 import { FilterList } from "@material-ui/icons";
 import styles from "./listHeader.module.scss";
 
@@ -9,7 +9,7 @@ interface ListHeaderProps {
 	addTooltipTitle: string;
 	onAdd(): void;
 	onOpenFilters?(): void;
-	hasActiveFilters?: boolean;
+	activeFiltersCount?: number;
 }
 
 export const ListHeader = ({
@@ -18,16 +18,18 @@ export const ListHeader = ({
 	addTooltipTitle,
 	onAdd,
 	onOpenFilters,
-	hasActiveFilters
+	activeFiltersCount
 }: ListHeaderProps): React.ReactElement => {
 	return (
 		<Box className={styles.listHeaderContainer}>
 			<Box className={styles.filterIconContainer}>
 				{onOpenFilters && (
 					<Tooltip title="Open filter modal">
-						<IconButton onClick={onOpenFilters} color={hasActiveFilters ? "info" : "inherit"}>
-							<FilterList className={styles.filterIcon} />
-						</IconButton>
+						<Badge badgeContent={activeFiltersCount} color="info">
+							<IconButton onClick={onOpenFilters} color={activeFiltersCount ? "info" : "inherit"}>
+								<FilterList className={styles.filterIcon} />
+							</IconButton>
+						</Badge>
 					</Tooltip>
 				)}
 			</Box>
