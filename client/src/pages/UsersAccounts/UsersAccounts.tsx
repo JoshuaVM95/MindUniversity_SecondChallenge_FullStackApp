@@ -101,7 +101,10 @@ export const UsersAccounts = (): React.ReactElement => {
 				addTooltipTitle="Add user to an account"
 				onAdd={() => setIsUserAccountModalOpen(true)}
 				onOpenFilters={() => setIsFilterModalOpen(true)}
-				hasActiveFilters={Object.values(filterBy).some((value) => value)}
+				activeFiltersCount={Object.values(filterBy).reduce((previousValue, currentValue) => {
+					if (currentValue) return (previousValue += 1);
+					else return previousValue;
+				}, 0)}
 			/>
 			<CollapsibleTable<UserAccountRow>
 				headers={["User", "Account", "Position", "Initial Date", "End Date"]}

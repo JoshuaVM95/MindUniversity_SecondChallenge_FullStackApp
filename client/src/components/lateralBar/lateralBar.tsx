@@ -9,9 +9,21 @@ import {
 	ListItemIcon,
 	ListItemText,
 	ListSubheader,
-	Typography
+	Typography,
+	Drawer,
+	IconButton,
+	Tooltip
 } from "@material-ui/core";
-import { AccountTree, BusinessCenter, ExpandLess, ExpandMore, Lock, PeopleAlt } from "@material-ui/icons";
+import {
+	AccountTree,
+	BusinessCenter,
+	ChevronLeft,
+	ChevronRight,
+	ExpandLess,
+	ExpandMore,
+	Lock,
+	PeopleAlt
+} from "@material-ui/icons";
 import { useHistory } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
@@ -27,10 +39,12 @@ enum AvailableLists {
 
 export const LateralBar = (): React.ReactElement => {
 	const [selectedList, setSelectedList] = useState<AvailableLists>(AvailableLists.USERS);
-	const [showLogout, setShowLogout] = useState(true);
+	const [showLogout, setShowLogout] = useState<boolean>(true);
+	const [isOpen, setIsOpen] = useState<boolean>(true);
 	const currentUser = useSelector((state: RootState) => state.currentUser);
 	const dispatch: AppDispatch = useDispatch();
 	const history = useHistory();
+	const drawerWidth = isOpen ? "340px" : "70px";
 
 	const handleListItemClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, index: AvailableLists) => {
 		setSelectedList(index);
@@ -67,16 +81,31 @@ export const LateralBar = (): React.ReactElement => {
 	}, [history.location.pathname]);
 
 	return (
-		<Box
+		<Drawer
+			anchor="left"
+			variant="permanent"
+			open={isOpen}
 			sx={{
-				width: "100%",
-				maxWidth: 360,
+				position: "relative",
+				display: "flex",
+				width: drawerWidth,
+				maxWidth: drawerWidth,
 				bgcolor: "background.paper",
-				boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px"
+				boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
+				transition: "0.4s all"
+			}}
+			PaperProps={{
+				sx: {
+					position: "relative",
+					maxWidth: drawerWidth,
+					width: "inherit",
+					overflowX: "hidden",
+					transition: "0.4s all"
+				}
 			}}
 		>
 			<List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-				<ListItemButton onClick={() => setShowLogout(!showLogout)}>
+				<ListItemButton sx={{ whiteSpace: "nowrap" }} onClick={() => setShowLogout(!showLogout)}>
 					<ListItemIcon>
 						<Avatar
 							alt={`${currentUser.firstName} ${currentUser.lastName}`}
@@ -99,16 +128,18 @@ export const LateralBar = (): React.ReactElement => {
 							</>
 						}
 					/>
-					{showLogout ? <ExpandLess /> : <ExpandMore />}
+					{isOpen && (showLogout ? <ExpandLess /> : <ExpandMore />)}
 				</ListItemButton>
 				<Collapse in={showLogout} timeout="auto" unmountOnExit>
 					<List component="div" disablePadding>
-						<ListItemButton sx={{ pl: 4 }} onClick={handleLogOut}>
-							<ListItemIcon>
-								<Lock />
-							</ListItemIcon>
-							<ListItemText primary="Log out" />
-						</ListItemButton>
+						<Tooltip title={isOpen ? "" : "Log out"} placement="right">
+							<ListItemButton sx={{ pl: 2.6, whiteSpace: "nowrap" }} onClick={handleLogOut}>
+								<ListItemIcon>
+									<Lock />
+								</ListItemIcon>
+								<ListItemText primary="Log out" />
+							</ListItemButton>
+						</Tooltip>
 					</List>
 				</Collapse>
 			</List>
@@ -121,37 +152,53 @@ export const LateralBar = (): React.ReactElement => {
 				}
 				aria-label="main mailbox folders"
 			>
-				<ListItemButton
-					selected={selectedList === AvailableLists.USERS}
-					onClick={(event) => handleListItemClick(event, AvailableLists.USERS)}
-				>
-					<ListItemIcon>
-						<PeopleAlt />
-					</ListItemIcon>
-					<ListItemText primary="Users" />
-				</ListItemButton>
+				<Tooltip title={isOpen ? "" : "Users"} placement="right">
+					<ListItemButton
+						selected={selectedList === AvailableLists.USERS}
+						onClick={(event) => handleListItemClick(event, AvailableLists.USERS)}
+						sx={{ pl: 2.6, whiteSpace: "nowrap" }}
+					>
+						<ListItemIcon>
+							<PeopleAlt />
+						</ListItemIcon>
+						<ListItemText primary="Users" />
+					</ListItemButton>
+				</Tooltip>
 				<Divider />
-				<ListItemButton
-					selected={selectedList === AvailableLists.ACCOUNTS}
-					onClick={(event) => handleListItemClick(event, AvailableLists.ACCOUNTS)}
-				>
-					<ListItemIcon>
-						<BusinessCenter />
-					</ListItemIcon>
-					<ListItemText primary="Accounts" />
-				</ListItemButton>
+				<Tooltip title={isOpen ? "" : "Accounts"} placement="right">
+					<ListItemButton
+						selected={selectedList === AvailableLists.ACCOUNTS}
+						onClick={(event) => handleListItemClick(event, AvailableLists.ACCOUNTS)}
+						sx={{ pl: 2.6, whiteSpace: "nowrap" }}
+					>
+						<ListItemIcon>
+							<BusinessCenter />
+						</ListItemIcon>
+						<ListItemText primary="Accounts" />
+					</ListItemButton>
+				</Tooltip>
 				<Divider />
-				<ListItemButton
-					selected={selectedList === AvailableLists.USERS_ACCOUNTS_HISTORY}
-					onClick={(event) => handleListItemClick(event, AvailableLists.USERS_ACCOUNTS_HISTORY)}
-				>
-					<ListItemIcon>
-						<AccountTree />
-					</ListItemIcon>
-					<ListItemText primary="Users/Accounts History" />
-				</ListItemButton>
+				<Tooltip title={isOpen ? "" : "Users/Accounts History"} placement="right">
+					<ListItemButton
+						selected={selectedList === AvailableLists.USERS_ACCOUNTS_HISTORY}
+						onClick={(event) => handleListItemClick(event, AvailableLists.USERS_ACCOUNTS_HISTORY)}
+						sx={{ pl: 2.6, whiteSpace: "nowrap" }}
+					>
+						<ListItemIcon>
+							<AccountTree />
+						</ListItemIcon>
+						<ListItemText primary="Users/Accounts History" />
+					</ListItemButton>
+				</Tooltip>
 				<Divider />
 			</List>
-		</Box>
+			<Box sx={{ position: "absolute", bottom: 12, left: 12 }}>
+				<Tooltip title={isOpen ? "Minimize menu" : "Open menu"}>
+					<IconButton onClick={() => setIsOpen(!isOpen)}>
+						{isOpen ? <ChevronLeft /> : <ChevronRight />}
+					</IconButton>
+				</Tooltip>
+			</Box>
+		</Drawer>
 	);
 };

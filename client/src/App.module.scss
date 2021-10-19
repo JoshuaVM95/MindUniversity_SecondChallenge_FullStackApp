@@ -1,5 +1,5 @@
 .appContainer {
 	display: grid;
-	grid-template-columns: minmax(max-content, 360px) 3fr;
+	grid-template-columns: minmax(max-content, auto) 3fr;
 	height: 100vh;
 }
