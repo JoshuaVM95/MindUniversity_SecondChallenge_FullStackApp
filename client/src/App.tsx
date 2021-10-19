@@ -1,13 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { LateralBar } from "./components/lateralBar/lateralBar";
 import { Accounts, Login, NotFound, Profile, Users, UsersAccounts } from "./pages";
 import { Routes, Role } from "./types";
 import styles from "./App.module.scss";
 import { RootState } from "./store/store";
 import { useSelector } from "react-redux";
-import { hasTokenExpired } from "./utilities/validateTokenExpiration";
-import { TokenExpiredAlert } from "./components/tokenExpieredAlet/tokenExpiredAlert";
+import { hasTokenExpired } from "./utilities";
+import { LateralBar, TokenExpiredAlert } from "./components";
 
 const App = (): React.ReactElement => {
 	const [isTokenExpired, setIsTokenExpired] = useState<boolean>(false);
@@ -38,18 +37,14 @@ const App = (): React.ReactElement => {
 			<div className={hasPermission ? styles.appContainer : ""}>
 				{hasPermission && <LateralBar />}
 				{isTokenExpired && <TokenExpiredAlert />}
-				<div className={styles.contentContainer}>
-					<Switch>
-						{hasPermission && (
-							<Route exact path={Routes.USERS_ACCOUNTS_HISTORY} component={UsersAccounts} />
-						)}
-						{hasPermission && <Route exact path={Routes.ACCOUNTS} component={Accounts} />}
-						{hasPermission && <Route exact path={Routes.USERS} component={Users} />}
-						{currentUser.jwt !== undefined && <Route path={Routes.PROFILE} component={Profile} />}
-						<Route exact path={Routes.LOGIN} component={Login} />
-						<Route component={NotFound} />
-					</Switch>
-				</div>
+				<Switch>
+					{hasPermission && <Route exact path={Routes.USERS_ACCOUNTS_HISTORY} component={UsersAccounts} />}
+					{hasPermission && <Route exact path={Routes.ACCOUNTS} component={Accounts} />}
+					{hasPermission && <Route exact path={Routes.USERS} component={Users} />}
+					{currentUser.jwt !== undefined && <Route path={Routes.PROFILE} component={Profile} />}
+					<Route exact path={Routes.LOGIN} component={Login} />
+					<Route component={NotFound} />
+				</Switch>
 			</div>
 		</Router>
 	);

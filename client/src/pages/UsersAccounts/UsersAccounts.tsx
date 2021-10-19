@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Alert, Fab, Divider, Snackbar, Paper, IconButton, Tooltip, Box } from "@material-ui/core";
-import { Link, FilterList } from "@material-ui/icons";
-import { CollapsibleTable } from "../../components/table/table";
+import { Alert, Snackbar } from "@material-ui/core";
+import { Link } from "@material-ui/icons";
+import { CollapsibleTable, ListHeader } from "../../components";
 import styles from "./UsersAccounts.module.scss";
 import { UserAccountListOverview } from "../../types";
 import { AddUserAccountModal } from "./AddUserAccountModal";
@@ -95,31 +95,14 @@ export const UsersAccounts = (): React.ReactElement => {
 					setIsFilterModalOpen(false);
 				}}
 			/>
-			<Paper elevation={3}>
-				<div className={styles.userAccountsHeader}>
-					<Box sx={{ position: "absolute", left: 12 }}>
-						<Tooltip title="Open filter modal">
-							<IconButton
-								onClick={() => setIsFilterModalOpen(true)}
-								color={Object.values(filterBy).some((value) => value) ? "primary" : "inherit"}
-							>
-								<FilterList />
-							</IconButton>
-						</Tooltip>
-					</Box>
-					<h1 className={styles.userAccountsTitle}>Users Accounts History</h1>
-					<Fab
-						className={styles.addUserAccountBtn}
-						color="primary"
-						variant="extended"
-						onClick={() => setIsUserAccountModalOpen(true)}
-					>
-						<Link sx={{ mr: 1 }} />
-						Add user to an account
-					</Fab>
-				</div>
-			</Paper>
-			<Divider />
+			<ListHeader
+				title="Users Accounts History"
+				addIcon={<Link sx={{ color: "inherit", fontSize: "inherit" }} />}
+				addTooltipTitle="Add user to an account"
+				onAdd={() => setIsUserAccountModalOpen(true)}
+				onOpenFilters={() => setIsFilterModalOpen(true)}
+				hasActiveFilters={Object.values(filterBy).some((value) => value)}
+			/>
 			<CollapsibleTable<UserAccountRow>
 				headers={["User", "Account", "Position", "Initial Date", "End Date"]}
 				rows={mapTableRows()}
@@ -136,7 +119,7 @@ export const UsersAccounts = (): React.ReactElement => {
 					setSelectedUserAccountId(userAccountId);
 					setShowUserAccountEdit(true);
 				}}
-				canSelectRows={false}
+				hasSelectableRows={false}
 				onRowInfo={() => console.log("show info")}
 			/>
 			<Snackbar
