@@ -1,11 +1,22 @@
-import { login, createUser, deleteUsers, updateUser, updateUserInfo } from "./mutations";
 import { AuthenticationError, UserInputError, ValidationError } from "apollo-server";
-import { decodeToken } from "../../auth/jwtOperations";
-import { UserArgs, UsersArgs, UsersResponse } from "./types";
-import { GraphqlContext, User as IUser, UserAccount, UserInfo as IUserInfo } from "../../types";
+import { login, createUser, deleteUsers, updateUser, updateUserInfo } from "./mutations";
+import { decodeToken } from "../../auth";
+import { GraphqlContext } from "../../types";
+import {
+	User as IUser,
+	UserAccount,
+	UserInfo as IUserInfo,
+	UserQueryVariables,
+	UsersQueryVariables,
+	UsersQueryResponse
+} from "@mindu-second-challenge/apollo-server-types";
 
 export const Query = {
-	user: async (root: undefined, args: UserArgs, { knex, schema, token }: GraphqlContext): Promise<IUser> => {
+	user: async (
+		root: undefined,
+		args: UserQueryVariables,
+		{ knex, schema, token }: GraphqlContext
+	): Promise<IUser> => {
 		if (decodeToken(token)) {
 			if (args.userId) {
 				const user = await knex(schema.users)
@@ -27,9 +38,9 @@ export const Query = {
 	},
 	users: async (
 		root: undefined,
-		args: UsersArgs,
+		args: UsersQueryVariables,
 		{ knex, schema, token }: GraphqlContext
-	): Promise<UsersResponse> => {
+	): Promise<UsersQueryResponse> => {
 		if (decodeToken(token)) {
 			const filter = args.filterByEmail || "";
 
@@ -79,5 +90,8 @@ export const UserInfo = {
 	createdBy: async (aUserInfo: IUserInfo, root: undefined, { knex, schema }: GraphqlContext): Promise<IUser> =>
 		knex(schema.users).where("id", "=", aUserInfo.createdBy).first().then(),
 	updatedBy: async (aUserInfo: IUserInfo, root: undefined, { knex, schema }: GraphqlContext): Promise<IUser> =>
-		knex(schema.users).where("id", "=", aUserInfo.updatedBy).first().then()
+		knex(schema.users)
+			.where("id", "=", aUserInfo.updatedBy as IUser)
+			.first()
+			.then()
 };

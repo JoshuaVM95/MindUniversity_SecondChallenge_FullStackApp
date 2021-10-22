@@ -15,14 +15,19 @@ import { useMutation, useQuery } from "@apollo/client";
 import {
 	AddUserAccountMutation,
 	AddUserAccountResponse,
-	UserOption,
 	UsersResponse,
 	UsersQuery,
-	AccountOption,
 	AccountsResponse,
 	AccountsQuery
 } from "./queries";
-import { Position } from "../../types";
+import {
+	AddUserAccountMutationVariables,
+	Account,
+	AccountsQueryVariables,
+	User,
+	Position,
+	UsersQueryVariables
+} from "@mindu-second-challenge/apollo-server-types";
 
 interface AddUserAccountProps {
 	isOpen: boolean;
@@ -35,36 +40,42 @@ export const AddUserAccountModal = ({
 	onClose,
 	onUserAccountAdded
 }: AddUserAccountProps): React.ReactElement => {
-	const [account, setAccount] = useState<AccountOption | null>(null);
-	const [user, setUser] = useState<UserOption | null>(null);
+	const [account, setAccount] = useState<Account | null>(null);
+	const [user, setUser] = useState<User | null>(null);
 	const [position, setPosition] = useState<Position | null>(null);
 
-	const { data: usersQuery, loading: usersLoading } = useQuery<UsersResponse>(UsersQuery, {
+	const { data: usersQuery, loading: usersLoading } = useQuery<UsersResponse, UsersQueryVariables>(UsersQuery, {
 		variables: {
 			filterByEmail: "",
 			page: 0
 		}
 	});
 
-	const { data: accountsQuery, loading: accountsLoading } = useQuery<AccountsResponse>(AccountsQuery, {
-		variables: {
-			filterByName: "",
-			page: 0
+	const { data: accountsQuery, loading: accountsLoading } = useQuery<AccountsResponse, AccountsQueryVariables>(
+		AccountsQuery,
+		{
+			variables: {
+				filterByName: "",
+				page: 0
+			}
 		}
-	});
+	);
 
-	const [addUserAccount, { loading, error }] = useMutation<AddUserAccountResponse>(AddUserAccountMutation, {
-		refetchQueries: ["usersAccounts", "accounts", "users"]
-	});
+	const [addUserAccount, { loading, error }] = useMutation<AddUserAccountResponse, AddUserAccountMutationVariables>(
+		AddUserAccountMutation,
+		{
+			refetchQueries: ["usersAccounts", "accounts", "users"]
+		}
+	);
 
 	const disableAddUserAccount = account === null || user === null || position === null;
 
 	const addUserAccountRelation = () => {
 		addUserAccount({
 			variables: {
-				accountId: account?.id,
-				userId: user?.id,
-				position: position
+				accountId: account?.id || "",
+				userId: user?.id || "",
+				position: position || ""
 			}
 		})
 			.then(() => {
@@ -84,12 +95,12 @@ export const AddUserAccountModal = ({
 				<DialogTitle>Add User to an Account</DialogTitle>
 				<DialogContent>
 					<DialogContentText>Please fill all fields to add a user to a specific account</DialogContentText>
-					<Autocomplete<AccountOption>
+					<Autocomplete<Account>
 						id="account"
 						options={accountsQuery?.accounts.accounts || []}
 						getOptionLabel={(option) => option.name}
 						value={account}
-						onChange={(event: React.SyntheticEvent, newValue: AccountOption | null) => {
+						onChange={(event: React.SyntheticEvent, newValue: Account | null) => {
 							setAccount(newValue);
 						}}
 						fullWidth
@@ -97,12 +108,14 @@ export const AddUserAccountModal = ({
 						sx={{ marginBottom: 2 }}
 						loading={accountsLoading}
 					/>
-					<Autocomplete<UserOption>
+					<Autocomplete<User>
 						id="user"
 						options={usersQuery?.users.users.filter((user) => !user.isSuper) || []}
-						getOptionLabel={(option) => `${option.userInfo.firstName} ${option.userInfo.lastName}`}
+						getOptionLabel={(option) =>
+							`${option.userInfo?.firstName || "-"} ${option.userInfo?.lastName || "-"}`
+						}
 						value={user}
-						onChange={(event: React.SyntheticEvent, newValue: UserOption | null) => {
+						onChange={(event: React.SyntheticEvent, newValue: User | null) => {
 							setUser(newValue);
 						}}
 						fullWidth

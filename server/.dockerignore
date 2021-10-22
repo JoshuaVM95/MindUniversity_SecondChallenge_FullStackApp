@@ -1,4 +1,5 @@
 node_modules
 .gitignore
-.env.development
+.env
 nodemon.json
+yarn.lock

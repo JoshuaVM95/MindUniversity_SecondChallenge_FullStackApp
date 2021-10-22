@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import styles from "./NotFound.module.scss";
-import { Role, Routes } from "../../types";
+import { Routes } from "../../types";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import { Role } from "@mindu-second-challenge/apollo-server-types";
 
 export const NotFound = ({ history }: RouteComponentProps): React.ReactElement => {
 	const currentUser = useSelector((state: RootState) => state.currentUser);

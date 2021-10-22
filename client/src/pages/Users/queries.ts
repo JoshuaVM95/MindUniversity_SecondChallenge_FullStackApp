@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
-import { GenericResponse, Position } from "../../types";
+import { ResponseMessage, UsersQueryResponse, User } from "@mindu-second-challenge/apollo-server-types";
 
 export interface CreateUserResponse {
-	createUser: GenericResponse;
+	createUser: ResponseMessage;
 }
 export const CreateUserMutation = gql`
 	mutation createUser(
@@ -19,38 +19,8 @@ export const CreateUserMutation = gql`
 	}
 `;
 
-interface LatestPosition {
-	account: {
-		name: string;
-	};
-	position: Position;
-	initDate: string;
-	endDate?: string;
-}
-interface User {
-	id: string;
-	email: string;
-	userInfo?: {
-		firstName: string;
-		lastName: string;
-		createdBy: {
-			id: string;
-			userInfo?: {
-				firstName: string;
-				lastName: string;
-			};
-		};
-		isAdmin: boolean;
-	};
-	isSuper: boolean;
-	createdAt: string;
-	latestPositions: LatestPosition[];
-}
 export interface UsersResponse {
-	users: {
-		users: User[];
-		totalUsers: number;
-	};
+	users: UsersQueryResponse;
 }
 export const UsersQuery = gql`
 	query users($filterByEmail: String!, $page: Int!, $rowsPerPage: Int!) {
@@ -87,7 +57,7 @@ export const UsersQuery = gql`
 `;
 
 export interface DeleteUsersResponse {
-	deleteUsers: GenericResponse;
+	deleteUsers: ResponseMessage;
 }
 export const DeleteUsersMutation = gql`
 	mutation deleteUsers($userIds: [String!]!) {
@@ -121,16 +91,8 @@ export const UserQuery = gql`
 	}
 `;
 
-export interface UpdateUserVariables {
-	userId: string;
-	firstName?: string;
-	lastName?: string;
-	email?: string;
-	password?: string;
-	isAdmin?: boolean;
-}
 export interface UpdateUserResponse {
-	updateUser: GenericResponse;
+	updateUser: ResponseMessage;
 }
 export const UpdateUserMutation = gql`
 	mutation updateUser(

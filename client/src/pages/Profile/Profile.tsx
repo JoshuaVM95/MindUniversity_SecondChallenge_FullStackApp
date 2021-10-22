@@ -16,29 +16,22 @@ import {
 } from "@material-ui/core";
 import { ArrowBack, Lock } from "@material-ui/icons";
 import { useMutation, useQuery } from "@apollo/client";
-import {
-	UpdateUserInfoMutation,
-	UpdateUserInfoResponse,
-	UserQuery,
-	UserResponse,
-	UpdateUserInfoVariables
-} from "./queries";
+import { UpdateUserInfoMutation, UpdateUserInfoResponse, UserQuery, UserResponse } from "./queries";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { getUserRole } from "../../utilities";
 import { useHistory } from "react-router";
 import { clearCurrentUser } from "../../store/currentUser/actions";
 import { Routes } from "../../types";
+import {
+	EnglishLevel,
+	UpdateUserInfoMutationVariables,
+	UserQueryVariables
+} from "@mindu-second-challenge/apollo-server-types";
 
 interface ProfileProps {
 	userId?: string;
 	onGoBack?(): void;
-}
-
-export enum EnglishLevel {
-	BASIC = "Basic",
-	INTERMEDIATE = "Intermediate",
-	ADVANCED = "Advanced"
 }
 
 export const Profile = ({ userId, onGoBack }: ProfileProps): React.ReactElement => {
@@ -46,16 +39,18 @@ export const Profile = ({ userId, onGoBack }: ProfileProps): React.ReactElement 
 	const dispatch: AppDispatch = useDispatch();
 	const history = useHistory();
 
-	const { loading, data } = useQuery<UserResponse>(UserQuery, {
+	const { loading, data } = useQuery<UserResponse, UserQueryVariables>(UserQuery, {
 		variables: {
-			userId: userId || currentUser.userId
+			userId: userId || currentUser.userId || ""
 		}
 	});
 
-	const [updateUserInfo, { loading: loadingUpdateUserInfo, error: errorUpdateUserInfo }] =
-		useMutation<UpdateUserInfoResponse>(UpdateUserInfoMutation, {
-			refetchQueries: [UserQuery]
-		});
+	const [updateUserInfo, { loading: loadingUpdateUserInfo, error: errorUpdateUserInfo }] = useMutation<
+		UpdateUserInfoResponse,
+		UpdateUserInfoMutationVariables
+	>(UpdateUserInfoMutation, {
+		refetchQueries: [UserQuery]
+	});
 
 	const dash = "-";
 	const userName = `${data?.user.userInfo?.firstName || dash} ${data?.user.userInfo?.lastName || dash}`;
@@ -94,7 +89,7 @@ export const Profile = ({ userId, onGoBack }: ProfileProps): React.ReactElement 
 	const handleSave = () => {
 		if (data && data.user.userInfo) {
 			const userInfo = data.user.userInfo;
-			const variables: UpdateUserInfoVariables = {
+			const variables: UpdateUserInfoMutationVariables = {
 				englishLevel: englishLevelValue || EnglishLevel.BASIC,
 				technicalSkills: techSkillsValue,
 				cvLink: cvLinkValue
@@ -122,9 +117,9 @@ export const Profile = ({ userId, onGoBack }: ProfileProps): React.ReactElement 
 	useEffect(() => {
 		if (data && data.user.userInfo) {
 			const userInfo = data.user.userInfo;
-			setTechSkillsValue(userInfo.technicalSkills);
-			setEnglishLevelValue(userInfo.englishLevel);
-			setCvLinkValue(userInfo.cvLink);
+			setTechSkillsValue(userInfo.technicalSkills || "");
+			setEnglishLevelValue(userInfo.englishLevel || null);
+			setCvLinkValue(userInfo.cvLink || "");
 		}
 	}, [data]);
 

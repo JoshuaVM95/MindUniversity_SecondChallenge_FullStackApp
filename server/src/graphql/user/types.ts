@@ -1,59 +1,9 @@
 import Knex from "knex";
-import { EnglishLevel } from "../../types";
+import { User, EnglishLevel } from "@mindu-second-challenge/apollo-server-types";
 
-export interface UserArgs {
-	userId: string;
-}
-
-export interface UsersArgs {
-	filterByEmail: string;
-	page: number;
-	rowsPerPage?: number;
-}
-
-interface UserOverview {
-	name: string;
-	email: string;
-	createdBy: string;
-	createdAt: number;
-	role: Role;
-}
-
-export interface UsersResponse {
-	users: UserOverview[];
-	totalUsers: number;
-}
-
-export interface LoginArgs {
-	email: string;
+export interface UserDB extends User {
 	password: string;
-}
-
-export enum Role {
-	SUPER,
-	ADMIN,
-	NORMAL
-}
-
-export interface CreateUserArgs {
-	email: string;
-	password: string;
-	firstName: string;
-	lastName: string;
-	isAdmin?: boolean;
-}
-
-export interface DeleteUsersArgs {
-	userIds: string[];
-}
-
-export interface UpdateUserArgs {
-	userId: string;
-	email?: string;
-	password?: string;
-	firstName?: string;
-	lastName?: string;
-	isAdmin?: boolean;
+	salt: string;
 }
 
 export interface UpdateUser {
@@ -70,11 +20,6 @@ export interface UpdateUserInfo {
 	updatedAt: Knex.QueryBuilder;
 }
 
-export interface UpdateUserInfoArgs {
-	englishLevel: EnglishLevel;
-	technicalSkills: string;
-	cvLink: string;
-}
 export interface UpdateMyUserInfo {
 	updatedBy: string;
 	updatedAt: Knex.QueryBuilder;

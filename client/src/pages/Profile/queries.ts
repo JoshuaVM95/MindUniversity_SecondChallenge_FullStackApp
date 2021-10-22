@@ -1,46 +1,6 @@
 import { gql } from "@apollo/client";
-import { EnglishLevel } from "..";
-import { GenericResponse, Position } from "../../types";
+import { ResponseMessage, User } from "@mindu-second-challenge/apollo-server-types";
 
-interface LatestPosition {
-	account: {
-		name: string;
-		client: string;
-	};
-	position: Position;
-	initDate: string;
-	endDate?: string;
-}
-interface User {
-	id: string;
-	email: string;
-	userInfo?: {
-		firstName: string;
-		lastName: string;
-		createdBy: {
-			id: string;
-			userInfo?: {
-				firstName: string;
-				lastName: string;
-			};
-		};
-		updatedBy: {
-			id: string;
-			userInfo?: {
-				firstName: string;
-				lastName: string;
-			};
-		};
-		updatedAt: string;
-		isAdmin: boolean;
-		englishLevel: EnglishLevel;
-		technicalSkills: string;
-		cvLink: string;
-	};
-	isSuper: boolean;
-	createdAt: string;
-	latestPositions: LatestPosition[];
-}
 export interface UserResponse {
 	user: User;
 }
@@ -87,13 +47,8 @@ export const UserQuery = gql`
 	}
 `;
 
-export interface UpdateUserInfoVariables {
-	englishLevel?: EnglishLevel;
-	technicalSkills?: string;
-	cvLink?: string;
-}
 export interface UpdateUserInfoResponse {
-	updateUserInfo: GenericResponse;
+	updateUserInfo: ResponseMessage;
 }
 export const UpdateUserInfoMutation = gql`
 	mutation updateUserInfo($englishLevel: String, $technicalSkills: String, $cvLink: String) {

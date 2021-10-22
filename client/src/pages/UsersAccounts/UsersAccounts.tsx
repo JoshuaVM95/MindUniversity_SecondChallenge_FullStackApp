@@ -9,17 +9,11 @@ import { useQuery } from "@apollo/client";
 import { UsersAccountsQuery, UsersAccountsResponse } from "./queries";
 import { UserAccountEditModal } from "./UserAccountEditModal/UserAccountEditModal";
 import { FilterModal } from "./FilterModal";
+import { UserAccountFilters, UsersAccountsQueryVariables } from "@mindu-second-challenge/apollo-server-types";
 
 type UserAccountRow = {
 	[key in keyof UserAccountListOverview]: string;
 };
-
-export interface UsersAccountsFilters {
-	account?: string;
-	name?: string;
-	initDate?: string;
-	endDate?: string;
-}
 
 export const UsersAccounts = (): React.ReactElement => {
 	const [isUserAccountModalOpen, setIsUserAccountModalOpen] = useState<boolean>(false);
@@ -29,8 +23,8 @@ export const UsersAccounts = (): React.ReactElement => {
 	const [rowsPerPage, setRowsPerPage] = useState<number>(10);
 	const [selectedUserAccountId, setSelectedUserAccountId] = useState<string>();
 	const [successMessage, setSuccessMessage] = useState<string>();
-	const [filterBy, setFilterBy] = useState<UsersAccountsFilters>({});
-	const { loading, error, data } = useQuery<UsersAccountsResponse>(UsersAccountsQuery, {
+	const [filterBy, setFilterBy] = useState<UserAccountFilters>({});
+	const { loading, error, data } = useQuery<UsersAccountsResponse, UsersAccountsQueryVariables>(UsersAccountsQuery, {
 		variables: {
 			filterBy,
 			page: currentPage,
@@ -42,7 +36,9 @@ export const UsersAccounts = (): React.ReactElement => {
 	const mapTableRows = (): UserAccountRow[] => {
 		if (data) {
 			return data.usersAccounts.usersAccounts.map((userAccount) => {
-				const user = `${userAccount.user.userInfo.firstName} ${userAccount.user.userInfo.lastName}`;
+				const user = `${userAccount.user.userInfo?.firstName || "-"} ${
+					userAccount.user.userInfo?.lastName || "-"
+				}`;
 				const initDate = new Date(parseInt(userAccount.initDate)).toLocaleDateString();
 				const endDate = userAccount.endDate
 					? new Date(parseInt(userAccount.endDate)).toLocaleDateString()
@@ -74,7 +70,7 @@ export const UsersAccounts = (): React.ReactElement => {
 			)}
 			{showUserAccountEdit && (
 				<UserAccountEditModal
-					userAccountId={selectedUserAccountId}
+					userAccountId={selectedUserAccountId || ""}
 					onClose={() => {
 						setShowUserAccountEdit(false);
 						setSelectedUserAccountId(undefined);

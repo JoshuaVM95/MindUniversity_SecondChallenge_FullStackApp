@@ -3,7 +3,7 @@ import { getJWT, testConnection } from "../utils";
 import { GraphQLResponse } from "apollo-server-types";
 import knexfile from "../../../db/knexfile";
 import { generateToken } from "../../../auth";
-import { EnglishLevel } from "../../../types";
+import { EnglishLevel } from "@mindu-second-challenge/apollo-server-types";
 
 afterAll(() => {
 	const { knex } = testConnection();

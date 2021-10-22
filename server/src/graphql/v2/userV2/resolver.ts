@@ -1,12 +1,13 @@
-import { loginV2, createUserV2, deleteUsersV2, updateUserV2, updateUserInfoV2 } from "./mutations";
 import { AuthenticationError, UserInputError, ValidationError } from "apollo-server";
-import { decodeToken } from "../../../auth/jwtOperations";
-import { UserArgs, UsersArgs, UsersResponse } from "./types";
+import { loginV2, createUserV2, deleteUsersV2, updateUserV2, updateUserInfoV2 } from "./mutations";
+import { decodeToken } from "../../../auth";
+import { UsersResponse } from "./types";
 import { GraphqlContext } from "../../../types";
 import { user, userinfo, useraccount } from "@prisma/client";
+import { UserQueryVariables, UsersQueryVariables } from "@mindu-second-challenge/apollo-server-types";
 
 export const Query = {
-	userV2: async (root: undefined, args: UserArgs, { token, prisma }: GraphqlContext): Promise<user> => {
+	userV2: async (root: undefined, args: UserQueryVariables, { token, prisma }: GraphqlContext): Promise<user> => {
 		if (decodeToken(token)) {
 			if (args.userId) {
 				const user = await prisma.user.findFirst({ where: { id: args.userId, AND: { isArchived: false } } });
@@ -22,7 +23,11 @@ export const Query = {
 			throw new AuthenticationError("Invalid token");
 		}
 	},
-	usersV2: async (root: undefined, args: UsersArgs, { token, prisma }: GraphqlContext): Promise<UsersResponse> => {
+	usersV2: async (
+		root: undefined,
+		args: UsersQueryVariables,
+		{ token, prisma }: GraphqlContext
+	): Promise<UsersResponse> => {
 		if (decodeToken(token)) {
 			const filter = args.filterByEmail || "";
 			const currentPage = args.page;

@@ -17,16 +17,15 @@ import { useMutation, useQuery } from "@apollo/client";
 import {
 	AccountResponse,
 	AccountQuery,
-	UpdateAccountVariables,
 	UpdateAccountResponse,
 	AccountsQuery,
 	UpdateAccountMutation,
 	UsersResponse,
-	UsersQuery,
-	UserOption
+	UsersQuery
 } from "../queries";
 import { textFieldColor } from "../../../types";
 import { AccountDialogTitle } from "./AccountDialogTitle";
+import { UpdateAccountMutationVariables, UsersQueryVariables, User } from "@mindu-second-challenge/apollo-server-types";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 	"& .MuiDialogContent-root": {
@@ -53,7 +52,7 @@ export const AccountEditModal = ({
 			accountId
 		}
 	});
-	const { data: usersQuery } = useQuery<UsersResponse>(UsersQuery, {
+	const { data: usersQuery } = useQuery<UsersResponse, UsersQueryVariables>(UsersQuery, {
 		variables: {
 			filterByEmail: "",
 			page: 0,
@@ -63,14 +62,16 @@ export const AccountEditModal = ({
 
 	const [name, setName] = useState<string>("");
 	const [client, setClient] = useState<string>("");
-	const [lead, setLead] = useState<UserOption | null>(null);
+	const [lead, setLead] = useState<User | null>(null);
 
 	const accountName = data ? data.account.name : "";
 
-	const [updateAccount, { loading: loadingUpdateAccount, error: errorUpdateAccount }] =
-		useMutation<UpdateAccountResponse>(UpdateAccountMutation, {
-			refetchQueries: [AccountsQuery]
-		});
+	const [updateAccount, { loading: loadingUpdateAccount, error: errorUpdateAccount }] = useMutation<
+		UpdateAccountResponse,
+		UpdateAccountMutationVariables
+	>(UpdateAccountMutation, {
+		refetchQueries: [AccountsQuery]
+	});
 
 	const getInputColor = (value: string): textFieldColor => {
 		return value ? "success" : "info";
@@ -79,7 +80,7 @@ export const AccountEditModal = ({
 	const saveChanges = () => {
 		if (data && data.account) {
 			const { name: queryName, client: queryClient, lead: queryLead } = data.account;
-			const variables: UpdateAccountVariables = {
+			const variables: UpdateAccountMutationVariables = {
 				accountId: accountId || "",
 				name,
 				client,
@@ -107,7 +108,7 @@ export const AccountEditModal = ({
 			const { name: queryName, client: queryClient, lead: queryLead } = data.account;
 			setName(queryName);
 			setClient(queryClient);
-			setLead(queryLead as UserOption);
+			setLead(queryLead);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [data]);
@@ -162,14 +163,14 @@ export const AccountEditModal = ({
 								/>
 							</Grid>
 							<Grid item xs={6}>
-								<Autocomplete<UserOption>
+								<Autocomplete<User>
 									id="account-lead"
 									options={usersQuery?.users.users.filter((user) => !user.isSuper) || []}
 									getOptionLabel={(option) =>
-										`${option.userInfo.firstName} ${option.userInfo.lastName}`
+										`${option.userInfo?.firstName || "-"} ${option.userInfo?.lastName || "-"}`
 									}
 									value={lead}
-									onChange={(event: React.SyntheticEvent, newValue: UserOption | null) => {
+									onChange={(event: React.SyntheticEvent, newValue: User | null) => {
 										setLead(newValue);
 									}}
 									fullWidth

@@ -2,12 +2,9 @@ import { ApolloServer } from "apollo-server";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
 import typeDefs from "./graphql/shcema";
 import resolvers from "./graphql/resolvers";
-import path from "path";
 
 import dotenv from "dotenv";
-dotenv.config({
-	path: path.resolve(__dirname, "../.env.development")
-});
+dotenv.config();
 
 import knexfile from "./db/knexfile";
 import knex from "knex";

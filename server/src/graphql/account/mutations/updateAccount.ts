@@ -1,12 +1,17 @@
-import { UpdateAccount, UpdateAccountArgs } from "../types";
 import { UserInputError, ApolloError, ForbiddenError } from "apollo-server";
+import { UpdateAccount } from "../types";
 import { decodeToken } from "../../../auth";
-import { Account, GraphqlContext, ResponseMessage } from "../../../types";
-import { Role } from "../../user/types";
+import { GraphqlContext } from "../../../types";
+import {
+	Account,
+	UpdateAccountMutationVariables,
+	ResponseMessage,
+	Role
+} from "@mindu-second-challenge/apollo-server-types";
 
 export const updateAccount = async (
 	root: undefined,
-	args: UpdateAccountArgs,
+	args: UpdateAccountMutationVariables,
 	{ knex, schema, token }: GraphqlContext
 ): Promise<ResponseMessage> => {
 	const jwtDecoded = decodeToken(token);

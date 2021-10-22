@@ -1,4 +1,4 @@
-import { Role } from "../types";
+import { Role } from "@mindu-second-challenge/apollo-server-types";
 
 export const getUserRole = (role?: Role): string => {
 	switch (role) {

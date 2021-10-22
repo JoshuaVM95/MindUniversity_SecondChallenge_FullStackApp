@@ -3,7 +3,7 @@ import { Alert, Snackbar } from "@material-ui/core";
 import { PersonAdd } from "@material-ui/icons";
 import { CollapsibleTable, ListHeader } from "../../components";
 import styles from "./Users.module.scss";
-import { UserOverview, UserAccountOverview } from "../../types";
+import { UserAccountOverview } from "../../types";
 import { getUserRole } from "../../utilities";
 import { CreateUserModal } from "./CreateUserModal";
 import { useMutation, useQuery } from "@apollo/client";
@@ -12,10 +12,19 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { UserEditModal } from "./UserEditModal/UserEditModal";
 import { Profile } from "../Profile/Profile";
+import { Role, UsersQueryVariables, DeleteUsersMutationVariables } from "@mindu-second-challenge/apollo-server-types";
 
 type UserAccountOverviewSignature = {
 	[key in keyof UserAccountOverview]: string;
 };
+
+interface UserOverview {
+	name: string;
+	email: string;
+	createdBy: string;
+	createdAt: number;
+	role: Role;
+}
 
 type UserRow = {
 	[key in keyof UserOverview]: string;
@@ -34,14 +43,14 @@ export const Users = (): React.ReactElement => {
 	const [successMessage, setSuccessMessage] = useState<string>();
 	const [warningMessage, setWarningMesage] = useState<string>();
 	const [deleteError, setDeleteError] = useState<string>();
-	const { loading, error, data } = useQuery<UsersResponse>(UsersQuery, {
+	const { loading, error, data } = useQuery<UsersResponse, UsersQueryVariables>(UsersQuery, {
 		variables: {
 			filterByEmail: "",
 			page: currentPage,
 			rowsPerPage
 		}
 	});
-	const [deleteUsers] = useMutation<DeleteUsersResponse>(DeleteUsersMutation, {
+	const [deleteUsers] = useMutation<DeleteUsersResponse, DeleteUsersMutationVariables>(DeleteUsersMutation, {
 		refetchQueries: [UsersQuery]
 	});
 	const currentUser = useSelector((state: RootState) => state.currentUser);
@@ -56,7 +65,7 @@ export const Users = (): React.ReactElement => {
 						: "- -";
 				const role = user.isSuper ? 0 : user.userInfo?.isAdmin ? 1 : 2;
 				const createdAt = new Date(parseInt(user.createdAt)).toLocaleDateString();
-				const collapsableTableData = user.latestPositions.map((latestPosition) => {
+				const collapsableTableData = user.latestPositions?.map((latestPosition) => {
 					const initDate = new Date(parseInt(latestPosition.initDate)).toLocaleDateString();
 					const endDate = latestPosition.endDate
 						? new Date(parseInt(latestPosition.endDate)).toLocaleDateString()
@@ -155,7 +164,7 @@ export const Users = (): React.ReactElement => {
 			)}
 			{showUserEdit && (
 				<UserEditModal
-					userId={selectedUserId}
+					userId={selectedUserId || ""}
 					onClose={() => {
 						setShowUserEdit(false);
 						setSelectedUserId(undefined);
