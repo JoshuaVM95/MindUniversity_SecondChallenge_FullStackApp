@@ -7,7 +7,7 @@ You can run the project inside docker, you only need to
 1. Run docker-compose build to create the images for the server, db and client.
 2. Run docker-compose up to start the containers. These are 4 containers, server, mysql db for knex, mysql db for the v2 schemas with prisma and the client.
 
-This will start the server in localhost:3001 and the client in localhost:3000
+This will start the server in localhost:3001 and the client in localhost:3000, in the docker-compose file you will find the super user credentials
 
 ## Run locally
 
@@ -19,9 +19,9 @@ In order to run the project in your local machine you will need to have installe
 
 1. Run yarn install in the root folder and then in each package... TODO add lerna or rush
 2. Inside the server folder add a .env file with your DB variables and secrets
-   ex:
+   ie
    - `DATABASE_URL="mysql://<USERNAME>:<PASSWORD>@localhost:3306/<DBNAME>"` The prisma database url
-   - `SUPER_USER_EMAIL=<EMAIL>` This is to generate the super user in the seeds
+   - `SUPER_USER_EMAIL=<EMAIL>` This is needed to generate the super user in the seeds
    - `SUPER_USER_PASSWORD=<PASSWORD>` Min 8 characters, 1 capital letter, 1 number, 1 simbol
    - `JWT_SECRET=<KEY>` The secret key for the jwt generator
    #### The config for the knex DB
@@ -32,28 +32,28 @@ In order to run the project in your local machine you will need to have installe
 3. Then run `yarn run db` and then `yarn run prisma` This will run some migrations in your database and generate the super user inside the users table
 4. After that you can run in the root folder yarn run dev. This will start the server and client
 
-### Requerimientos tecnicos
+## Requerimientos tecnicos
 
-1. [x] Construir un Docker con las herramientas y configuraciones requeridas para montar
+- [x] Construir un Docker con las herramientas y configuraciones requeridas para montar
        un sitio web. (Dejar implementación al final)
-2. [x] Configurar una base de datos (SQL, MySql, Mongo)
-3. Construir un Web API RestFul (Net Core, Node, PHP)
-   a. [x] Implementar documentación (Swagger/OpenAPI)
-   b. [x] Implementar versionado del API
-   c. [x] Implementar seguridad JWT
-   d. Implementar un Log de errores
-4. [x] Construir Unit Test
-       a. Integrar herramienta de code coverage para ver el avance
-5. [x] Implementar ORM si el modelo de Base de datos lo permite
-6. [x] Construir un FrontEnd con una de las siguientes opciones (React, Angular, Vue, Rea
+- [x] Configurar una base de datos (SQL, MySql, Mongo)
+- [ ] Construir un Web API RestFul (Net Core, Node, PHP)
+   - [x] Implementar documentación (Swagger/OpenAPI)
+   - [x] Implementar versionado del API
+   - [x] Implementar seguridad JWT
+   - [ ] Implementar un Log de errores
+- [x] Construir Unit Test
+   - [ ] Integrar herramienta de code coverage para ver el avance
+- [x] Implementar ORM si el modelo de Base de datos lo permite
+- [x] Construir un FrontEnd con una de las siguientes opciones (React, Angular, Vue, Rea
        ct Native, Android, IOS)
-       a. [x] Integrar validaciones en los campos (Campos vacíos o nulos)
-       b. [x] Integrar notificaciones de confirmación (Alertas al guardar, eliminar)
-7. Se requiere entregar en un repositorio git el resultado de la implementación
-8. Evitar manejo variables fijas en el código(Configurarlas en algún archivo general y d
+   - [x] Integrar validaciones en los campos (Campos vacíos o nulos)
+   - [x] Integrar notificaciones de confirmación (Alertas al guardar, eliminar)
+- [x] Se requiere entregar en un repositorio git el resultado de la implementación
+- [ ] Evitar manejo variables fijas en el código(Configurarlas en algún archivo general y d
    ocumentadas
 
-### Historias (Funcionalidad esperada)
+## Historias (Funcionalidad esperada)
 
 - [x] Inicio de sesión
 - [x] Cerrar sesión
