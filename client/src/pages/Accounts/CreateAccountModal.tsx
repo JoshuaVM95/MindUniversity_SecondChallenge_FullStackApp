@@ -12,8 +12,9 @@ import {
 	DialogTitle
 } from "@material-ui/core";
 import { useMutation, useQuery } from "@apollo/client";
-import { CreateAccountMutation, CreateAccountResponse, UsersQuery, UsersResponse, UserOption } from "./queries";
+import { CreateAccountMutation, CreateAccountResponse, UsersQuery, UsersResponse } from "./queries";
 import { textFieldColor } from "../../types";
+import { User, UsersQueryVariables, CreateAccountMutationVariables } from "@mindu-second-challenge/apollo-server-types";
 
 interface CreateAccountModalProps {
 	isOpen: boolean;
@@ -28,9 +29,9 @@ export const CreateAccountModal = ({
 }: CreateAccountModalProps): React.ReactElement => {
 	const [name, setName] = useState<string>("");
 	const [client, setClient] = useState<string>("");
-	const [lead, setLead] = useState<UserOption | null>(null);
+	const [lead, setLead] = useState<User | null>(null);
 
-	const { data: usersQuery } = useQuery<UsersResponse>(UsersQuery, {
+	const { data: usersQuery } = useQuery<UsersResponse, UsersQueryVariables>(UsersQuery, {
 		variables: {
 			filterByEmail: "",
 			page: 0,
@@ -38,9 +39,12 @@ export const CreateAccountModal = ({
 		}
 	});
 
-	const [createAccount, { loading, error }] = useMutation<CreateAccountResponse>(CreateAccountMutation, {
-		refetchQueries: ["accounts", "users", "usersAccounts"]
-	});
+	const [createAccount, { loading, error }] = useMutation<CreateAccountResponse, CreateAccountMutationVariables>(
+		CreateAccountMutation,
+		{
+			refetchQueries: ["accounts", "users", "usersAccounts"]
+		}
+	);
 
 	const disableAddAccount = name.length === 0 || client.length === 0 || lead === null;
 
@@ -53,7 +57,7 @@ export const CreateAccountModal = ({
 			variables: {
 				name,
 				client,
-				lead: lead?.id
+				lead: lead?.id || ""
 			}
 		})
 			.then(() => {
@@ -100,12 +104,12 @@ export const CreateAccountModal = ({
 						disabled={loading}
 						required
 					/>
-					<Autocomplete<UserOption>
+					<Autocomplete<User>
 						id="account-lead"
 						options={usersQuery?.users.users.filter((user) => !user.isSuper) || []}
-						getOptionLabel={(option) => `${option.userInfo.firstName} ${option.userInfo.lastName}`}
+						getOptionLabel={(option) => `${option.userInfo?.firstName} ${option.userInfo?.lastName}`}
 						value={lead}
-						onChange={(event: React.SyntheticEvent, newValue: UserOption | null) => {
+						onChange={(event: React.SyntheticEvent, newValue: User | null) => {
 							setLead(newValue);
 						}}
 						fullWidth

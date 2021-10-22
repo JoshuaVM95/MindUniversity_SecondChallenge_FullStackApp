@@ -1,9 +1,13 @@
-import { LoginArgs } from "../types";
 import { UserInputError } from "apollo-server";
 import { isUserPasswordValid, generateToken } from "../../../../auth";
 import { GraphqlContext } from "../../../../types";
+import { LoginMutationVariables } from "@mindu-second-challenge/apollo-server-types";
 
-export const loginV2 = async (root: undefined, args: LoginArgs, { prisma }: GraphqlContext): Promise<string> => {
+export const loginV2 = async (
+	root: undefined,
+	args: LoginMutationVariables,
+	{ prisma }: GraphqlContext
+): Promise<string> => {
 	if (args.email && args.password) {
 		const user = await prisma.user.findFirst({ where: { email: args.email } });
 		if (user) {

@@ -14,14 +14,14 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import MuiTextField from "@mui/material/TextField";
-import { UsersAccountsFilters } from "..";
 import { parseToTimestamp } from "../../utilities";
+import { UserAccountFilters } from "@mindu-second-challenge/apollo-server-types";
 
 interface FilterModalProps {
 	isOpen: boolean;
 	onClose(): void;
-	currentFilters: UsersAccountsFilters;
-	onFilter(newFilters: UsersAccountsFilters): void;
+	currentFilters: UserAccountFilters;
+	onFilter(newFilters: UserAccountFilters): void;
 }
 
 export const FilterModal = ({ isOpen, onClose, currentFilters, onFilter }: FilterModalProps): React.ReactElement => {

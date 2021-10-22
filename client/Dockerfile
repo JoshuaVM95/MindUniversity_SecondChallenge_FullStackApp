@@ -4,11 +4,9 @@ WORKDIR /client
 
 COPY package.json /client/
 
-RUN yarn install
-
 COPY . /client/
 
-RUN yarn add date-fns
+RUN yarn install --network-timeout 100000
 
 RUN npm run build
 

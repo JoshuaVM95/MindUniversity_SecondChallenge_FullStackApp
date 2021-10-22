@@ -15,19 +15,13 @@ import {
 	styled
 } from "@material-ui/core";
 import { useMutation, useQuery } from "@apollo/client";
-import {
-	UserResponse,
-	UserQuery,
-	UpdateUserVariables,
-	UpdateUserResponse,
-	UsersQuery,
-	UpdateUserMutation
-} from "../queries";
+import { UserResponse, UserQuery, UpdateUserResponse, UsersQuery, UpdateUserMutation } from "../queries";
 import { regexEmail, regexPassword } from "../../../utilities";
-import { Role, textFieldColor } from "../../../types";
+import { textFieldColor } from "../../../types";
 import { UserDialogTitle } from "./UserDialogTitle";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
+import { Role, UpdateUserMutationVariables, UserQueryVariables } from "@mindu-second-challenge/apollo-server-types";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 	"& .MuiDialogContent-root": {
@@ -39,13 +33,13 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 interface UserEditModalProps {
-	userId?: string;
+	userId: string;
 	onClose(): void;
 	onUserUpdated(): void;
 }
 
 export const UserEditModal = ({ userId, onClose, onUserUpdated }: UserEditModalProps): React.ReactElement => {
-	const { loading, error, data } = useQuery<UserResponse>(UserQuery, {
+	const { loading, error, data } = useQuery<UserResponse, UserQueryVariables>(UserQuery, {
 		variables: {
 			userId
 		}
@@ -71,12 +65,12 @@ export const UserEditModal = ({ userId, onClose, onUserUpdated }: UserEditModalP
 	const isValidEmail = regexEmail.test(email);
 	const isValidPassword = regexPassword.test(password);
 
-	const [updateUser, { loading: loadingUpdateUser, error: errorUpdateUser }] = useMutation<UpdateUserResponse>(
-		UpdateUserMutation,
-		{
-			refetchQueries: [UsersQuery]
-		}
-	);
+	const [updateUser, { loading: loadingUpdateUser, error: errorUpdateUser }] = useMutation<
+		UpdateUserResponse,
+		UpdateUserMutationVariables
+	>(UpdateUserMutation, {
+		refetchQueries: [UsersQuery]
+	});
 
 	const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setEmail(event.target.value);
@@ -100,7 +94,7 @@ export const UserEditModal = ({ userId, onClose, onUserUpdated }: UserEditModalP
 				setIsPasswordError(true);
 			} else {
 				const { email: queryEmail, userInfo } = data.user;
-				const variables: UpdateUserVariables = {
+				const variables: UpdateUserMutationVariables = {
 					userId: userId || "",
 					firstName,
 					lastName,

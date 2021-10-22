@@ -1,8 +1,13 @@
 import { gql } from "@apollo/client";
-import { GenericResponse, Position } from "../../types";
+import {
+	Account,
+	AccountsQueryResponse,
+	ResponseMessage,
+	UsersQueryResponse
+} from "@mindu-second-challenge/apollo-server-types";
 
 export interface CreateAccountResponse {
-	createAccount: GenericResponse;
+	createAccount: ResponseMessage;
 }
 export const CreateAccountMutation = gql`
 	mutation createAccount($name: String!, $client: String!, $lead: String!) {
@@ -13,33 +18,8 @@ export const CreateAccountMutation = gql`
 	}
 `;
 
-interface User {
-	id: string;
-	userInfo: {
-		firstName: string;
-		lastName: string;
-	};
-}
-interface LatestUser {
-	user: User;
-	position: Position;
-	initDate: string;
-	endDate?: string;
-}
-interface Account {
-	id: string;
-	name: string;
-	client: string;
-	lead: User;
-	createdAt: string;
-	createdBy: User;
-	latestUsers: LatestUser[];
-}
 export interface AccountsResponse {
-	accounts: {
-		accounts: Account[];
-		totalAccounts: number;
-	};
+	accounts: AccountsQueryResponse;
 }
 export const AccountsQuery = gql`
 	query accounts($filterByName: String!, $page: Int!, $rowsPerPage: Int!) {
@@ -82,7 +62,7 @@ export const AccountsQuery = gql`
 `;
 
 export interface DeleteAccountsResponse {
-	deleteAccounts: GenericResponse;
+	deleteAccounts: ResponseMessage;
 }
 export const DeleteAccountsMutation = gql`
 	mutation deleteAccounts($accountIds: [String!]!) {
@@ -141,14 +121,8 @@ export const AccountQuery = gql`
 	}
 `;
 
-export interface UpdateAccountVariables {
-	accountId: string;
-	name?: string;
-	client?: string;
-	lead?: string;
-}
 export interface UpdateAccountResponse {
-	updateAccount: GenericResponse;
+	updateAccount: ResponseMessage;
 }
 export const UpdateAccountMutation = gql`
 	mutation updateAccount($accountId: String!, $name: String, $client: String, $lead: String) {
@@ -159,19 +133,8 @@ export const UpdateAccountMutation = gql`
 	}
 `;
 
-export interface UserOption {
-	id: string;
-	userInfo: {
-		firstName: string;
-		lastName: string;
-	};
-	isSuper: boolean;
-}
 export interface UsersResponse {
-	users: {
-		users: UserOption[];
-		totalUsers: number;
-	};
+	users: UsersQueryResponse;
 }
 export const UsersQuery = gql`
 	query users($filterByEmail: String!, $page: Int!, $rowsPerPage: Int!) {

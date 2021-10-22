@@ -1,15 +1,22 @@
-import { addUserAccount, updateUserAccount } from "./mutations";
 import { AuthenticationError, UserInputError, ValidationError } from "apollo-server";
-import { decodeToken } from "../../auth/jwtOperations";
-import { UserAccountArgs, UsersAccountsArgs, UsersAccountsResponse } from "./types";
-import { GraphqlContext, UserAccount as IUserAccount, User, Account } from "../../types";
-import { Role } from "../user/types";
+import { addUserAccount, updateUserAccount } from "./mutations";
+import { decodeToken } from "../../auth";
+import { GraphqlContext } from "../../types";
 import { Knex } from "knex";
+import {
+	Account,
+	UserAccountQueryVariables,
+	UsersAccountsQueryVariables,
+	UsersAccountsQueryResponse,
+	UserAccount as IUserAccount,
+	User,
+	Role
+} from "@mindu-second-challenge/apollo-server-types";
 
 export const Query = {
 	userAccount: async (
 		root: undefined,
-		args: UserAccountArgs,
+		args: UserAccountQueryVariables,
 		{ knex, schema, token }: GraphqlContext
 	): Promise<IUserAccount> => {
 		const decodedToken = decodeToken(token);
@@ -37,9 +44,9 @@ export const Query = {
 	},
 	usersAccounts: async (
 		root: undefined,
-		args: UsersAccountsArgs,
+		args: UsersAccountsQueryVariables,
 		{ knex, schema, token }: GraphqlContext
-	): Promise<UsersAccountsResponse> => {
+	): Promise<UsersAccountsQueryResponse> => {
 		const decodedToken = decodeToken(token);
 		if (decodedToken) {
 			if (decodedToken.role !== Role.NORMAL) {
@@ -101,7 +108,7 @@ export const UserAccount = {
 		knex(schema.users).where("id", "=", aUserAccount.addedBy).first().then(),
 	removedBy: async (aUserAccount: IUserAccount, root: undefined, { knex, schema }: GraphqlContext): Promise<User> =>
 		knex(schema.users)
-			.where("id", "=", aUserAccount.removedBy || "")
+			.where("id", "=", (aUserAccount.removedBy as User) || "")
 			.first()
 			.then()
 };

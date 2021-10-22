@@ -1,13 +1,17 @@
-import { CreateAccountArgs } from "../types";
 import { UserInputError, ApolloError, ForbiddenError } from "apollo-server";
 import { decodeToken } from "../../../auth";
-import { GraphqlContext, ResponseMessage, User } from "../../../types";
+import { GraphqlContext } from "../../../types";
 import crypto from "crypto";
-import { Role } from "../../user/types";
+import {
+	CreateAccountMutationVariables,
+	User,
+	ResponseMessage,
+	Role
+} from "@mindu-second-challenge/apollo-server-types";
 
 export const createAccount = async (
 	root: undefined,
-	args: CreateAccountArgs,
+	args: CreateAccountMutationVariables,
 	{ knex, schema, token }: GraphqlContext
 ): Promise<ResponseMessage> => {
 	const jwtDecoded = decodeToken(token);

@@ -5,11 +5,12 @@ import { VpnKey, Visibility, VisibilityOff } from "@material-ui/icons";
 import { useMutation } from "@apollo/client";
 import { LoginMutation, LoginResponse } from "./queries";
 import { RouteChildrenProps } from "react-router-dom";
-import { ApolloErrors, buttonColor, textFieldColor, Role, Routes } from "../../types";
+import { ApolloErrors, buttonColor, textFieldColor, Routes } from "../../types";
 import { useDispatch } from "react-redux";
 import { AppDispatch, persistor } from "../../store/store";
 import { setCurrentUser } from "../../store/currentUser/actions";
 import { regexEmail, regexPassword } from "../../utilities";
+import { LoginMutationVariables, Role } from "@mindu-second-challenge/apollo-server-types";
 
 export const Login = ({ history }: RouteChildrenProps): React.ReactElement => {
 	const [userEmail, setUserEmail] = useState<string>("");
@@ -17,7 +18,7 @@ export const Login = ({ history }: RouteChildrenProps): React.ReactElement => {
 	const [userPassword, setUserPassword] = useState<string>("");
 	const [isPasswordError, setIsPasswordError] = useState<boolean>(false);
 	const [showPassword, setShowPassword] = useState<boolean>(false);
-	const [login, { loading, error }] = useMutation<LoginResponse>(LoginMutation);
+	const [login, { loading, error }] = useMutation<LoginResponse, LoginMutationVariables>(LoginMutation);
 	const dispatch: AppDispatch = useDispatch();
 
 	const textFieldWidth = 300;

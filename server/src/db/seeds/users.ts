@@ -1,6 +1,6 @@
 import { Knex } from "knex";
 import { generateHash } from "../../auth/hashOperations";
-import { User } from "../../types";
+import { User } from "@mindu-second-challenge/apollo-server-types";
 
 exports.seed = async (knex: Knex): Promise<void> => {
 	const hasUsers: User | undefined = await knex("users").select().first().then();

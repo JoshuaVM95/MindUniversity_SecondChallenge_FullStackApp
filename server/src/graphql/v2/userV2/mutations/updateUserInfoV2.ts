@@ -1,11 +1,12 @@
-import { UpdateUserInfoArgs, UpdateMyUserInfo } from "../types";
 import { UserInputError, ApolloError } from "apollo-server";
 import { decodeToken } from "../../../../auth";
-import { GraphqlContext, ResponseMessage } from "../../../../types";
+import { GraphqlContext } from "../../../../types";
+import { UpdateUserInfoMutationVariables, ResponseMessage } from "@mindu-second-challenge/apollo-server-types";
+import { UpdateMyUserInfo } from "../types";
 
 export const updateUserInfoV2 = async (
 	root: undefined,
-	args: UpdateUserInfoArgs,
+	args: UpdateUserInfoMutationVariables,
 	{ token, prisma }: GraphqlContext
 ): Promise<ResponseMessage> => {
 	const jwtDecoded = decodeToken(token);

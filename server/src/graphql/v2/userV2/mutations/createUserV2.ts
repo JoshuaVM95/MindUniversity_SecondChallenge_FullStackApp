@@ -1,13 +1,12 @@
-import { CreateUserArgs } from "../types";
 import { UserInputError, ApolloError, ForbiddenError } from "apollo-server";
-import { decodeToken, generateHash } from "../../../../auth";
-import { GraphqlContext, ResponseMessage } from "../../../../types";
 import crypto from "crypto";
-import { Role } from "../../../user/types";
+import { decodeToken, generateHash } from "../../../../auth";
+import { GraphqlContext } from "../../../../types";
+import { CreateUserMutationVariables, ResponseMessage, Role } from "@mindu-second-challenge/apollo-server-types";
 
 export const createUserV2 = async (
 	root: undefined,
-	args: CreateUserArgs,
+	args: CreateUserMutationVariables,
 	{ token, prisma }: GraphqlContext
 ): Promise<ResponseMessage> => {
 	const jwtDecoded = decodeToken(token);

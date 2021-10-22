@@ -1,4 +1,4 @@
-import { Role } from "../../types";
+import { Role } from "@mindu-second-challenge/apollo-server-types";
 
 export interface CurrentUserState {
 	jwt?: string;

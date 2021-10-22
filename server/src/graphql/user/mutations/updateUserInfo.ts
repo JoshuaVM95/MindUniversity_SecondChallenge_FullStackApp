@@ -1,11 +1,12 @@
-import { UpdateUserInfoArgs, UpdateMyUserInfo } from "../types";
+import { UpdateMyUserInfo } from "../types";
 import { UserInputError, ApolloError } from "apollo-server";
 import { decodeToken } from "../../../auth";
-import { GraphqlContext, ResponseMessage, User } from "../../../types";
+import { GraphqlContext } from "../../../types";
+import { ResponseMessage, User, UpdateUserInfoMutationVariables } from "@mindu-second-challenge/apollo-server-types";
 
 export const updateUserInfo = async (
 	root: undefined,
-	args: UpdateUserInfoArgs,
+	args: UpdateUserInfoMutationVariables,
 	{ knex, schema, token }: GraphqlContext
 ): Promise<ResponseMessage> => {
 	const jwtDecoded = decodeToken(token);

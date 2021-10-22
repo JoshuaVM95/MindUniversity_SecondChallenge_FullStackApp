@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Accounts, Login, NotFound, Profile, Users, UsersAccounts } from "./pages";
-import { Routes, Role } from "./types";
+import { Routes } from "./types";
+import { Role } from "@mindu-second-challenge/apollo-server-types";
 import styles from "./App.module.scss";
 import { RootState } from "./store/store";
 import { useSelector } from "react-redux";

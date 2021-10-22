@@ -1,12 +1,23 @@
-import { createAccount, deleteAccounts, updateAccount } from "./mutations";
 import { AuthenticationError, UserInputError, ValidationError } from "apollo-server";
-import { decodeToken } from "../../auth/jwtOperations";
-import { AccountArgs, AccountsArgs, AccountsResponse } from "./types";
-import { GraphqlContext, Account as IAccount, User, UserAccount } from "../../types";
-import { Role } from "../user/types";
+import { decodeToken } from "../../auth";
+import { GraphqlContext } from "../../types";
+import {
+	Account as IAccount,
+	AccountQueryVariables,
+	AccountsQueryVariables,
+	AccountsQueryResponse,
+	User,
+	UserAccount,
+	Role
+} from "@mindu-second-challenge/apollo-server-types";
+import { createAccount, deleteAccounts, updateAccount } from "./mutations";
 
 export const Query = {
-	account: async (root: undefined, args: AccountArgs, { knex, schema, token }: GraphqlContext): Promise<IAccount> => {
+	account: async (
+		root: undefined,
+		args: AccountQueryVariables,
+		{ knex, schema, token }: GraphqlContext
+	): Promise<IAccount> => {
 		const decodedToken = decodeToken(token);
 		if (decodedToken) {
 			if (decodedToken.role !== Role.NORMAL) {
@@ -33,9 +44,9 @@ export const Query = {
 	},
 	accounts: async (
 		root: undefined,
-		args: AccountsArgs,
+		args: AccountsQueryVariables,
 		{ knex, schema, token }: GraphqlContext
-	): Promise<AccountsResponse> => {
+	): Promise<AccountsQueryResponse> => {
 		const decodedToken = decodeToken(token);
 		if (decodedToken) {
 			if (decodedToken.role !== Role.NORMAL) {

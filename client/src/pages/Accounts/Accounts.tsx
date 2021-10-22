@@ -3,7 +3,7 @@ import { Alert, Snackbar } from "@material-ui/core";
 import { AddCircle } from "@material-ui/icons";
 import { CollapsibleTable, ListHeader } from "../../components";
 import styles from "./Accounts.module.scss";
-import { AccountOverview, AccountUserOverview } from "../../types";
+import { AccountUserOverview } from "../../types";
 import { CreateAccountModal } from "./CreateAccountModal";
 import { useMutation, useQuery } from "@apollo/client";
 import { DeleteAccountsResponse, DeleteAccountsMutation, AccountsQuery, AccountsResponse } from "./queries";
@@ -12,6 +12,14 @@ import { AccountEditModal } from "./AccountEditModal/AccountEditModal";
 type AccountUserOverviewSignature = {
 	[key in keyof AccountUserOverview]: string;
 };
+
+interface AccountOverview {
+	name: string;
+	client: string;
+	lead: string;
+	createdBy: string;
+	createdAt: string;
+}
 
 type AccountRow = {
 	[key in keyof AccountOverview]: string;
@@ -42,7 +50,7 @@ export const Accounts = (): React.ReactElement => {
 	const mapTableRows = (): AccountRow[] => {
 		if (data) {
 			return data.accounts.accounts.map((account) => {
-				const lead = `${account.lead.userInfo.firstName} ${account.lead.userInfo.lastName}`;
+				const lead = `${account.lead.userInfo?.firstName} ${account.lead.userInfo?.lastName}`;
 				const createdBy = `${account.createdBy.userInfo?.firstName || "-"} ${
 					account.createdBy.userInfo?.lastName || "-"
 				}`;
@@ -53,7 +61,7 @@ export const Accounts = (): React.ReactElement => {
 						? new Date(parseInt(latestUser.endDate)).toLocaleDateString()
 						: "-";
 					return {
-						name: `${latestUser.user.userInfo.firstName} ${latestUser.user.userInfo.lastName}`,
+						name: `${latestUser.user.userInfo?.firstName} ${latestUser.user.userInfo?.lastName}`,
 						position: latestUser.position,
 						initDate,
 						endDate

@@ -1,11 +1,16 @@
-import { DeleteUsersArgs } from "../types";
 import { UserInputError, ApolloError, ForbiddenError } from "apollo-server";
 import { decodeToken } from "../../../auth";
-import { GraphqlContext, ResponseMessage, User, UserInfo } from "../../../types";
+import { GraphqlContext } from "../../../types";
+import {
+	DeleteUsersMutationVariables,
+	ResponseMessage,
+	User,
+	UserInfo
+} from "@mindu-second-challenge/apollo-server-types";
 
 export const deleteUsers = async (
 	root: undefined,
-	args: DeleteUsersArgs,
+	args: DeleteUsersMutationVariables,
 	{ knex, schema, token }: GraphqlContext
 ): Promise<ResponseMessage> => {
 	const jwtDecoded = decodeToken(token);

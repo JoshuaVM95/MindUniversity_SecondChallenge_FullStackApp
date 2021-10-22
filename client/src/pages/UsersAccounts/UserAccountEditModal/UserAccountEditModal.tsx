@@ -21,14 +21,17 @@ import { useMutation, useQuery } from "@apollo/client";
 import {
 	UserAccountResponse,
 	UserAccountQuery,
-	UpdateUserAccountVariables,
 	UpdateUserAccountResponse,
 	UsersAccountsQuery,
 	UpdateUserAccountMutation
 } from "../queries";
-import { Position } from "../../../types";
 import { UserAccountDialogTitle } from "./UserAccountDialogTitle";
 import { parseToTimestamp } from "../../../utilities";
+import {
+	Position,
+	UpdateUserAccountMutationVariables,
+	UserAccountQueryVariables
+} from "@mindu-second-challenge/apollo-server-types";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 	"& .MuiDialogContent-root": {
@@ -40,7 +43,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 interface UserAccountEditModalProps {
-	userAccountId?: string;
+	userAccountId: string;
 	onClose(): void;
 	onAccountUpdated(): void;
 }
@@ -50,7 +53,7 @@ export const UserAccountEditModal = ({
 	onClose,
 	onAccountUpdated
 }: UserAccountEditModalProps): React.ReactElement => {
-	const { loading, error, data } = useQuery<UserAccountResponse>(UserAccountQuery, {
+	const { loading, error, data } = useQuery<UserAccountResponse, UserAccountQueryVariables>(UserAccountQuery, {
 		variables: {
 			userAccountId
 		}
@@ -60,19 +63,21 @@ export const UserAccountEditModal = ({
 	const [endDate, setEndDate] = useState<Date | null>(null);
 
 	const userName = data
-		? `${data.userAccount.user.userInfo.firstName} ${data.userAccount.user.userInfo.lastName}`
+		? `${data.userAccount.user.userInfo?.firstName || "-"} ${data.userAccount.user.userInfo?.lastName || "-"}`
 		: "";
 	const accountName = data ? data.userAccount.account.name : "";
 
-	const [updateUserAccount, { loading: loadingUpdateUserAccount, error: errorUpdateUserAccount }] =
-		useMutation<UpdateUserAccountResponse>(UpdateUserAccountMutation, {
-			refetchQueries: [UsersAccountsQuery]
-		});
+	const [updateUserAccount, { loading: loadingUpdateUserAccount, error: errorUpdateUserAccount }] = useMutation<
+		UpdateUserAccountResponse,
+		UpdateUserAccountMutationVariables
+	>(UpdateUserAccountMutation, {
+		refetchQueries: [UsersAccountsQuery]
+	});
 
 	const saveChanges = () => {
 		if (data && data.userAccount) {
 			const { position: queryPosition } = data.userAccount;
-			const variables: UpdateUserAccountVariables = {
+			const variables: UpdateUserAccountMutationVariables = {
 				userAccountId: userAccountId || "",
 				position: position || undefined,
 				endDate: parseToTimestamp(endDate)

@@ -14,10 +14,11 @@ import {
 } from "@material-ui/core";
 import { useMutation } from "@apollo/client";
 import { CreateUserMutation, CreateUserResponse } from "./queries";
-import { Role, textFieldColor } from "../../types";
+import { textFieldColor } from "../../types";
 import { regexEmail, regexPassword } from "../../utilities";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import { Role, CreateUserMutationVariables } from "@mindu-second-challenge/apollo-server-types";
 
 interface CreateUserModalProps {
 	isOpen: boolean;
@@ -40,9 +41,12 @@ export const CreateUserModal = ({ isOpen, onClose, onUserAdded }: CreateUserModa
 
 	const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
-	const [createUser, { loading, error }] = useMutation<CreateUserResponse>(CreateUserMutation, {
-		refetchQueries: ["users", "usersAccounts"]
-	});
+	const [createUser, { loading, error }] = useMutation<CreateUserResponse, CreateUserMutationVariables>(
+		CreateUserMutation,
+		{
+			refetchQueries: ["users", "usersAccounts"]
+		}
+	);
 
 	const isValidEmail = regexEmail.test(email);
 	const isValidPassword = regexPassword.test(password);

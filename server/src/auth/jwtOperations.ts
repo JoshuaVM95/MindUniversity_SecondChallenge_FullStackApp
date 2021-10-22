@@ -1,6 +1,6 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { AuthenticationError } from "apollo-server";
-import { Role } from "../graphql/user/types";
+import { Role } from "@mindu-second-challenge/apollo-server-types";
 
 interface DecodedToken extends JwtPayload {
 	userId: string;

@@ -1,12 +1,17 @@
-import { CreateUserArgs } from "../types";
 import { UserInputError, ApolloError, ForbiddenError } from "apollo-server";
-import { decodeToken, generateHash } from "../../../auth";
-import { GraphqlContext, ResponseMessage, User, UserInfo } from "../../../types";
 import crypto from "crypto";
+import { decodeToken, generateHash } from "../../../auth";
+import { GraphqlContext } from "../../../types";
+import {
+	CreateUserMutationVariables,
+	ResponseMessage,
+	User,
+	UserInfo
+} from "@mindu-second-challenge/apollo-server-types";
 
 export const createUser = async (
 	root: undefined,
-	args: CreateUserArgs,
+	args: CreateUserMutationVariables,
 	{ knex, schema, token }: GraphqlContext
 ): Promise<ResponseMessage> => {
 	const jwtDecoded = decodeToken(token);
@@ -44,7 +49,6 @@ export const createUser = async (
 							});
 					})
 					.catch((error) => {
-						console.log(error);
 						throw new ApolloError(error);
 					});
 			} else {

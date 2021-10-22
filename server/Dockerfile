@@ -6,9 +6,9 @@ RUN npm install -g knex
 
 COPY package.json /server/
 
-RUN yarn install
-
 COPY . /server/
+
+RUN yarn install
 
 EXPOSE 3001
 

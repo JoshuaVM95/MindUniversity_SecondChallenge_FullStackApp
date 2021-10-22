@@ -1,3 +1,5 @@
+import { Position } from "@mindu-second-challenge/apollo-server-types";
+
 export interface UserAccountOverview {
 	account: string;
 	position: Position;
@@ -10,13 +12,6 @@ export interface AccountUserOverview {
 	position: Position;
 	initDate: number;
 	endDate?: number;
-}
-
-export enum Position {
-	DEV = "Developer",
-	QA = "Quality Assurance",
-	LEAD = "Lead",
-	PRODUCT = "Product"
 }
 
 export interface UserAccountListOverview {
