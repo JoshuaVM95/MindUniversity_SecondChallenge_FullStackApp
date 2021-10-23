@@ -12,7 +12,8 @@
 		"lint:fix": "eslint ./ --ext .ts --fix",
 		"build": "tsc",
 		"prepack": "npm run build",
-		"prepush": "npm run lint"
+		"prepush": "npm run lint",
+		"onpull_request": "tsc"
 	},
 	"keywords": [],
 	"author": "",

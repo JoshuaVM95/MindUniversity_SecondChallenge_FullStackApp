@@ -5,7 +5,12 @@
   "main": "",
   "scripts": {
     "dev": "concurrently \"npm start --prefix client\" \"npm run dev --prefix server\"",
-    "prepush": "concurrently \"npm run prepush --prefix client\" \"npm run prepush --prefix server\" \"npm run prepush --prefix apollo\""
+    "install:apollo": "cd apollo && yarn install",
+    "install:client": "cd client && yarn install",
+    "install:server": "cd server && yarn install",
+    "postinstall": "yarn install:apollo && yarn install:client && yarn install:server",
+    "prepush": "concurrently \"npm run prepush --prefix client\" \"npm run prepush --prefix server\" \"npm run prepush --prefix apollo\"",
+    "onpull_request": "concurrently \"npm run onpull_request --prefix client\" \"npm run onpull_request --prefix server\" \"npm run onpull_request --prefix apollo\""
   },
   "author": "Joshua Vazquez Maru",
   "license": "ISC",
