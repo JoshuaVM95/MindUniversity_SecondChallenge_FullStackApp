@@ -5,7 +5,8 @@
   "main": "",
   "scripts": {
     "dev": "concurrently \"npm start --prefix client\" \"npm run dev --prefix server\"",
-    "prepush": "concurrently \"npm run prepush --prefix client\" \"npm run prepush --prefix server\" \"npm run prepush --prefix apollo\""
+    "prepush": "concurrently \"npm run prepush --prefix client\" \"npm run prepush --prefix server\" \"npm run prepush --prefix apollo\"",
+    "onpullrequest": "concurrently \"npm run onpullrequest --prefix client\" \"npm run onpullrequest --prefix server\" \"npm run onpullrequest --prefix apollo\""
   },
   "author": "Joshua Vazquez Maru",
   "license": "ISC",
