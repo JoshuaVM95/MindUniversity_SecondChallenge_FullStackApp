@@ -12,6 +12,7 @@
 		"prisma:client": "npm install @prisma/client",
 		"prisma": "npm run prisma:db && npm run prisma:seed && npm run prisma:client",
 		"test:dev": "jest --config=.jestrc.json --watch",
+		"test:coverage": "jest --config=.jestrc.json --coverage",
 		"test": "jest --config=.jestrc.json",
 		"initDocker": "npm run db && npm run prisma && npm run start",
 		"lint": "eslint ./src --ext .js,.jsx,.ts,.tsx",
