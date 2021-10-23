@@ -41,7 +41,7 @@
 		"lint:fix": "eslint ./src --ext .js,.jsx,.ts,.tsx --fix",
 		"prepush": "npm run lint && SET CI=true&& npm run test",
 		"initDocker": "node server.js",
-		"onpullrequest": "SET CI=true&& npm run test && npm run build"
+		"onpull_request": "SET CI=true&& npm run test && npm run build"
 	},
 	"eslintConfig": {
 		"extends": [
