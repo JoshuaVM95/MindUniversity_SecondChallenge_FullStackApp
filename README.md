@@ -17,7 +17,7 @@ In order to run the project in your local machine you will need to have installe
 - node
 - MySql
 
-1. Run yarn install in the root folder and then in each package... TODO add lerna or rush
+1. Run yarn install in the root folder, after the install yarn will run a postinstall script which will install the packages dependencies... TODO add lerna or rush
 2. Inside the server folder add a .env file with your DB variables and secrets
    ie
    - `DATABASE_URL="mysql://<USERNAME>:<PASSWORD>@localhost:3306/<DBNAME>"` The prisma database url
@@ -35,23 +35,23 @@ In order to run the project in your local machine you will need to have installe
 ## Requerimientos tecnicos
 
 - [x] Construir un Docker con las herramientas y configuraciones requeridas para montar
-       un sitio web. (Dejar implementación al final)
+      un sitio web. (Dejar implementación al final)
 - [x] Configurar una base de datos (SQL, MySql, Mongo)
 - [ ] Construir un Web API RestFul (Net Core, Node, PHP)
-   - [x] Implementar documentación (Swagger/OpenAPI)
-   - [x] Implementar versionado del API
-   - [x] Implementar seguridad JWT
-   - [ ] Implementar un Log de errores
+  - [x] Implementar documentación (Swagger/OpenAPI)
+  - [x] Implementar versionado del API
+  - [x] Implementar seguridad JWT
+  - [ ] Implementar un Log de errores
 - [x] Construir Unit Test
-   - [ ] Integrar herramienta de code coverage para ver el avance
+  - [ ] Integrar herramienta de code coverage para ver el avance
 - [x] Implementar ORM si el modelo de Base de datos lo permite
 - [x] Construir un FrontEnd con una de las siguientes opciones (React, Angular, Vue, Rea
-       ct Native, Android, IOS)
-   - [x] Integrar validaciones en los campos (Campos vacíos o nulos)
-   - [x] Integrar notificaciones de confirmación (Alertas al guardar, eliminar)
+      ct Native, Android, IOS)
+  - [x] Integrar validaciones en los campos (Campos vacíos o nulos)
+  - [x] Integrar notificaciones de confirmación (Alertas al guardar, eliminar)
 - [x] Se requiere entregar en un repositorio git el resultado de la implementación
 - [ ] Evitar manejo variables fijas en el código(Configurarlas en algún archivo general y d
-   ocumentadas
+      ocumentadas
 
 ## Historias (Funcionalidad esperada)
 
