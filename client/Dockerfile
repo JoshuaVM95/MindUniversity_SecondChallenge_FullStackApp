@@ -8,7 +8,7 @@ COPY . /client/
 
 RUN yarn install --network-timeout 100000
 
-RUN npm run build
+RUN export NODE_OPTIONS=--openssl-legacy-provider && npm run build
 
 EXPOSE 3000
 

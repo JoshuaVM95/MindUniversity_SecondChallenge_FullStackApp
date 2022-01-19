@@ -29,7 +29,7 @@ In order to run the project in your local machine you will need to have installe
    - `DATABASE_USER=<USERNAME>`
    - `DATABASE_PASSWORD=<PASSWORD>`
    - `DATABASE_NAME=<DBNAME>`
-3. Then run `yarn run db` and then `yarn run prisma` This will run some migrations in your database and generate the super user inside the users table
+3. Then inside the server folder run `yarn run db` and then `yarn run prisma` This will run some migrations in your database and generate the super user inside the users table
 4. After that you can run in the root folder yarn run dev. This will start the server and client
 
 ## Requerimientos tecnicos

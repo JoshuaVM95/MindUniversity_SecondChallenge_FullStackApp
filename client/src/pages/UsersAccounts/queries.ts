@@ -23,7 +23,7 @@ export interface UsersAccountsResponse {
 	usersAccounts: UsersAccountsQueryResponse;
 }
 export const UsersAccountsQuery = gql`
-	query usersAccounts($filterBy: UserAccountFilter, $page: Int!, $rowsPerPage: Int!) {
+	query usersAccounts($filterBy: UserAccountFilters, $page: Int!, $rowsPerPage: Int!) {
 		usersAccounts(filterBy: $filterBy, page: $page, rowsPerPage: $rowsPerPage) {
 			usersAccounts {
 				id

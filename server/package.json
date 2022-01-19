@@ -27,7 +27,7 @@
 	"license": "ISC",
 	"dependencies": {
 		"@mindu-second-challenge/apollo-server-types": "file:./mindu-second-challenge-apollo-server-types-1.0.1.tgz",
-		"@prisma/client": "^3.3.0",
+		"@prisma/client": "^3.8.1",
 		"apollo-server": "^3.3.0",
 		"dotenv": "^10.0.0",
 		"graphql": "^15.6.1",
