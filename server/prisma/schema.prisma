@@ -36,7 +36,7 @@ model useraccount {
   addedBy                           String    @db.Char(36)
   removedBy                         String?   @db.Char(36)
   position                          String    @db.VarChar(255)
-  accounts                          account[] @relation(fields: [account], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "useraccount_account_foreign")
+  accounts                          account[] @relation(fields: [account], references: [id], map: "useraccount_account_foreign")
   user_useraccount_addedByTousers   user      @relation("useraccount_addedByTousers", fields: [addedBy], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "useraccount_addedby_foreign")
   user_useraccount_removedByTousers user?     @relation("useraccount_removedByTousers", fields: [removedBy], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "useraccount_removedby_foreign")
   user_useraccount_userTousers      user      @relation("useraccount_userTousers", fields: [user], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "useraccount_user_foreign")
