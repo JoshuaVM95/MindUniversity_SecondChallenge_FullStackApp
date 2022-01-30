@@ -1,5 +1,7 @@
 # MindUniversity_SecondChallenge_FullStackApp
 
+[![Test && Build CI](https://github.com/JoshuaVM95/MindUniversity_SecondChallenge_FullStackApp/actions/workflows/node.yml/badge.svg)](https://github.com/JoshuaVM95/MindUniversity_SecondChallenge_FullStackApp/actions/workflows/node.yml) ![GitHub repo size](https://img.shields.io/github/repo-size/JoshuaVM95/MindUniversity_SecondChallenge_FullStackApp) ![GitHub language count](https://img.shields.io/github/languages/count/JoshuaVM95/MindUniversity_SecondChallenge_FullStackApp) ![GitHub top language](https://img.shields.io/github/languages/top/JoshuaVM95/MindUniversity_SecondChallenge_FullStackApp) ![GitHub last commit](https://img.shields.io/github/last-commit/JoshuaVM95/MindUniversity_SecondChallenge_FullStackApp) ![GitHub issues](https://img.shields.io/github/issues-raw/JoshuaVM95/MindUniversity_SecondChallenge_FullStackApp) ![GitHub closed issues](https://img.shields.io/github/issues-closed/JoshuaVM95/MindUniversity_SecondChallenge_FullStackApp) ![GitHub pull requests](https://img.shields.io/github/issues-pr/JoshuaVM95/MindUniversity_SecondChallenge_FullStackApp) ![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/JoshuaVM95/MindUniversity_SecondChallenge_FullStackApp)
+
 ## Docker
 
 You can run the project inside docker, you only need to
