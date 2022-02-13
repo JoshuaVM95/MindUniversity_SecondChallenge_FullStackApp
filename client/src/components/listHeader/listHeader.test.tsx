@@ -1,11 +1,11 @@
 import React from "react";
 import { ListHeader } from "./listHeader";
 import { render, fireEvent } from "@testing-library/react";
-import { Add } from "@material-ui/icons";
+import { Add } from "@mui/icons-material";
 
 describe("ListHeader tests", () => {
 	const add = jest.fn();
-	const renderListHeader = (openFilter?: () => void, hasActiveFilters?: boolean) => {
+	const renderListHeader = (openFilter?: () => void) => {
 		return render(
 			<ListHeader
 				title="List header test"
@@ -13,7 +13,6 @@ describe("ListHeader tests", () => {
 				addTooltipTitle="Add test"
 				onAdd={add}
 				onOpenFilters={openFilter}
-				hasActiveFilters={hasActiveFilters}
 			/>
 		);
 	};

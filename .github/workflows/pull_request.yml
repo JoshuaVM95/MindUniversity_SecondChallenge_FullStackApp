@@ -1,0 +1,91 @@
+name: CI Workflow
+
+on:
+  pull_request:
+    branches: [master]
+
+env:
+  LINT_ERROR: "- :x: **Something went wrong with the linter, please review the modified files and check that they are formatted by our linter rules**"
+  TEST_ERROR: "- :x: **Something went wrong with the tests, please review the unit test of your modified components and updated if necessary**"
+  BUILD_ERROR: "- :x: **Something went wrong with the build, try running build on your local machine to see what is failing**"
+  LINT_SUCCESS: "- :white_check_mark: **All files are well formatted**"
+  TEST_SUCCESS: "- :white_check_mark: **All test passed**"
+  BUILD_SUCCESS: "- :white_check_mark: **We could build without any problem**"
+
+jobs:
+  CI:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "yarn"
+      - run: yarn install
+
+      - name: lint
+        id: lint
+        if: always()
+        run: yarn run lint
+
+      - name: test
+        id: test
+        if: always()
+        run: yarn run test
+
+      - name: build
+        id: build
+        if: always()
+        run: yarn run build
+
+      - name: create lint success message
+        id: lint_success
+        if: always() && steps.lint.outcome == 'success'
+        run: |
+          echo "::set-output name=lint_message::$LINT_SUCCESS"
+      - name: create lint error message
+        id: lint_error
+        if: always() && steps.lint.outcome != 'success'
+        run: |
+          echo "::set-output name=lint_message::$LINT_ERROR"
+      - name: create test success message
+        id: test_success
+        if: always() && steps.test.outcome == 'success'
+        run: |
+          echo "::set-output name=test_message::$TEST_SUCCESS"
+      - name: create test error message
+        id: test_error
+        if: always() && steps.test.outcome != 'success'
+        run: |
+          echo "::set-output name=test_message::$TEST_ERROR"
+      - name: create build success message
+        id: build_success
+        if: always() && steps.build.outcome == 'success'
+        run: |
+          echo "::set-output name=build_message::$BUILD_SUCCESS"
+      - name: create build error message
+        id: build_error
+        if: always() && steps.build.outcome != 'success'
+        run: |
+          echo "::set-output name=build_message::$BUILD_ERROR"
+      - name: comment issue
+        if: always()
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const body = `
+              ### CI Workflow Output
+              ${{ steps.lint_success.outputs.lint_message }}${{ steps.lint_error.outputs.lint_message }}
+              ${{ steps.test_success.outputs.test_message }}${{ steps.test_error.outputs.test_message }}
+              ${{ steps.build_success.outputs.build_message }}${{ steps.build_error.outputs.build_message }}
+              `
+            github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: body
+            })

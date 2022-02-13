@@ -13,7 +13,7 @@ import {
 	Skeleton,
 	Switch,
 	styled
-} from "@material-ui/core";
+} from "@mui/material";
 import { useMutation, useQuery } from "@apollo/client";
 import { UserResponse, UserQuery, UpdateUserResponse, UsersQuery, UpdateUserMutation } from "../queries";
 import { regexEmail, regexPassword } from "../../../utilities";

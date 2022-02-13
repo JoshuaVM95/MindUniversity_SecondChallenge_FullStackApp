@@ -12,7 +12,7 @@ import {
 	TextField,
 	Skeleton,
 	styled
-} from "@material-ui/core";
+} from "@mui/material";
 import DatePicker from "@mui/lab/DatePicker";
 import MuiTextField from "@mui/material/TextField";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";

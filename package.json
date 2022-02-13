@@ -10,11 +10,14 @@
     "install:server": "cd server && yarn install",
     "postinstall": "yarn install:apollo && yarn install:client && yarn install:server",
     "prepush": "concurrently \"npm run prepush --prefix client\" \"npm run prepush --prefix server\" \"npm run prepush --prefix apollo\"",
-    "onpull_request": "concurrently \"npm run onpull_request --prefix client\" \"npm run onpull_request --prefix server\" \"npm run onpull_request --prefix apollo\""
+    "onpull_request": "concurrently \"npm run onpull_request --prefix client\" \"npm run onpull_request --prefix server\" \"npm run onpull_request --prefix apollo\"",
+    "lint": "concurrently \"npm run lint --prefix client\" \"npm run lint --prefix server\" \"npm run lint --prefix apollo\"",
+    "test": "concurrently \"npm run test --prefix client\"",
+    "build": "concurrently \"npm run build --prefix client\" \"npm run build --prefix server\" \"npm run build --prefix apollo\""
   },
   "author": "Joshua Vazquez Maru",
   "license": "ISC",
   "devDependencies": {
-    "concurrently": "^6.3.0"
+    "concurrently": "^7.0.0"
   }
 }

@@ -1,4 +1,4 @@
-export enum Routes {
+export enum Paths {
 	LOGIN = "/",
 	PROFILE = "/profile",
 	USERS = "/users",

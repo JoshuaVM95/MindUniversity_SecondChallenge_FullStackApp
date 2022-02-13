@@ -10,8 +10,8 @@ import {
 	TableRow,
 	Typography,
 	Tooltip
-} from "@material-ui/core";
-import { KeyboardArrowDown, KeyboardArrowUp, Edit, Info } from "@material-ui/icons";
+} from "@mui/material";
+import { KeyboardArrowDown, KeyboardArrowUp, Edit, Info } from "@mui/icons-material";
 
 type stringObject = { [key: string]: string };
 

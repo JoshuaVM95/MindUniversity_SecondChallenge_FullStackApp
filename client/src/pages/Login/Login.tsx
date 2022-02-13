@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import styles from "./Login.module.scss";
-import { Button, TextField, CircularProgress, InputAdornment, IconButton } from "@material-ui/core";
-import { VpnKey, Visibility, VisibilityOff } from "@material-ui/icons";
+import { Button, TextField, CircularProgress, InputAdornment, IconButton } from "@mui/material";
+import { VpnKey, Visibility, VisibilityOff } from "@mui/icons-material";
 import { useMutation } from "@apollo/client";
 import { LoginMutation, LoginResponse } from "./queries";
-import { RouteChildrenProps } from "react-router-dom";
-import { ApolloErrors, buttonColor, textFieldColor, Routes } from "../../types";
+import { useNavigate } from "react-router-dom";
+import { ApolloErrors, buttonColor, textFieldColor, Paths } from "../../types";
 import { useDispatch } from "react-redux";
 import { AppDispatch, persistor } from "../../store/store";
 import { setCurrentUser } from "../../store/currentUser/actions";
 import { regexEmail, regexPassword } from "../../utilities";
 import { LoginMutationVariables, Role } from "@mindu-second-challenge/apollo-server-types";
 
-export const Login = ({ history }: RouteChildrenProps): React.ReactElement => {
+export const Login = (): React.ReactElement => {
 	const [userEmail, setUserEmail] = useState<string>("");
 	const [isEmailError, setIsEmailError] = useState<boolean>(false);
 	const [userPassword, setUserPassword] = useState<string>("");
@@ -20,6 +20,7 @@ export const Login = ({ history }: RouteChildrenProps): React.ReactElement => {
 	const [showPassword, setShowPassword] = useState<boolean>(false);
 	const [login, { loading, error }] = useMutation<LoginResponse, LoginMutationVariables>(LoginMutation);
 	const dispatch: AppDispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const textFieldWidth = 300;
 
@@ -100,7 +101,7 @@ export const Login = ({ history }: RouteChildrenProps): React.ReactElement => {
 						);
 						persistor.flush().then(() => {
 							const hasPermission = role === Role.SUPER || role === Role.ADMIN;
-							history.push(hasPermission ? Routes.USERS : Routes.PROFILE);
+							navigate(hasPermission ? Paths.USERS : Paths.PROFILE);
 						});
 					}
 				})

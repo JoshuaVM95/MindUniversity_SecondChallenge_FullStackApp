@@ -11,7 +11,7 @@ import {
 	DialogTitle,
 	FormControlLabel,
 	Switch
-} from "@material-ui/core";
+} from "@mui/material";
 import { useMutation } from "@apollo/client";
 import { CreateUserMutation, CreateUserResponse } from "./queries";
 import { textFieldColor } from "../../types";

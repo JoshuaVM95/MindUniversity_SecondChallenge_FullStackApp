@@ -1,14 +1,14 @@
 import React from "react";
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide } from "@material-ui/core";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide } from "@mui/material";
 import { clearCurrentUser } from "../../store/currentUser/actions";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
-import { useHistory } from "react-router";
-import { Routes } from "../../types";
+import { useNavigate } from "react-router";
+import { Paths } from "../../types";
 
 const Transition = React.forwardRef(function Transition(
 	props: unknown & {
-		children?: React.ReactElement;
+		children: React.ReactElement;
 	},
 	ref: React.Ref<unknown>
 ) {
@@ -17,11 +17,11 @@ const Transition = React.forwardRef(function Transition(
 
 export const TokenExpiredAlert = (): React.ReactElement => {
 	const dispatch: AppDispatch = useDispatch();
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	const logOut = () => {
 		dispatch(clearCurrentUser());
-		history.push(Routes.LOGIN);
+		navigate(Paths.LOGIN);
 	};
 
 	return (

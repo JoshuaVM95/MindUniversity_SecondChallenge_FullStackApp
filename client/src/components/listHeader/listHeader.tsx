@@ -1,6 +1,6 @@
 import React from "react";
-import { Box, Tooltip, IconButton, Badge } from "@material-ui/core";
-import { FilterList } from "@material-ui/icons";
+import { Box, Tooltip, IconButton, Badge } from "@mui/material";
+import { FilterList } from "@mui/icons-material";
 import styles from "./listHeader.module.scss";
 
 interface ListHeaderProps {

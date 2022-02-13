@@ -13,16 +13,16 @@ import {
 	TextField,
 	Snackbar,
 	Tooltip
-} from "@material-ui/core";
-import { ArrowBack, Lock } from "@material-ui/icons";
+} from "@mui/material";
+import { ArrowBack, Lock } from "@mui/icons-material";
 import { useMutation, useQuery } from "@apollo/client";
 import { UpdateUserInfoMutation, UpdateUserInfoResponse, UserQuery, UserResponse } from "./queries";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { getUserRole } from "../../utilities";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router";
 import { clearCurrentUser } from "../../store/currentUser/actions";
-import { Routes } from "../../types";
+import { Paths } from "../../types";
 import {
 	EnglishLevel,
 	UpdateUserInfoMutationVariables,
@@ -37,7 +37,7 @@ interface ProfileProps {
 export const Profile = ({ userId, onGoBack }: ProfileProps): React.ReactElement => {
 	const currentUser = useSelector((state: RootState) => state.currentUser);
 	const dispatch: AppDispatch = useDispatch();
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	const { loading, data } = useQuery<UserResponse, UserQueryVariables>(UserQuery, {
 		variables: {
@@ -79,7 +79,7 @@ export const Profile = ({ userId, onGoBack }: ProfileProps): React.ReactElement 
 			onGoBack();
 		} else {
 			dispatch(clearCurrentUser());
-			history.push(Routes.LOGIN);
+			navigate(Paths.LOGIN);
 		}
 	};
 
