@@ -8,8 +8,8 @@ import {
 	DialogTitle,
 	InputAdornment,
 	IconButton
-} from "@material-ui/core";
-import { Close } from "@material-ui/icons";
+} from "@mui/material";
+import { Close } from "@mui/icons-material";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";

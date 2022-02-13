@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Alert, Snackbar } from "@material-ui/core";
-import { AddCircle } from "@material-ui/icons";
+import { Alert, Snackbar } from "@mui/material";
+import { AddCircle } from "@mui/icons-material";
 import { CollapsibleTable, ListHeader } from "../../components";
 import styles from "./Accounts.module.scss";
 import { AccountUserOverview } from "../../types";

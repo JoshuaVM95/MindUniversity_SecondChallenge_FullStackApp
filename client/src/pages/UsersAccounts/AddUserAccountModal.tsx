@@ -10,7 +10,7 @@ import {
 	DialogContent,
 	DialogContentText,
 	DialogTitle
-} from "@material-ui/core";
+} from "@mui/material";
 import { useMutation, useQuery } from "@apollo/client";
 import {
 	AddUserAccountMutation,

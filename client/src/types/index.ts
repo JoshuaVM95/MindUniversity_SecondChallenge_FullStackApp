@@ -1,4 +1,4 @@
 export * from "./Apollo";
 export * from "./MUIColorProps";
-export * from "./Routes";
+export * from "./Paths";
 export * from "./UserAccount";

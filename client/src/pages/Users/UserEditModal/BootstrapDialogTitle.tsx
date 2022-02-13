@@ -1,6 +1,6 @@
 import React from "react";
-import { DialogTitle, IconButton } from "@material-ui/core";
-import { Close } from "@material-ui/icons";
+import { DialogTitle, IconButton } from "@mui/material";
+import { Close } from "@mui/icons-material";
 
 interface BootstrapDialogTitleProps {
 	id: string;

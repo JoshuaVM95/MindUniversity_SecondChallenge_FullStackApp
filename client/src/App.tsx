@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Accounts, Login, NotFound, Profile, Users, UsersAccounts } from "./pages";
-import { Routes } from "./types";
+import { Paths } from "./types";
 import { Role } from "@mindu-second-challenge/apollo-server-types";
 import styles from "./App.module.scss";
 import { RootState } from "./store/store";
@@ -38,14 +38,14 @@ const App = (): React.ReactElement => {
 			<div className={hasPermission ? styles.appContainer : ""}>
 				{hasPermission && <LateralBar />}
 				{isTokenExpired && <TokenExpiredAlert />}
-				<Switch>
-					{hasPermission && <Route exact path={Routes.USERS_ACCOUNTS_HISTORY} component={UsersAccounts} />}
-					{hasPermission && <Route exact path={Routes.ACCOUNTS} component={Accounts} />}
-					{hasPermission && <Route exact path={Routes.USERS} component={Users} />}
-					{currentUser.jwt !== undefined && <Route path={Routes.PROFILE} component={Profile} />}
-					<Route exact path={Routes.LOGIN} component={Login} />
-					<Route component={NotFound} />
-				</Switch>
+				<Routes>
+					{hasPermission && <Route path={Paths.USERS_ACCOUNTS_HISTORY} element={<UsersAccounts />} />}
+					{hasPermission && <Route path={Paths.ACCOUNTS} element={<Accounts />} />}
+					{hasPermission && <Route path={Paths.USERS} element={<Users />} />}
+					{currentUser.jwt !== undefined && <Route path={Paths.PROFILE} element={<Profile />} />}
+					<Route path={Paths.LOGIN} element={<Login />} />
+					<Route element={<NotFound />} />
+				</Routes>
 			</div>
 		</Router>
 	);

@@ -12,8 +12,8 @@ import {
 	Skeleton,
 	Tooltip,
 	IconButton
-} from "@material-ui/core";
-import { Delete } from "@material-ui/icons";
+} from "@mui/material";
+import { Delete } from "@mui/icons-material";
 import { Row, RowObject } from "./tableRow";
 import styles from "./table.module.scss";
 

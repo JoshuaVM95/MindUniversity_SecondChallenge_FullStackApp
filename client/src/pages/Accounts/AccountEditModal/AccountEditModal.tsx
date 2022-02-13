@@ -12,7 +12,7 @@ import {
 	TextField,
 	Skeleton,
 	styled
-} from "@material-ui/core";
+} from "@mui/material";
 import { useMutation, useQuery } from "@apollo/client";
 import {
 	AccountResponse,

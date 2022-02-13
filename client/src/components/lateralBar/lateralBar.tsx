@@ -13,7 +13,7 @@ import {
 	Drawer,
 	IconButton,
 	Tooltip
-} from "@material-ui/core";
+} from "@mui/material";
 import {
 	AccountTree,
 	BusinessCenter,
@@ -23,12 +23,12 @@ import {
 	ExpandMore,
 	Lock,
 	PeopleAlt
-} from "@material-ui/icons";
-import { useHistory } from "react-router";
+} from "@mui/icons-material";
+import { useNavigate, useLocation } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { clearCurrentUser } from "../../store/currentUser/actions";
-import { Routes } from "../../types";
+import { Paths } from "../../types";
 import { getUserRole } from "../../utilities";
 
 enum AvailableLists {
@@ -43,42 +43,43 @@ export const LateralBar = (): React.ReactElement => {
 	const [isOpen, setIsOpen] = useState<boolean>(true);
 	const currentUser = useSelector((state: RootState) => state.currentUser);
 	const dispatch: AppDispatch = useDispatch();
-	const history = useHistory();
+	const navigate = useNavigate();
+	const location = useLocation();
 	const drawerWidth = isOpen ? "340px" : "70px";
 
 	const handleListItemClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, index: AvailableLists) => {
 		setSelectedList(index);
 		switch (index) {
 			case AvailableLists.USERS:
-				history.push(Routes.USERS);
+				navigate(Paths.USERS);
 				break;
 			case AvailableLists.ACCOUNTS:
-				history.push(Routes.ACCOUNTS);
+				navigate(Paths.ACCOUNTS);
 				break;
 			case AvailableLists.USERS_ACCOUNTS_HISTORY:
-				history.push(Routes.USERS_ACCOUNTS_HISTORY);
+				navigate(Paths.USERS_ACCOUNTS_HISTORY);
 				break;
 		}
 	};
 
 	const handleLogOut = () => {
 		dispatch(clearCurrentUser());
-		history.push(Routes.LOGIN);
+		navigate(Paths.LOGIN);
 	};
 
 	useEffect(() => {
-		switch (history.location.pathname) {
-			case Routes.USERS:
+		switch (location.pathname) {
+			case Paths.USERS:
 				setSelectedList(0);
 				break;
-			case Routes.ACCOUNTS:
+			case Paths.ACCOUNTS:
 				setSelectedList(1);
 				break;
-			case Routes.USERS_ACCOUNTS_HISTORY:
+			case Paths.USERS_ACCOUNTS_HISTORY:
 				setSelectedList(2);
 				break;
 		}
-	}, [history.location.pathname]);
+	}, [location.pathname]);
 
 	return (
 		<Drawer

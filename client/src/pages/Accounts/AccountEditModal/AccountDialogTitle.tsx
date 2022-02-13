@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Skeleton } from "@material-ui/core";
+import { Typography, Skeleton } from "@mui/material";
 import { BootstrapDialogTitle } from "../../Users/UserEditModal/BootstrapDialogTitle";
 
 interface AccountDialogTitleProps {

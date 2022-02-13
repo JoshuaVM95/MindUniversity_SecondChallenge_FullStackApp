@@ -1,20 +1,11 @@
 {
 	"compilerOptions": {
-		"incremental": true,
 		"target": "es5",
 		"module": "commonjs",
 		"declaration": true,
-		"sourceMap": true,
-		"esModuleInterop": true,
 		"outDir": "dist",
-		"isolatedModules": true,
-		"skipLibCheck": true,
-		"strict": true,
-		"noImplicitAny": true,
-		"strictNullChecks": true,
-		"moduleResolution": "node",
-		"allowSyntheticDefaultImports": true,
-		"forceConsistentCasingInFileNames": true,
-		"noEmit": false
-	}
+		"strict": true
+	},
+	"include": ["src"],
+	"exclude": ["node_modules"]
 }
