@@ -23,6 +23,7 @@ services:
       - prisma-db
   db:
     container_name: db-container
+    platform: linux/x86_64
     image: mysql
     environment:
       MYSQL_HOST: localhost
@@ -39,6 +40,7 @@ services:
       - serverDB:/data/db
   prisma-db:
     container_name: prisma-db-container
+    platform: linux/x86_64
     image: mysql
     environment:
       MYSQL_HOST: localhost
