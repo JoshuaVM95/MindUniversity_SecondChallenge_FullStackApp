@@ -9,7 +9,7 @@ You can run the project inside docker, you only need to
 1. Run docker-compose build to create the images for the server, db and client.
 2. Run docker-compose up to start the containers. These are 4 containers, server, mysql db for knex, mysql db for the v2 schemas with prisma and the client.
 
-This will start the server in localhost:3001 and the client in localhost:3000, in the docker-compose file you will find the super user credentials
+This will start the server in localhost:3001 and the client in localhost:3000, in the docker-compose file you will find the superuser credentials
 
 ## Run locally
 
@@ -19,11 +19,11 @@ In order to run the project in your local machine you will need to have installe
 - node
 - MySql
 
-1. Run yarn install in the root folder, after the install yarn will run a postinstall script which will install the packages dependencies... TODO add lerna or rush
+1. Run yarn install in the root folder, after the installation yarn will run a postinstall script which will install the packages dependencies... TODO add lerna or rush
 2. Inside the server folder add a .env file with your DB variables and secrets
    ie
    - `DATABASE_URL="mysql://<USERNAME>:<PASSWORD>@localhost:3306/<DBNAME>"` The prisma database url
-   - `SUPER_USER_EMAIL=<EMAIL>` This is needed to generate the super user in the seeds
+   - `SUPER_USER_EMAIL=<EMAIL>` This is needed to generate the superuser in the seeds
    - `SUPER_USER_PASSWORD=<PASSWORD>` Min 8 characters, 1 capital letter, 1 number, 1 simbol
    - `JWT_SECRET=<KEY>` The secret key for the jwt generator
    #### The config for the knex DB
@@ -31,7 +31,7 @@ In order to run the project in your local machine you will need to have installe
    - `DATABASE_USER=<USERNAME>`
    - `DATABASE_PASSWORD=<PASSWORD>`
    - `DATABASE_NAME=<DBNAME>`
-3. Then inside the server folder run `yarn run db` and then `yarn run prisma` This will run some migrations in your database and generate the super user inside the users table
+3. Then inside the server folder run `yarn run db` and then `yarn run prisma` This will run some migrations in your database and generate the superuser inside the users table
 4. After that you can run in the root folder yarn run dev. This will start the server and client
 
 ## Requerimientos tecnicos

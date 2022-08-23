@@ -14,12 +14,23 @@ env:
 
 jobs:
   CI:
+    permissions:
+      contents: read
+      pull-requests: write
+
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
         node-version: [16.x]
+
     steps:
       - uses: actions/checkout@v2
+
+      - uses: actions/labeler@v4
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+
       - name: Install dependencies
         uses: actions/setup-node@v2
         with:
@@ -52,6 +63,7 @@ jobs:
         if: always() && steps.lint.outcome != 'success'
         run: |
           echo "::set-output name=lint_message::$LINT_ERROR"
+
       - name: create test success message
         id: test_success
         if: always() && steps.test.outcome == 'success'
@@ -62,6 +74,7 @@ jobs:
         if: always() && steps.test.outcome != 'success'
         run: |
           echo "::set-output name=test_message::$TEST_ERROR"
+
       - name: create build success message
         id: build_success
         if: always() && steps.build.outcome == 'success'
@@ -72,6 +85,7 @@ jobs:
         if: always() && steps.build.outcome != 'success'
         run: |
           echo "::set-output name=build_message::$BUILD_ERROR"
+
       - name: comment issue
         if: always()
         uses: actions/github-script@v5

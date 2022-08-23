@@ -1,0 +1,21 @@
+CI/CD:
+  - ".github/**"
+
+dependencies:
+  - "yarn.lock"
+  - "package.json"
+
+documentation:
+  - "*.md"
+
+enhancement:
+  - "*.ts"
+  - "*.tsx"
+
+test:
+  - "*.test.ts"
+  - "*.test.tsx"
+
+DevOps:
+  - "*.yml"
+  - "Dockerfile"
