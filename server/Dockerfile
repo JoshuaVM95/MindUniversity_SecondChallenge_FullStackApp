@@ -1,4 +1,4 @@
-FROM node
+FROM node:current-bullseye-slim
 
 WORKDIR /server
 
