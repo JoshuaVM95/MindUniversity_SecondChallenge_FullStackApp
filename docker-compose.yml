@@ -1,9 +1,12 @@
-version: "3"
+version: "3.9"
 services:
   server:
-    container_name: server-container
-    build: ./server
-    restart: always
+    container_name: server-container-dev
+    platform: linux/x86_64
+    build:
+      context: .
+      target: development
+      dockerfile: ./server/Dockerfile
     ports:
       - "3001:3001"
     environment:
@@ -19,8 +22,38 @@ services:
       - db
       - prisma-db
     depends_on:
+      db:
+        condition: service_healthy
+      prisma-db:
+        condition: service_healthy
+
+  server-prod:
+    container_name: server-container-prod
+    platform: linux/x86_64
+    build:
+      context: .
+      target: production
+      dockerfile: ./server/Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      DATABASE_HOST: db
+      DATABASE_USER: dbuser
+      DATABASE_PASSWORD: dbuser
+      DATABASE_NAME: usersreports
+      DATABASE_URL: mysql://root:root@prisma-db/usersreports_prisma
+      SUPER_USER_EMAIL: mySuperAdminUser@superAdmin.com
+      SUPER_USER_PASSWORD: Abcd123!
+      JWT_SECRET: A_9mnu!23oi
+    links:
       - db
       - prisma-db
+    depends_on:
+      db:
+        condition: service_healthy
+      prisma-db:
+        condition: service_healthy
+
   db:
     container_name: db-container
     platform: linux/x86_64
@@ -38,6 +71,11 @@ services:
       - "3307:3306"
     volumes:
       - serverDB:/data/db
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
   prisma-db:
     container_name: prisma-db-container
     platform: linux/x86_64
@@ -55,16 +93,36 @@ services:
       - "3308:3308"
     volumes:
       - serverPrismaDB:/data/db
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
+
   client:
-    container_name: client-container
-    restart: always
-    build: ./client
+    container_name: client-container-dev
+    build:
+      context: .
+      target: development
+      dockerfile: ./client/Dockerfile
     ports:
       - "3000:3000"
     links:
       - server
     depends_on:
       - server
+
+  client-prod:
+    container_name: client-container-prod
+    build:
+      context: .
+      target: production
+      dockerfile: ./client/Dockerfile
+    ports:
+      - "80:80"
+    links:
+      - server-prod
+    depends_on:
+      - server-prod
 
 volumes:
   serverDB:

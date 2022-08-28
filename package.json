@@ -5,7 +5,7 @@
   "main": "",
   "scripts": {
     "dev": "concurrently \"npm start --prefix client\" \"npm run dev --prefix server\"",
-    "install:apollo": "cd apollo && yarn install",
+    "install:apollo": "cd apollo && yarn install && yarn build",
     "install:client": "cd client && yarn install",
     "install:server": "cd server && yarn install",
     "postinstall": "yarn install:apollo && yarn install:client && yarn install:server",

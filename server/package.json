@@ -1,10 +1,12 @@
 {
 	"name": "server",
 	"version": "1.0.0",
+	"private": true,
 	"description": "",
 	"main": "index.js",
 	"scripts": {
 		"dev": "npx nodemon",
+		"prebuild": "npx rimraf dist",
 		"build": "tsc",
 		"start": "tsc && node dist/src/index.js",
 		"db": "knex --cwd src/db migrate:latest && knex --cwd src/db seed:run",
@@ -27,7 +29,6 @@
 	"author": "Joshua Vazquez Maru",
 	"license": "ISC",
 	"dependencies": {
-		"@mindu-second-challenge/apollo-server-types": "file:./mindu-second-challenge-apollo-server-types-1.0.1.tgz",
 		"@prisma/client": "^4.2.1",
 		"apollo-server": "^3.6.3",
 		"dotenv": "^16.0.0",
@@ -56,5 +57,8 @@
 		"ignore": [
 			"@mindu-second-challenge/apollo-server-types"
 		]
-	}
+	},
+	"workspaces": [
+		"../apollo"
+	]
 }
