@@ -14,7 +14,7 @@ import {
 	styled
 } from "@mui/material";
 import DatePicker from "@mui/lab/DatePicker";
-import MuiTextField from "@mui/material/TextField";
+import MuiTextField, { TextFieldProps } from "@mui/material/TextField";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { useMutation, useQuery } from "@apollo/client";
@@ -172,7 +172,7 @@ export const UserAccountEditModal = ({
 											setEndDate(newValue);
 										}}
 										value={endDate}
-										renderInput={(params) => (
+										renderInput={(params: TextFieldProps) => (
 											<MuiTextField {...params} label="End Date" variant="filled" fullWidth />
 										)}
 										disabled={data?.userAccount.endDate !== null}

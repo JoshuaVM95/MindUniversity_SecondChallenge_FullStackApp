@@ -7,9 +7,5 @@ export const hasTokenExpired = (exp: string): boolean => {
 	const currentHour = currentDate.getHours();
 	const currentMinutes = currentDate.getMinutes();
 
-	if (expirationHour <= currentHour && expirationMinutes <= currentMinutes) {
-		return true;
-	} else {
-		return false;
-	}
+	return expirationHour <= currentHour && expirationMinutes <= currentMinutes;
 };
