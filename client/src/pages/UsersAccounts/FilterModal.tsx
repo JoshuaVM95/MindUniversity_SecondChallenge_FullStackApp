@@ -13,7 +13,7 @@ import { Close } from "@mui/icons-material";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
-import MuiTextField from "@mui/material/TextField";
+import MuiTextField, { TextFieldProps } from "@mui/material/TextField";
 import { parseToTimestamp } from "../../utilities";
 import { UserAccountFilters } from "@mindu-second-challenge/apollo-server-types";
 
@@ -108,7 +108,7 @@ const DateInput = ({ label, date, onChange }: DateInputProps): React.ReactElemen
 			<DatePicker
 				onChange={onChange}
 				value={date}
-				renderInput={(params) => (
+				renderInput={(params: TextFieldProps) => (
 					<MuiTextField
 						{...params}
 						label={label}
