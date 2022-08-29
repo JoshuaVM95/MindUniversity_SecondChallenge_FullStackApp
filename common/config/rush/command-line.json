@@ -21,7 +21,8 @@
       "name": "test",
       "commandKind": "bulk",
       "summary": "Runs jest in every project",
-      "enableParallelism": true
+      "enableParallelism": true,
+      "allowWarningsInSuccessfulBuild": true
     },
     {
       "name": "dev",
