@@ -396,6 +396,18 @@
    * 3. It's useful to have a centralized inventory of all projects and their important metadata.
    */
   "projects": [
+    {
+      "packageName": "@mindu-second-challenge/apollo-server-types",
+      "projectFolder": "apollo"
+    },
+    {
+      "packageName": "client",
+      "projectFolder": "client"
+    },
+    {
+      "packageName": "server",
+      "projectFolder": "server"
+    }
     // {
     //   /**
     //    * The NPM package name of the project (must match package.json)

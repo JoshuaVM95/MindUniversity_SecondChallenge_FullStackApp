@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CMD="npm run prepush"
+CMD="rush lint"
 
 $CMD
 RESULT=$?

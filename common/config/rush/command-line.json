@@ -11,6 +11,24 @@
    * "rush my-global-command --help".
    */
   "commands": [
+    {
+      "name": "lint",
+      "commandKind": "bulk",
+      "summary": "Runs eslint in every project",
+      "enableParallelism": true
+    },
+    {
+      "name": "test",
+      "commandKind": "bulk",
+      "summary": "Runs jest in every project",
+      "enableParallelism": true
+    },
+    {
+      "name": "dev",
+      "commandKind": "bulk",
+      "summary": "Starts the local environment",
+      "enableParallelism": true
+    }
     // {
     //   /**
     //    * (Required) Determines the type of custom command.

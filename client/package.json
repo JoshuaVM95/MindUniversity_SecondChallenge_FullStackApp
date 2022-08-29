@@ -17,6 +17,7 @@
 		"@types/react": "^17.0.39",
 		"@types/react-dom": "^17.0.11",
 		"@types/react-redux": "^7.1.22",
+		"@mindu-second-challenge/apollo-server-types": "workspace:*",
 		"date-fns": "^2.28.0",
 		"graphql": "^16.3.0",
 		"react": "^17.0.2",
@@ -31,14 +32,12 @@
 		"web-vitals": "^2.1.4"
 	},
 	"scripts": {
-		"start": "react-scripts start",
+		"dev": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
 		"lint": "eslint ./src --ext .js,.jsx,.ts,.tsx",
-		"lint:fix": "eslint ./src --ext .js,.jsx,.ts,.tsx --fix",
-		"prepush": "npm run lint && SET CI=true&& npm run test",
-		"onpull_request": "npm run test && npm run build"
+		"lint:fix": "eslint ./src --ext .js,.jsx,.ts,.tsx --fix"
 	},
 	"eslintConfig": {
 		"extends": [
@@ -67,14 +66,7 @@
 		"eslint-plugin-prettier": "^4.0.0",
 		"eslint-plugin-react": "^7.28.0",
 		"prettier": "^2.5.1",
-		"redux-devtools": "^3.7.0"
-	},
-	"yarn-upgrade-all": {
-		"ignore": [
-			"@mindu-second-challenge/apollo-server-types"
-		]
-	},
-	"workspaces": [
-		"../apollo"
-	]
+		"redux-devtools": "^3.7.0",
+		"@types/testing-library__jest-dom": "~5.14.5"
+	}
 }
