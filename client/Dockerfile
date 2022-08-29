@@ -1,3 +1,4 @@
+# TODO: update config to run with rush
 FROM node:18-bullseye-slim AS development
 ENV NODE_ENV development
 
