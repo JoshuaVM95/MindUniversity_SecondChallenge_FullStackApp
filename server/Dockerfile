@@ -1,4 +1,3 @@
-# TODO: update config to run with rush
 FROM node:current-bullseye-slim AS development
 
 WORKDIR /project/server
