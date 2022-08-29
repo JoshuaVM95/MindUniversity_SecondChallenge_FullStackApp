@@ -4,35 +4,36 @@
 
 ## Docker
 
-You can run the project inside docker, you only need to
+You can run the project inside a docker container. You only need to:
 
-1. Run docker-compose build to create the images for the server, db and client.
-2. Run docker-compose up to start the containers. These are 4 containers, server, mysql db for knex, mysql db for the v2 schemas with prisma and the client.
+1. Run `docker-compose build client` to create the images for the server, DB, and client.
+2. Run `docker-compose up client` to start the container. These mounts the images of the server, MySQL DB for knex, and MySQL DB for the v2 schemas with Prisma and the client.
 
-This will start the server in localhost:3001 and the client in localhost:3000, in the docker-compose file you will find the superuser credentials
+This will start the server in `localhost:3001`, and the client in `localhost:3000`, in the docker-compose file you will find the superuser credentials.
 
 ## Run locally
 
-In order to run the project in your local machine you will need to have installed:
+To run the project on your local machine you will need to have installed:
 
-- yarn/npm
-- node
+- Microsoft rush globally
+- NodeJS
 - MySql
 
-1. Run yarn install in the root folder, after the installation yarn will run a postinstall script which will install the packages dependencies... TODO add lerna or rush
-2. Inside the server folder add a .env file with your DB variables and secrets
-   ie
-   - `DATABASE_URL="mysql://<USERNAME>:<PASSWORD>@localhost:3306/<DBNAME>"` The prisma database url
-   - `SUPER_USER_EMAIL=<EMAIL>` This is needed to generate the superuser in the seeds
-   - `SUPER_USER_PASSWORD=<PASSWORD>` Min 8 characters, 1 capital letter, 1 number, 1 simbol
-   - `JWT_SECRET=<KEY>` The secret key for the jwt generator
+1. Run `rush update` in the root folder to install the latest dependencies.
+2. Run `rush rebuild` to do a clean build of every project in the repository.
+3. Run `prisma generate` to build the types for the Prisma client.
+4. Inside the server folder add a `.env` file with your DB variables and secrets:
+   - `DATABASE_URL="mysql://<USERNAME>:<PASSWORD>@localhost:3306/<DBNAME>"` The prisma database url.
+   - `SUPER_USER_EMAIL=<EMAIL>`
+   - `SUPER_USER_PASSWORD=<PASSWORD>` Min 8 characters, 1 capital letter, 1 number, and 1 symbol.
+   - `JWT_SECRET=<KEY>` The secret key for the JWT generator.
    #### The config for the knex DB
    - `DATABASE_HOST=<HOST>`
    - `DATABASE_USER=<USERNAME>`
    - `DATABASE_PASSWORD=<PASSWORD>`
    - `DATABASE_NAME=<DBNAME>`
-3. Then inside the server folder run `yarn run db` and then `yarn run prisma` This will run some migrations in your database and generate the superuser inside the users table
-4. After that you can run in the root folder yarn run dev. This will start the server and client
+5. After setting the environment variables for the server. Run the following commands inside the server folder, `npm run db`, and `npm run prisma`. This will run the migrations in your database, and generate the superuser inside the user's table.
+6. After that you can run in the root folder `rush dev` to start the server in `localhost:3001` and the client in `localhost:3000`.
 
 ## Requerimientos tecnicos
 

@@ -11,6 +11,7 @@ env:
   LINT_SUCCESS: "- :white_check_mark: **All files are well formatted**"
   TEST_SUCCESS: "- :white_check_mark: **All test passed**"
   BUILD_SUCCESS: "- :white_check_mark: **We could build without any problem**"
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
 jobs:
   CI:
@@ -35,23 +36,32 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "yarn"
-      - run: yarn install
+
+      - run: npm install -g @microsoft/rush
+
+      - name: Run rush update if its a dependabot PR
+        if: ${{ github.actor == 'dependabot[bot]' }}
+        run: ./scripts/push-rush-update.sh
+
+      - run: rush install
+      - run: rush update
+      - run: cd server && npx prisma generate
+      - run: rush rebuild
 
       - name: lint
         id: lint
         if: always()
-        run: yarn run lint
+        run: rush lint
 
       - name: test
         id: test
         if: always()
-        run: yarn run test
+        run: rush test
 
       - name: build
         id: build
         if: always()
-        run: yarn run build
+        run: rush build
 
       - name: create lint success message
         id: lint_success

@@ -3,7 +3,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 import { clearCurrentUser } from "../../store/currentUser/actions";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { Paths } from "../../types";
 
 const Transition = React.forwardRef(function Transition(

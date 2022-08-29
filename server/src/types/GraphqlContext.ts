@@ -1,4 +1,4 @@
-import { PrismaClient } from ".prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { Knex } from "knex";
 import knexfile from "../db/knexfile";
 

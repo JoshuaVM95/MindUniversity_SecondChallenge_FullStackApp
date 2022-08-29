@@ -8,12 +8,12 @@
 		"dist"
 	],
 	"scripts": {
+		"dev": "echo 0",
 		"lint": "eslint ./src --ext .ts",
 		"lint:fix": "eslint ./src --ext .ts --fix",
 		"build": "tsc",
 		"prepack": "npm run build",
-		"prepush": "npm run lint",
-		"onpull_request": "tsc"
+		"test": "echo 0"
 	},
 	"keywords": [],
 	"author": "",

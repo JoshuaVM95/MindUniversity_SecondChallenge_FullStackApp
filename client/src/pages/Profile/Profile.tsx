@@ -20,7 +20,7 @@ import { UpdateUserInfoMutation, UpdateUserInfoResponse, UserQuery, UserResponse
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { getUserRole } from "../../utilities";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { clearCurrentUser } from "../../store/currentUser/actions";
 import { Paths } from "../../types";
 import {
