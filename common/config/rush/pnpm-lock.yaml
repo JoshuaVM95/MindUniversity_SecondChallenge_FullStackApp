@@ -51,6 +51,7 @@ importers:
       eslint-plugin-prettier: ^4.0.0
       eslint-plugin-react: ^7.28.0
       graphql: ^16.3.0
+      identity-obj-proxy: ~3.0.0
       prettier: ^2.5.1
       react: ^17.0.2
       react-dom: ^17.0.2
@@ -100,6 +101,7 @@ importers:
       eslint-config-prettier: 8.5.0_eslint@8.23.0
       eslint-plugin-prettier: 4.2.1_99a8c9fa965e983db7d4834c61fad511
       eslint-plugin-react: 7.31.1_eslint@8.23.0
+      identity-obj-proxy: 3.0.0
       prettier: 2.7.1
       redux-devtools: 3.7.0_b1b85696c6e51f344891772a87acdd6b
 
@@ -6093,7 +6095,6 @@ packages:
 
   /harmony-reflect/1.6.2:
     resolution: {integrity: sha512-HIp/n38R9kQjDEziXyDTuW3vvoxxyxjxFzXLrBr18uB47GnSt+G9D29fqrpM5ZkspMcPICud3XsBJQ4Y2URg8g==}
-    dev: false
 
   /has-bigints/1.0.2:
     resolution: {integrity: sha512-tSvCKtBr9lkF0Ex0aQiP9N+OpV4zi2r/Nee5VkRDbaqv35RLYMzbwQfFSZZH0kR+Rd6302UJZ2p/bJCEoR3VoQ==}
@@ -6321,7 +6322,6 @@ packages:
     engines: {node: '>=4'}
     dependencies:
       harmony-reflect: 1.6.2
-    dev: false
 
   /ignore/5.2.0:
     resolution: {integrity: sha512-CmxgYGiEPCLhfLnpPp1MoRmifwEIOgjcHXxOBjv7mY96c+eWScsOP9c112ZyLdWHi0FxHjI+4uVhKYp/gcdRmQ==}

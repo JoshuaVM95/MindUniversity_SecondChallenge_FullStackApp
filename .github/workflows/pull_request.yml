@@ -45,6 +45,7 @@ jobs:
 
       - run: rush install
       - run: rush update
+      - run: cd server && npx prisma generate
       - run: rush rebuild
 
       - name: lint
