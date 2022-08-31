@@ -13,6 +13,10 @@ env:
   BUILD_SUCCESS: "- :white_check_mark: **We could build without any problem**"
   GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   CI:
     permissions:
