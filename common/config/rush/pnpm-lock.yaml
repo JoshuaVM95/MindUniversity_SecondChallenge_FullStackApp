@@ -124,7 +124,7 @@ importers:
       graphql: ^16.3.0
       jest: ^29.0.1
       jsonwebtoken: ^8.5.1
-      knex: ^1.0.3
+      knex: ^2.2.0
       mysql2: ^2.3.3
       prettier: ^2.5.1
       prisma: ~4.2.1
@@ -140,7 +140,7 @@ importers:
       dotenv: 16.0.1
       graphql: 16.6.0
       jsonwebtoken: 8.5.1
-      knex: 1.0.7_mysql2@2.3.3
+      knex: 2.2.0_mysql2@2.3.3
       mysql2: 2.3.3
       typescript: 4.8.2
     devDependencies:
@@ -4729,10 +4729,6 @@ packages:
     resolution: {integrity: sha512-jeC1axXpnb0/2nn/Y1LPuLdgXBLH7aDcHu4KEKfqw3CUhX7ZpfBSlPKyqXE6btIgEzfWtrX3/tyBCaCvXvMkOw==}
     dev: false
 
-  /colorette/2.0.16:
-    resolution: {integrity: sha512-hUewv7oMjCp+wkBv5Rm0v87eJhq4woh5rSR+42YSQJKecCqgIqNkZ6lAlQms/BwHPJA5NKMRlpxPRv0n8HQW6g==}
-    dev: false
-
   /colorette/2.0.19:
     resolution: {integrity: sha512-3tlv/dIP7FWvj3BsbHrGLJ6l/oKh1O3TcgBqMn+yyCagOxc23fyzDS6HypQbgxWbkpDnf52p1LuR4eWDQ/K9WQ==}
     dev: false
@@ -8011,21 +8007,19 @@ packages:
     engines: {node: '>= 8'}
     dev: false
 
-  /knex/1.0.7_mysql2@2.3.3:
-    resolution: {integrity: sha512-89jxuRATt4qJMb9ZyyaKBy0pQ4d5h7eOFRqiNFnUvsgU+9WZ2eIaZKrAPG1+F3mgu5UloPUnkVE5Yo2sKZUs6Q==}
+  /knex/2.2.0_mysql2@2.3.3:
+    resolution: {integrity: sha512-yhm1Qe9Ok0TeXBq3nNHqZYJPrQ4Iw2tq9k/HxjrZ/EWec2ifOjJlkNHr26v8cQrWtk5iG3iwfUazTIWy+VKG5g==}
     engines: {node: '>=12'}
     hasBin: true
     peerDependencies:
-      '@vscode/sqlite3': '*'
       better-sqlite3: '*'
       mysql: '*'
       mysql2: '*'
       pg: '*'
       pg-native: '*'
+      sqlite3: '*'
       tedious: '*'
     peerDependenciesMeta:
-      '@vscode/sqlite3':
-        optional: true
       better-sqlite3:
         optional: true
       mysql:
@@ -8036,10 +8030,12 @@ packages:
         optional: true
       pg-native:
         optional: true
+      sqlite3:
+        optional: true
       tedious:
         optional: true
     dependencies:
-      colorette: 2.0.16
+      colorette: 2.0.19
       commander: 9.4.0
       debug: 4.3.4
       escalade: 3.1.1
