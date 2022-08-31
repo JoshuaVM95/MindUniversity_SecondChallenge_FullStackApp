@@ -57,54 +57,54 @@ jobs:
 
       - name: lint
         id: lint
-        if: always()
+        if: success() || failure()
         run: rush lint
 
       - name: test
         id: test
-        if: always()
+        if: success() || failure()
         run: rush test
 
       - name: build
         id: build
-        if: always()
+        if: success() || failure()
         run: rush build
 
       - name: create lint success message
         id: lint_success
-        if: always() && steps.lint.outcome == 'success'
+        if: (success() || failure()) && steps.lint.outcome == 'success'
         run: |
           echo "::set-output name=lint_message::$LINT_SUCCESS"
       - name: create lint error message
         id: lint_error
-        if: always() && steps.lint.outcome != 'success'
+        if: (success() || failure()) && steps.lint.outcome != 'success'
         run: |
           echo "::set-output name=lint_message::$LINT_ERROR"
 
       - name: create test success message
         id: test_success
-        if: always() && steps.test.outcome == 'success'
+        if: (success() || failure()) && steps.test.outcome == 'success'
         run: |
           echo "::set-output name=test_message::$TEST_SUCCESS"
       - name: create test error message
         id: test_error
-        if: always() && steps.test.outcome != 'success'
+        if: (success() || failure()) && steps.test.outcome != 'success'
         run: |
           echo "::set-output name=test_message::$TEST_ERROR"
 
       - name: create build success message
         id: build_success
-        if: always() && steps.build.outcome == 'success'
+        if: (success() || failure()) && steps.build.outcome == 'success'
         run: |
           echo "::set-output name=build_message::$BUILD_SUCCESS"
       - name: create build error message
         id: build_error
-        if: always() && steps.build.outcome != 'success'
+        if: (success() || failure()) && steps.build.outcome != 'success'
         run: |
           echo "::set-output name=build_message::$BUILD_ERROR"
 
       - name: comment issue
-        if: always()
+        if: success() || failure()
         uses: actions/github-script@v6
         with:
           script: |
