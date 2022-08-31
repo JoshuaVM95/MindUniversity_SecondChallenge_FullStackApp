@@ -14,7 +14,7 @@
 		"@testing-library/user-event": "^14.4.3",
 		"@types/jest": "^27.4.0",
 		"@types/node": "^17.0.17",
-		"@types/react": "^17.0.39",
+		"@types/react": "^18.0.18",
 		"@types/react-dom": "^17.0.11",
 		"@types/react-redux": "^7.1.22",
 		"@mindu-second-challenge/apollo-server-types": "workspace:*",
