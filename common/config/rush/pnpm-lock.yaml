@@ -63,7 +63,7 @@ importers:
       redux-persist: ^6.0.0
       sass: ^1.54.5
       typescript: ^4.5.5
-      web-vitals: ^2.1.4
+      web-vitals: ^3.0.1
     dependencies:
       '@apollo/client': 3.6.9_graphql@16.6.0+react@17.0.2
       '@emotion/react': 11.10.0_1eba9ba5c1b1a79f2e825d956f3eb743
@@ -91,7 +91,7 @@ importers:
       redux-persist: 6.0.0_redux@4.2.0
       sass: 1.54.5
       typescript: 4.8.2
-      web-vitals: 2.1.4
+      web-vitals: 3.0.1
     devDependencies:
       '@types/react-router-dom': 5.3.3
       '@types/testing-library__jest-dom': 5.14.5
@@ -11327,8 +11327,8 @@ packages:
       minimalistic-assert: 1.0.1
     dev: false
 
-  /web-vitals/2.1.4:
-    resolution: {integrity: sha512-sVWcwhU5mX6crfI5Vd2dC4qchyTqxV8URinzt25XqVh+bHEPGH4C3NPrNionCP7Obx59wrYEbNlw4Z8sjALzZg==}
+  /web-vitals/3.0.1:
+    resolution: {integrity: sha512-n8LgBynM5BU4C8ZMiTWPu6zbv31AfPnuNXEjWClvPWD5g8h2WkcecR0EtAiQaiMcj1iG0LADyHndR+MKYu5Zog==}
     dev: false
 
   /webidl-conversions/3.0.1:
