@@ -36,7 +36,7 @@ importers:
       '@testing-library/jest-dom': ^5.16.2
       '@testing-library/react': ^12.1.2
       '@testing-library/user-event': ^14.4.3
-      '@types/jest': ^27.4.0
+      '@types/jest': ^29.0.3
       '@types/node': ^18.7.14
       '@types/react': ^18.0.18
       '@types/react-dom': ^18.0.6
@@ -75,7 +75,7 @@ importers:
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 12.1.5_react-dom@17.0.2+react@17.0.2
       '@testing-library/user-event': 14.4.3
-      '@types/jest': 27.5.2
+      '@types/jest': 29.0.3
       '@types/node': 18.7.14
       '@types/react': 18.0.18
       '@types/react-dom': 18.0.6
@@ -2217,7 +2217,6 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       jest-get-type: 29.0.0
-    dev: true
 
   /@jest/expect/29.0.1:
     resolution: {integrity: sha512-qKB3q52XDV8VUEiqKKLgLrJx7puQ8sYVqIDlul6n7SIXWS97DOK3KqbR2rDDaMtmenRHqEUl2fI+aFzx0oSemA==}
@@ -2361,7 +2360,6 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@sinclair/typebox': 0.24.28
-    dev: true
 
   /@jest/source-map/27.5.1:
     resolution: {integrity: sha512-y9NIHUYF3PJRlHk98NdC/N1gl88BL08aQQgu4k4ZopQkCw9t9cV8mtl3TV8b/YCB8XaVTFrmUTAJvjsntDireg==}
@@ -2511,7 +2509,6 @@ packages:
       '@types/node': 18.7.13
       '@types/yargs': 17.0.11
       chalk: 4.1.2
-    dev: true
 
   /@josephg/resolvable/1.0.1:
     resolution: {integrity: sha512-CtzORUwWTTOTqfVtHaKRJ0I1kNQd1bpn3sUh8I3nJDVY+5/M/Oe1DnEWzPQvqq/xPIIkzzzIP7mfCoAjFRvDhg==}
@@ -3334,6 +3331,13 @@ packages:
       expect: 29.0.1
       pretty-format: 29.0.1
     dev: true
+
+  /@types/jest/29.0.3:
+    resolution: {integrity: sha512-F6ukyCTwbfsEX5F2YmVYmM5TcTHy1q9P5rWlRbrk56KyMh3v9xRGUO3aa8+SkvMi0SHXtASJv1283enXimC0Og==}
+    dependencies:
+      expect: 29.0.1
+      pretty-format: 29.0.1
+    dev: false
 
   /@types/json-schema/7.0.11:
     resolution: {integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==}
@@ -5276,7 +5280,6 @@ packages:
   /diff-sequences/29.0.0:
     resolution: {integrity: sha512-7Qe/zd1wxSDL4D/X/FPjOMB+ZMDt71W94KYaq05I2l0oQqgXgs7s4ftYYmV38gBSrPz2vcygxfs1xn0FT+rKNA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    dev: true
 
   /diff/4.0.2:
     resolution: {integrity: sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==}
@@ -5951,7 +5954,6 @@ packages:
       jest-matcher-utils: 29.0.1
       jest-message-util: 29.0.1
       jest-util: 29.0.1
-    dev: true
 
   /express/4.18.1:
     resolution: {integrity: sha512-zZBcOX9TfehHQhtupq57OF8lFZ3UZi08Y97dwFCkD8p9d/d2Y3M+ykKcwaMDEL+4qyUolgBDX6AblpR3fL212Q==}
@@ -7121,7 +7123,6 @@ packages:
       diff-sequences: 29.0.0
       jest-get-type: 29.0.0
       pretty-format: 29.0.1
-    dev: true
 
   /jest-docblock/27.5.1:
     resolution: {integrity: sha512-rl7hlABeTsRYxKiUfpHrQrG4e2obOiTQWfMEH3PxPjOtdsfLQO4ReWSZaQ7DETm4xu07rl4q/h4zcKXyU0/OzQ==}
@@ -7208,7 +7209,6 @@ packages:
   /jest-get-type/29.0.0:
     resolution: {integrity: sha512-83X19z/HuLKYXYHskZlBAShO7UfLFXu/vWajw9ZNJASN32li8yHMaVGAQqxFW1RCFOkB7cubaL6FaJVQqqJLSw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    dev: true
 
   /jest-haste-map/27.5.1:
     resolution: {integrity: sha512-7GgkZ4Fw4NFbMSDSpZwXeBiIbx+t/46nJ2QitkOjvwPYyZmqttu2TDSimMHP1EkPOi4xUZAN1doE5Vd25H4Jng==}
@@ -7307,7 +7307,6 @@ packages:
       jest-diff: 29.0.1
       jest-get-type: 29.0.0
       pretty-format: 29.0.1
-    dev: true
 
   /jest-message-util/27.5.1:
     resolution: {integrity: sha512-rMyFe1+jnyAAf+NHwTclDz0eAaLkVDdKVHHBFWsBWHnnh5YeJMNWWsv7AbFYXfK3oTqvL7VTWkhNLu1jX24D+g==}
@@ -7352,7 +7351,6 @@ packages:
       pretty-format: 29.0.1
       slash: 3.0.0
       stack-utils: 2.0.5
-    dev: true
 
   /jest-mock/27.5.1:
     resolution: {integrity: sha512-K4jKbY1d4ENhbrG2zuPWaQBvDly+iZ2yAW+T1fATN78hc0sInwn7wZB8XtlNnvHug5RMwV897Xm4LqmPM4e2Og==}
@@ -7685,7 +7683,6 @@ packages:
       ci-info: 3.3.2
       graceful-fs: 4.2.10
       picomatch: 2.3.1
-    dev: true
 
   /jest-validate/27.5.1:
     resolution: {integrity: sha512-thkNli0LYTmOI1tDB3FI1S1RTp/Bqyd9pTarJwL87OIBFuqEb5Apv5EaApEudYg4g86e3CT6kM0RowkhtEnCBQ==}
@@ -9594,7 +9591,6 @@ packages:
       '@jest/schemas': 29.0.0
       ansi-styles: 5.2.0
       react-is: 18.2.0
-    dev: true
 
   /prisma/4.3.1:
     resolution: {integrity: sha512-90xo06wtqil76Xsi3mNpc4Js3SdDRR5g4qb9h+4VWY4Y8iImJY6xc3PX+C9xxTSt1lr0Q89A0MLkJjd8ax6KiQ==}
