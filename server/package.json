@@ -28,7 +28,7 @@
 	"author": "Joshua Vazquez Maru",
 	"license": "ISC",
 	"dependencies": {
-		"@prisma/client": "~4.4.0",
+		"@prisma/client": "~4.8.0",
 		"@mindu-second-challenge/apollo-server-types": "workspace:*",
 		"apollo-server": "^3.6.3",
 		"apollo-server-types": "^3.6.2",
