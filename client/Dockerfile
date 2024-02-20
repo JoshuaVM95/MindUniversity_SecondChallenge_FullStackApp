@@ -27,7 +27,7 @@ COPY --from=development /project/client/ /project/client/
 
 RUN yarn build --production
 
-FROM nginx:1.22-perl as production
+FROM nginx:perl as production
 ENV NODE_ENV production
 
 COPY --from=builder /project/client/build /usr/share/nginx/html
