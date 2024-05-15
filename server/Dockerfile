@@ -1,4 +1,4 @@
-FROM node:current-bullseye-slim AS development
+FROM node:22.1-bullseye-slim AS development
 
 WORKDIR /project/server
 
@@ -16,7 +16,7 @@ EXPOSE 3001
 
 CMD [ "npm", "run", "initDocker" ]
 
-FROM node:current-bullseye-slim AS builder
+FROM node:22.1-bullseye-slim AS builder
 ENV NODE_ENV production
 
 WORKDIR /project/server
@@ -27,7 +27,7 @@ COPY --from=development /project/server /project/server
 
 RUN yarn build
 
-FROM node:current-bullseye-slim as production
+FROM node:22.1-bullseye-slim as production
 ENV NODE_ENV production
 
 WORKDIR /project/build
